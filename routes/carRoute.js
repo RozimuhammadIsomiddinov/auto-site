@@ -1,9 +1,9 @@
 import express from "express";
-import { getMid } from "../middlewares/cars/getMid.js";
-import { createMidCar } from "../middlewares/cars/createCar.js";
-import { updateCarMid } from "../middlewares/cars/updateMidCar.js";
-import { getMidById } from "../middlewares/cars/getMidById.js";
-import { deleteMidCar } from "../middlewares/cars/deleteMidCar.js";
+import { getMid } from "../controllers/cars/getMid.js";
+import { createMidCar } from "../controllers/cars/createCar.js";
+import { updateCarMid } from "../controllers/cars/updateMidCar.js";
+import { getMidById } from "../controllers/cars/getMidById.js";
+import { deleteMidCar } from "../controllers/cars/deleteMidCar.js";
 
 /**
  * @swagger

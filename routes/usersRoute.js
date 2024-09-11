@@ -1,10 +1,10 @@
 import express from "express";
-import authenticate from "../middlewares/users/auth.js";
-import { registerMid } from "../middlewares/users/register.js";
-import { enteringMid } from "../middlewares/users/entering.js";
-import { loginMid } from "../middlewares/users/login.js";
-import { passwordMid } from "../middlewares/forgotPassword/passwordMid.js";
-import { resetMid } from "../middlewares/forgotPassword/resetMid.js";
+import authenticate from "../controllers/users/auth.js";
+import { registerMid } from "../controllers/users/register.js";
+import { enteringMid } from "../controllers/users/entering.js";
+import { loginMid } from "../controllers/users/login.js";
+import { passwordMid } from "../controllers/forgotPassword/passwordMid.js";
+import { resetMid } from "../controllers/forgotPassword/resetMid.js";
 
 const router = express.Router();
 /**

@@ -1,7 +1,7 @@
 import express from "express";
-import { createMid } from "../middlewares/cart/createCartMid.js";
-import { getAllMid } from "../middlewares/cart/getAllMid.js";
-import { deleteCartMid } from "../middlewares/cart/deleteCartMid.js";
+import { createMid } from "../controllers/cart/createCartMid.js";
+import { getAllMid } from "../controllers/cart/getAllMid.js";
+import { deleteCartMid } from "../controllers/cart/deleteCartMid.js";
 
 const router = express.Router();
 
