@@ -1,0 +1,3 @@
+[submodule "path/to/auto-site"]
+	path = path/to/auto-site
+	url = https://github.com/RozimuhammadIsomiddinov/auto-site.git
