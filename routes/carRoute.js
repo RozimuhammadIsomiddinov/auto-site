@@ -4,6 +4,16 @@ import { createMidCar } from "../controllers/cars/createCar.js";
 import { updateCarMid } from "../controllers/cars/updateMidCar.js";
 import { getMidById } from "../controllers/cars/getMidById.js";
 import { deleteMidCar } from "../controllers/cars/deleteMidCar.js";
+import multer from "multer";
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // Fayllar qayerga saqlanishini belgilash
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname.split(" ").join(""));
+  },
+});
+const upload = multer({ storage: storage }); // Multer middleware
 
 /**
  * @swagger
@@ -180,7 +190,12 @@ router.get("/cars/:id", getMidById);
  *       400:
  *         description: Error adding car
  */
-router.post("/add-car", createMidCar);
+router.post(
+  "/add-car",
+  upload.array("images", 10),
+
+  createMidCar
+);
 
 /**
  * @swagger

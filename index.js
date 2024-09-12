@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import cors from "cors";
-
+import multer from "multer";
 import carRoutes from "./routes/carRoute.js";
 import userRoutes from "./routes/usersRoute.js";
 import cartRoutes from "./routes/cartRoute.js";

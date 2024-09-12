@@ -1,9 +1,27 @@
-import { getCarById, addCar } from "../../data/functions/autombiles.js";
+import multer from "multer";
+import Car from "../../data/models/automobile.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "uploads"));
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}${path.extname(file.originalname)}`);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+export const uploadMiddleware = upload.array("image", 10);
 
 export const createMidCar = async (req, res, next) => {
   try {
     const {
-      image,
       country,
       year,
       cost,
@@ -19,35 +37,35 @@ export const createMidCar = async (req, res, next) => {
       description,
     } = req.body;
 
-    if (
-      !image ||
-      !country ||
-      !year ||
-      !cost ||
-      !milage ||
-      !fuel ||
-      !volume ||
-      !horsepower ||
-      !drive ||
-      !checkpoint ||
-      !doors ||
-      !body ||
-      !description
-    ) {
-      return res.status(400).send("Required fields are missing");
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).send("You must upload at least one image.");
     }
 
-    const result = await addCar(req.body);
+    const imagePaths = req.files.map((file) => `uploads/${file.filename}`);
 
-    const minicar = await getCarById(result.id);
+    const newCar = await Car.create({
+      image: imagePaths,
+      country,
+      year,
+      cost,
+      milage,
+      fuel,
+      volume,
+      horsepower,
+      drive,
+      checkpoint,
+      doors,
+      body,
+      statement,
+      description,
+    });
 
-    if (!minicar) {
-      return res.status(404).send("Product have got in DataBase yet");
-    }
-
-    res.status(201).send(`Successfully added:\n${JSON.stringify(result)}`);
+    res.status(201).json({
+      message: "Car added successfully",
+      car: newCar,
+    });
     next();
   } catch (e) {
-    return res.status(400).send("Error from createMidCar:\n" + e.message);
+    return res.status(400).send("Error in createMidCar:\n" + e.message);
   }
 };
