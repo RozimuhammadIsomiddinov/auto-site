@@ -7,7 +7,7 @@ dotenv.config();
 // Function to generate JWT
 export const generateJWT = function (user) {
   return jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, {
-    expiresIn: "1m",
+    expiresIn: "1h",
   });
 };
 

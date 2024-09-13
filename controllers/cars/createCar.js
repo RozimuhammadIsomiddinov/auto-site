@@ -1,24 +1,6 @@
-import multer from "multer";
 import Car from "../../data/models/automobile.js";
-import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "uploads"));
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}${path.extname(file.originalname)}`);
-  },
-});
-
-const upload = multer({ storage: storage });
-
-export const uploadMiddleware = upload.array("image", 10);
-
+import dotenv from "dotenv";
+dotenv.config();
 export const createMidCar = async (req, res, next) => {
   try {
     const {
@@ -41,7 +23,9 @@ export const createMidCar = async (req, res, next) => {
       return res.status(400).send("You must upload at least one image.");
     }
 
-    const imagePaths = req.files.map((file) => `uploads/${file.filename}`);
+    const imagePaths = req.files.map(
+      (file) => `${process.env.BACKEND_URL}/uploads/${file.filename}`
+    );
 
     const newCar = await Car.create({
       image: imagePaths,

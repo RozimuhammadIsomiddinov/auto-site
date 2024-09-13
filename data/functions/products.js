@@ -2,7 +2,7 @@ import Cart from "../models/saleBox.js";
 import Users from "../models/user.js";
 import Car from "../models/automobile.js";
 
-export const addToCart = async (cartId, userId, productId, quantity) => {
+export const addToCart = async (userId, productId, quantity) => {
   try {
     const findUser = await Users.findByPk(userId);
     const findCar = await Car.findByPk(productId);
@@ -20,7 +20,6 @@ export const addToCart = async (cartId, userId, productId, quantity) => {
       where: {
         user_id: userId,
         product_id: productId,
-        id: cartId,
       },
     });
 

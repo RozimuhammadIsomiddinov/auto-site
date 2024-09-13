@@ -8,9 +8,7 @@ export const deleteMidCar = async (req, res, next) => {
       return res.status(404).send("car not found in DB");
     }
     const result = await deleteCar(id); //returns array
-    res
-      .status(200)
-      .send(result.rowCount > 0 ? "Product deleted" : "No product found");
+    res.status(200).send("Product deleted");
     next();
   } catch (er) {
     return res.status(400).send("Error from deleteMidCar: " + er.message);

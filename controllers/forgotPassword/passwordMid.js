@@ -1,6 +1,6 @@
 import Users from "../../data/models/user.js";
-import jwt from "jsonwebtoken";
-import { transporter } from "../../config/nodemailer.js";
+import { generateJWT } from "../../data/functions/users.js";
+import { mailer } from "../../config/nodemailer.js";
 
 export const passwordMid = async (req, res, next) => {
   const { email } = req.body;
@@ -10,20 +10,14 @@ export const passwordMid = async (req, res, next) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const resetToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-    const resetLink = `${req.protocol}://${req.get(
-      "host"
-    )}/reset-password/${resetToken}`;
+    const resetToken = generateJWT(user);
+    const resetPasswordLink = `${process.env.BACKEND_URL}/reset-password/${resetToken}`;
     const mailOptions = {
-      from: '"Your App" <noreply@yourapp.com>',
       to: email,
       subject: "Password Reset",
-      text: `Reset your password using this link: ${resetLink}`,
+      text: `Reset your password using this link: ${resetPasswordLink}`,
     };
-    await transporter.sendMail(mailOptions);
-    console.log("xa");
+    await mailer(mailOptions);
 
     res
       .status(200)

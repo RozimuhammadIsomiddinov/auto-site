@@ -45,7 +45,7 @@ const Car = sequelize.define(
       allowNull: false,
     },
     fuel: {
-      type: DataTypes.ENUM("petrol", "electric", "hybrid", "dezil"),
+      type: DataTypes.ENUM("petrol", "electic", "hybrid", "dezil"),
       allowNull: false,
     },
     volume: {

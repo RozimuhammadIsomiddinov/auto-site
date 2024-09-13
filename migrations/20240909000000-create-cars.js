@@ -2,6 +2,45 @@
 
 export const migationFile = {
   async up(queryInterface, Sequelize) {
+    await queryInterface.createTable("users", {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true,
+        },
+      },
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      role: {
+        type: Sequelize.ENUM("customer", "seller"),
+        allowNull: false,
+        defaultValue: "customer",
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+    });
     await queryInterface.createTable("cars", {
       id: {
         allowNull: false,
@@ -10,7 +49,7 @@ export const migationFile = {
         type: Sequelize.INTEGER,
       },
       image: {
-        type: Sequelize.Array,
+        type: Sequelize.ARRAY(Sequelize.STRING),
         allowNull: false,
       },
       country: {
@@ -30,7 +69,7 @@ export const migationFile = {
         allowNull: false,
       },
       fuel: {
-        type: Sequelize.ENUM("petrol", "electric", "hybrid", "dezil"),
+        type: Sequelize.ENUM("petrol", "electric", "hybrid", "dizel"),
         allowNull: false,
       },
       volume: {
@@ -91,9 +130,47 @@ export const migationFile = {
         defaultValue: Sequelize.NOW,
       },
     });
+
+    await queryInterface.createTable("cart", {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      user_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onDelete: "CASCADE",
+      },
+      product_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "cars",
+          key: "id",
+        },
+        onDelete: "CASCADE",
+      },
+      quantity: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 1,
+      },
+      added_time: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+    });
   },
 
   async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable("cart");
     await queryInterface.dropTable("cars");
+    await queryInterface.dropTable("users");
   },
 };

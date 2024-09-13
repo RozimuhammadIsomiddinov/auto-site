@@ -7,6 +7,7 @@ import { passwordMid } from "../controllers/forgotPassword/passwordMid.js";
 import { resetMid } from "../controllers/forgotPassword/resetMid.js";
 
 const router = express.Router();
+
 /**
  * @swagger
  * components:
@@ -47,13 +48,54 @@ const router = express.Router();
  *           format: date-time
  *           description: Date when the user was last updated
  */
+
+/**
+ * @swagger
+ * /user-register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       201:
+ *         description: User successfully registered
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Bad request
+ */
 router.post("/user-register", registerMid);
 
 /**
  * @swagger
  * /login:
  *   post:
- *     summary: Foydalanuvchi login qilish
+ *     summary: User login
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User successfully logged in
+ *       400:
+ *         description: Invalid credentials
  */
 router.post("/login", loginMid);
 
@@ -61,7 +103,23 @@ router.post("/login", loginMid);
  * @swagger
  * /forgot-password:
  *   post:
- *     summary: Parolni unutgan foydalanuvchi uchun
+ *     summary: Request password reset
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *     responses:
+ *       200:
+ *         description: Password reset link sent
+ *       400:
+ *         description: Error processing request
  */
 router.post("/forgot-password", passwordMid);
 
@@ -69,16 +127,45 @@ router.post("/forgot-password", passwordMid);
  * @swagger
  * /reset-password/{token}:
  *   post:
- *     summary: Parolni tiklash
+ *     summary: Reset user password
+ *     tags: [User]
+ *     parameters:
+ *       - in: path
+ *         name: token
+ *         required: true
+ *         description: Password reset token
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               newPassword:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Password successfully reset
+ *       400:
+ *         description: Invalid or expired token
  */
-router.post("/reset-password/:token", resetMid);
 
 /**
  * @swagger
- * /user-dashbord:
+ * /user-dashboard:
  *   get:
- *     summary: Foydalanuvchi dashboardiga kirish
+ *     summary: Access user dashboard
+ *     tags: [User]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User dashboard data
+ *       401:
+ *         description: Unauthorized
  */
-router.get("/user-dashbord", authenticate, enteringMid);
+router.get("/user-dashboard", authenticate, enteringMid);
 
 export default router;
