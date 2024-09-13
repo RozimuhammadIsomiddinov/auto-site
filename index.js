@@ -1,13 +1,14 @@
 import express from "express";
+import http from "http";
 import dotenv from "dotenv";
+import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
-import cors from "cors";
-import multer from "multer";
 import carRoutes from "./routes/carRoute.js";
 import userRoutes from "./routes/usersRoute.js";
 import cartRoutes from "./routes/cartRoute.js";
 import { adminRouter } from "./admin.js"; // Import the AdminJS router
+import socketServer from "./server.js"; // Import the socket server
 
 dotenv.config();
 
@@ -32,6 +33,8 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 const app = express();
+//const server = http.createServer(app);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -45,7 +48,7 @@ app.use("/", carRoutes);
 app.use("/", userRoutes);
 app.use("/", cartRoutes);
 
-const port = process.env.PORT || 4035;
+const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
   console.log(`Swagger docs available at http://localhost:${port}/api-docs`);
