@@ -4,7 +4,7 @@ import { Database, Resource } from "@adminjs/sequelize";
 import Car from "./data/models/automobile.js";
 import Cart from "./data/models/saleBox.js";
 import Users from "./data/models/user.js";
-
+import Motorcycle from "./data/models/moto.js";
 AdminJS.registerAdapter({ Database, Resource });
 
 const adminJs = new AdminJS({
@@ -89,6 +89,41 @@ const adminJs = new AdminJS({
           },
           added_time: {
             isVisible: { list: true, edit: false, filter: true, show: true },
+          },
+        },
+      },
+    },
+    {
+      resource: Motorcycle,
+      options: {
+        listProperties: [
+          "image",
+          "country",
+          "year",
+          "cost",
+          "fuel",
+          "engineVolume",
+          "horsepower",
+          "drive",
+          "body",
+          "statement",
+        ],
+        properties: {
+          id: { isVisible: true },
+          image: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          country: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          year: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          cost: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          createdAt: {
+            isVisible: { list: false, edit: false, filter: false, show: true },
           },
         },
       },

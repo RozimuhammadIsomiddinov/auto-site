@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+const env = process.env.NODE_ENV;
 const migration = {
   development: {
     username: process.env.DB_USERNAME,
@@ -27,4 +28,4 @@ const migration = {
     dialect: "postgres",
   },
 };
-export default migration;
+export default migration[env];
