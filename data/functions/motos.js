@@ -1,7 +1,7 @@
-import Motorcycle from "../models/moto.js";
+const Motorcycle = require("../models/moto.js");
 
 // Read all motorcycles
-export const getAllMotorcycles = async () => {
+const getAllMotorcycles = async () => {
   try {
     const result = await Motorcycle.findAll();
     return result;
@@ -11,7 +11,7 @@ export const getAllMotorcycles = async () => {
 };
 
 // Read motorcycle by ID
-export const getMotorcycleById = async (id) => {
+const getMotorcycleById = async (id) => {
   try {
     const res = await Motorcycle.findByPk(id);
     return res;
@@ -21,7 +21,7 @@ export const getMotorcycleById = async (id) => {
 };
 
 // Create a new motorcycle
-export const addMotorcycle = async (motorcycleData) => {
+const addMotorcycle = async (motorcycleData) => {
   try {
     const newMotorcycle = await Motorcycle.create(motorcycleData);
     return newMotorcycle;
@@ -31,7 +31,7 @@ export const addMotorcycle = async (motorcycleData) => {
 };
 
 // Update an existing motorcycle
-export const updateMotorcycle = async (upData) => {
+const updateMotorcycle = async (upData) => {
   try {
     const { body, params } = upData;
     const motorcycle = await Motorcycle.findByPk(params.id);
@@ -63,11 +63,19 @@ export const updateMotorcycle = async (upData) => {
 };
 
 // Delete a motorcycle by ID
-export const deleteMotorcycle = async (id) => {
+const deleteMotorcycle = async (id) => {
   try {
     const result = await Motorcycle.destroy({ where: { id } });
     return result;
   } catch (err) {
     return err.message;
   }
+};
+
+module.exports = {
+  getAllMotorcycles,
+  getMotorcycleById,
+  addMotorcycle,
+  updateMotorcycle,
+  deleteMotorcycle,
 };

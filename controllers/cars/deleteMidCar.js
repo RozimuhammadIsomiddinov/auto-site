@@ -1,6 +1,6 @@
-import { deleteCar, getCarById } from "../../data/functions/autombiles.js";
+const { deleteCar, getCarById } = require("../../data/functions/autombiles.js");
 
-export const deleteMidCar = async (req, res, next) => {
+const deleteMidCar = async (req, res, next) => {
   try {
     const { id } = req.params;
     const car = await getCarById(id);
@@ -14,3 +14,5 @@ export const deleteMidCar = async (req, res, next) => {
     return res.status(400).send("Error from deleteMidCar: " + er.message);
   }
 };
+
+module.exports = { deleteMidCar };

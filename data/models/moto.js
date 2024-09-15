@@ -1,5 +1,5 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../../config/dbconfig.js";
+const { DataTypes } = require("sequelize");
+const sequelize = require("../../config/dbconfig.js");
 
 const motorcycleTypes = [
   "cruiser",
@@ -75,4 +75,4 @@ const Motorcycle = sequelize.define(
   }
 );
 
-export default Motorcycle;
+module.exports = Motorcycle;

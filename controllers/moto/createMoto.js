@@ -1,8 +1,8 @@
-import Motorcycle from "../../data/models/moto.js";
-import dotenv from "dotenv";
+const Motorcycle = require("../../data/models/moto.js");
+const dotenv = require("dotenv");
 dotenv.config();
 
-export const createMidMotorcycle = async (req, res, next) => {
+const createMidMotorcycle = async (req, res, next) => {
   try {
     const {
       country,
@@ -52,3 +52,5 @@ export const createMidMotorcycle = async (req, res, next) => {
     return res.status(400).send("Error in createMidMotorcycle:\n" + e.message);
   }
 };
+
+module.exports = { createMidMotorcycle };

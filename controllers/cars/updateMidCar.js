@@ -1,6 +1,6 @@
-import { updateCar, getCarById } from "../../data/functions/autombiles.js";
+const { updateCar, getCarById } = require("../../data/functions/autombiles.js");
 
-export const updateCarMid = async (req, res, next) => {
+const updateCarMid = async (req, res, next) => {
   try {
     const { id } = req.params;
     if (!id) {
@@ -22,3 +22,5 @@ export const updateCarMid = async (req, res, next) => {
       .json({ message: "Error from updateMidCar", error: err.message });
   }
 };
+
+module.exports = { updateCarMid };

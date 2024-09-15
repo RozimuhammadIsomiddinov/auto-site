@@ -1,6 +1,6 @@
-import { DataTypes } from "sequelize";
-import bcrypt from "bcryptjs";
-import sequelize from "../../config/dbconfig.js";
+const { DataTypes } = require("sequelize");
+const bcrypt = require("bcryptjs");
+const sequelize = require("../../config/dbconfig.js");
 
 const Users = sequelize.define(
   "users",
@@ -38,11 +38,9 @@ const Users = sequelize.define(
         }
       },
     },
-  },
-  {
     timestamps: true,
     underscored: false,
   }
 );
 
-export default Users;
+module.exports = Users;

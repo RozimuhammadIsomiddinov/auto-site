@@ -1,5 +1,5 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../../config/dbconfig.js";
+const { DataTypes } = require("sequelize");
+const sequelize = require("../../config/dbconfig.js");
 
 const bodyOfCar = [
   "hatchback",
@@ -45,7 +45,7 @@ const Car = sequelize.define(
       allowNull: false,
     },
     fuel: {
-      type: DataTypes.ENUM("petrol", "electic", "hybrid", "dezil"),
+      type: DataTypes.ENUM("petrol", "electric", "hybrid", "diesel"),
       allowNull: false,
     },
     volume: {
@@ -84,4 +84,4 @@ const Car = sequelize.define(
   }
 );
 
-export default Car;
+module.exports = Car;

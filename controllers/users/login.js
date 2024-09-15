@@ -1,7 +1,10 @@
-import Users from "../../data/models/user.js";
-import { generateJWT, comparePassword } from "../../data/functions/users.js";
+const Users = require("../../data/models/user.js");
+const {
+  generateJWT,
+  comparePassword,
+} = require("../../data/functions/users.js");
 
-export const loginMid = async (req, res) => {
+const loginMid = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -10,6 +13,7 @@ export const loginMid = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+
     const isMatch = await comparePassword(password, user.dataValues.password);
 
     if (!isMatch) {
@@ -22,3 +26,5 @@ export const loginMid = async (req, res) => {
     res.status(500).json({ error: "Login failed" });
   }
 };
+
+module.exports = { loginMid };

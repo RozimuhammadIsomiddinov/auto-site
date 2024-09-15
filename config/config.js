@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 const env = process.env.NODE_ENV;
@@ -28,4 +28,5 @@ const migration = {
     dialect: "postgres",
   },
 };
-export default migration[env];
+
+module.exports = migration[env];

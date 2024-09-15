@@ -1,21 +1,21 @@
-import "dotenv/config";
-import express from "express";
-import http from "http";
-import cors from "cors";
-import swaggerUi from "swagger-ui-express";
-import swaggerJsDoc from "swagger-jsdoc";
-import { Server as socketIo } from "socket.io";
-
-import carRoutes from "./routes/carRoute.js";
-import userRoutes from "./routes/usersRoute.js";
-import cartRoutes from "./routes/cartRoute.js";
-import motoRoutes from "./routes/motoRoute.js";
-import { adminRouter } from "./admin.js"; // Import the AdminJS router
-import {
+require("dotenv").config();
+const express = require("express");
+const http = require("http");
+const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
+const swaggerJsDoc = require("swagger-jsdoc");
+const { Server: socketIo } = require("socket.io");
+const path = require("path");
+const carRoutes = require("./routes/carRoute");
+const userRoutes = require("./routes/usersRoute");
+const cartRoutes = require("./routes/cartRoute");
+const motoRoutes = require("./routes/motoRoute");
+//const { adminRouter } = require("./admin/admin.js"); // Import the AdminJS router
+const {
   savedMessage,
   updatedMessage,
   message,
-} from "./data/functions/messages.js";
+} = require("./data/functions/messages");
 
 const app = express();
 const server = http.createServer(app);
@@ -45,6 +45,10 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  "/images/uploads",
+  express.static(path.join(__dirname, "public/images/uploads"))
+);
 
 app.use(cors());
 
@@ -52,7 +56,7 @@ app.use(cors());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // AdminJS router
-app.use("/admin-cars", adminRouter);
+//app.use("/admin-cars", adminRouter);
 
 // API routes
 app.use("/", carRoutes);

@@ -1,8 +1,8 @@
-import Users from "../../data/models/user.js";
-import { generateJWT } from "../../data/functions/users.js";
-import { mailer } from "../../config/nodemailer.js";
+const Users = require("../../data/models/user.js");
+const { generateJWT } = require("../../data/functions/users.js");
+const { mailer } = require("../../config/nodemailer.js");
 
-export const passwordMid = async (req, res, next) => {
+const passwordMid = async (req, res, next) => {
   const { email } = req.body;
   try {
     const user = await Users.findOne({ where: { email } });
@@ -25,8 +25,9 @@ export const passwordMid = async (req, res, next) => {
     next();
   } catch (err) {
     res.status(500).json({
-      error: `Error sending email 
-    ${err.message}`,
+      error: `Error sending email: ${err.message}`,
     });
   }
 };
+
+module.exports = { passwordMid };

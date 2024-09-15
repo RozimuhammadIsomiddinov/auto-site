@@ -1,8 +1,8 @@
-import Cart from "../models/saleBox.js";
-import Users from "../models/user.js";
-import Car from "../models/automobile.js";
+const Cart = require("../models/saleBox.js");
+const Users = require("../models/user.js");
+const Car = require("../models/automobile.js");
 
-export const addToCart = async (userId, productId, quantity) => {
+const addToCart = async (userId, productId, quantity) => {
   try {
     const findUser = await Users.findByPk(userId);
     const findCar = await Car.findByPk(productId);
@@ -46,4 +46,8 @@ export const addToCart = async (userId, productId, quantity) => {
   } catch (err) {
     return { message: "Error", error: err.message };
   }
+};
+
+module.exports = {
+  addToCart,
 };

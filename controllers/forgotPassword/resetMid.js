@@ -1,7 +1,8 @@
-import bcrypt from "bcrypt";
-import Users from "../../data/models/user.js";
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const Users = require("../../data/models/user.js");
 
-export const resetMid = async (req, res) => {
+const resetMid = async (req, res) => {
   const { token, newPassword } = req.body;
 
   try {
@@ -22,3 +23,5 @@ export const resetMid = async (req, res) => {
     res.status(400).json({ error: `Reset failed: ${err.message}` });
   }
 };
+
+module.exports = { resetMid };

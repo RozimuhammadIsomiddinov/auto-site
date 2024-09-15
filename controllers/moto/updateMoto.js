@@ -1,9 +1,9 @@
-import {
+const {
   updateMotorcycle,
   getMotorcycleById,
-} from "../../data/functions/motos.js";
+} = require("../../data/functions/motos.js");
 
-export const updateMotorcycleMid = async (req, res, next) => {
+const updateMotorcycleMid = async (req, res, next) => {
   try {
     const { id } = req.params;
     if (!id) {
@@ -32,3 +32,5 @@ export const updateMotorcycleMid = async (req, res, next) => {
       .json({ message: "Error from updateMotorcycleMid", error: err.message });
   }
 };
+
+module.exports = { updateMotorcycleMid };

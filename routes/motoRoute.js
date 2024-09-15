@@ -1,10 +1,10 @@
-import express from "express";
-import { getMidMotorcycle } from "../controllers/moto/getAllMoto.js";
-import { createMidMotorcycle } from "../controllers/moto/createMoto.js";
-import { updateMotorcycleMid } from "../controllers/moto/updateMoto.js";
-import { getMidMotorcycleById } from "../controllers/moto/getByIdMoto.js";
-import { deleteMidMotorcycle } from "../controllers/moto/deleteMoto.js";
-import fileUpload from "../middlewares/multer.js";
+const express = require("express");
+const { getMidMotorcycle } = require("../controllers/moto/getAllMoto.js");
+const { createMidMotorcycle } = require("../controllers/moto/createMoto.js");
+const { updateMotorcycleMid } = require("../controllers/moto/updateMoto.js");
+const { getMidMotorcycleById } = require("../controllers/moto/getByIdMoto.js");
+const { deleteMidMotorcycle } = require("../controllers/moto/deleteMoto.js");
+const fileUpload = require("../middlewares/multer.js");
 
 /**
  * @swagger
@@ -12,7 +12,7 @@ import fileUpload from "../middlewares/multer.js";
  *   schemas:
  *     motorcycles:
  *       type: object
- *       required:
+ *       require:
  *         - image
  *         - country
  *         - year
@@ -117,7 +117,7 @@ router.get("/motorcycles", getMidMotorcycle);
  *     parameters:
  *       - in: path
  *         name: id
- *         required: true
+ *         require: true
  *         description: Motorcycle ID
  *         schema:
  *           type: integer
@@ -142,7 +142,7 @@ router.get("/motorcycles/:id", getMidMotorcycleById);
  *     summary: Add a new motorcycle
  *     tags: [motorcycles]
  *     requestBody:
- *       required: true
+ *       require: true
  *       content:
  *         application/json:
  *           schema:
@@ -172,12 +172,12 @@ router.post(
  *     parameters:
  *       - in: path
  *         name: id
- *         required: true
+ *         require: true
  *         description: Motorcycle ID to update
  *         schema:
  *           type: integer
  *     requestBody:
- *       required: true
+ *       require: true
  *       content:
  *         application/json:
  *           schema:
@@ -205,7 +205,7 @@ router.put("/update-motorcycle/:id", updateMotorcycleMid);
  *     parameters:
  *       - in: path
  *         name: id
- *         required: true
+ *         require: true
  *         description: Motorcycle ID to delete
  *         schema:
  *           type: integer
@@ -219,4 +219,4 @@ router.put("/update-motorcycle/:id", updateMotorcycleMid);
  */
 router.delete("/delete-motorcycle/:id", deleteMidMotorcycle);
 
-export default router;
+module.exports = router;

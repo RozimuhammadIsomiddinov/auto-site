@@ -1,6 +1,6 @@
-import { addToCart } from "../../data/functions/products.js";
+const { addToCart } = require("../../data/functions/products.js");
 
-export const createMid = async (req, res, next) => {
+const createMid = async (req, res, next) => {
   const { user_id, quantity } = req.body;
   const { id } = req.params; //product id
   if (!user_id) {
@@ -25,3 +25,4 @@ export const createMid = async (req, res, next) => {
     return res.status(400).send("Error from createMidCart:\n" + e.message);
   }
 };
+module.exports = { createMid };

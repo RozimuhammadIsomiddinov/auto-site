@@ -1,10 +1,10 @@
-import express from "express";
-import { getMid } from "../controllers/cars/getMid.js";
-import { createMidCar } from "../controllers/cars/createCar.js";
-import { updateCarMid } from "../controllers/cars/updateMidCar.js";
-import { getMidById } from "../controllers/cars/getMidById.js";
-import { deleteMidCar } from "../controllers/cars/deleteMidCar.js";
-import fileUpload from "../middlewares/multer.js";
+const express = require("express");
+const { getMid } = require("../controllers/cars/getMid.js");
+const { createMidCar } = require("../controllers/cars/createCar.js");
+const { updateCarMid } = require("../controllers/cars/updateMidCar.js");
+const { getMidById } = require("../controllers/cars/getMidById.js");
+const { deleteMidCar } = require("../controllers/cars/deleteMidCar.js");
+const fileUpload = require("../middlewares/multer.js");
 
 /**
  * @swagger
@@ -244,4 +244,4 @@ router.put("/update-car/:id", updateCarMid);
  */
 router.delete("/delete-car/:id", deleteMidCar);
 
-export default router;
+module.exports = router;

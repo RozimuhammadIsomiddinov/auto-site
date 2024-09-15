@@ -1,6 +1,6 @@
-import { getCarById } from "../../data/functions/autombiles.js";
+const { getCarById } = require("../../data/functions/autombiles.js");
 
-export const getMidById = async (req, res) => {
+const getMidById = async (req, res) => {
   try {
     const result = await getCarById(req.params.id);
     if (!result) {
@@ -15,3 +15,5 @@ export const getMidById = async (req, res) => {
     }
   }
 };
+
+module.exports = { getMidById };

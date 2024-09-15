@@ -1,6 +1,6 @@
-import Cart from "../../data/models/saleBox.js";
+const Cart = require("../../data/models/saleBox.js");
 
-export const deleteCartMid = async (req, res, next) => {
+const deleteCartMid = async (req, res, next) => {
   try {
     const { id } = req.params;
     const cart = await Cart.findByPk(id);
@@ -14,3 +14,4 @@ export const deleteCartMid = async (req, res, next) => {
     return res.status(400).send("Error from deleteCartMid: " + er.message);
   }
 };
+module.exports = { deleteCartMid };

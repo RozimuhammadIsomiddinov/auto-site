@@ -1,8 +1,8 @@
-import jwt from "jsonwebtoken";
-import Users from "../../data/models/user.js";
+const jwt = require("jsonwebtoken");
+const Users = require("../../data/models/user.js");
 
 const authenticate = async (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1]; //beareer token
+  const token = req.headers.authorization?.split(" ")[1]; // bearer token
   if (!token) {
     return res.status(401).json({ error: "Access denied, token missing" });
   }
@@ -22,4 +22,4 @@ const authenticate = async (req, res, next) => {
   }
 };
 
-export default authenticate;
+module.exports = authenticate;

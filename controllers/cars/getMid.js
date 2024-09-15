@@ -1,6 +1,6 @@
-import { getAllCars } from "../../data/functions/autombiles.js";
+const { getAllCars } = require("../../data/functions/autombiles.js");
 
-export const getMid = async (req, res, next) => {
+const getMid = async (req, res, next) => {
   try {
     const result = await getAllCars();
     if (result.length == 0) {
@@ -12,3 +12,5 @@ export const getMid = async (req, res, next) => {
     res.status(400).json({ message: "Error from getMid", error: err.message });
   }
 };
+
+module.exports = { getMid };

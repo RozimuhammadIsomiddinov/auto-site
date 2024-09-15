@@ -1,8 +1,8 @@
-import Users from "../../data/models/user.js";
-import { generateJWT } from "../../data/functions/users.js";
-import { mailer } from "../../config/nodemailer.js";
+const Users = require("../../data/models/user.js");
+const { generateJWT } = require("../../data/functions/users.js");
+const { mailer } = require("../../config/nodemailer.js");
 
-export const registerMid = async (req, res) => {
+const registerMid = async (req, res) => {
   const { name, email, password, role } = req.body;
   try {
     const existingUser = await Users.findOne({ where: { email } });
@@ -28,3 +28,5 @@ export const registerMid = async (req, res) => {
       .json({ error: "Registration failed", details: error.message });
   }
 };
+
+module.exports = { registerMid };

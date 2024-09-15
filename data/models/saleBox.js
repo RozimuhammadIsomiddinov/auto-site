@@ -1,7 +1,7 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../../config/dbconfig.js";
-import Users from "./user.js";
-import Car from "./automobile.js";
+const { DataTypes } = require("sequelize");
+const sequelize = require("../../config/dbconfig.js");
+const Users = require("./user.js");
+const Car = require("./automobile.js");
 
 const Cart = sequelize.define(
   "cart",
@@ -40,10 +40,12 @@ const Cart = sequelize.define(
     },
   },
   {
-    timestamps: false, // Qo'shimcha timestamps kerak bo'lmasa
-    tableName: "cart", // Jadval nomi
+    timestamps: false,
+    tableName: "cart",
   }
 );
+
 Cart.belongsTo(Users, { foreignKey: "user_id", as: "users" });
 Cart.belongsTo(Car, { foreignKey: "product_id", as: "cars" });
-export default Cart;
+
+module.exports = Cart;

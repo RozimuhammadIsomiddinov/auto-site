@@ -1,12 +1,17 @@
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
-import multer from "multer";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const fs = require("fs");
+const path = require("path");
+const multer = require("multer");
 
-const uploadDir = path.resolve(__dirname, "..", "..", "public/images/uploads");
-console.log(uploadDir);
+const uploadDir = path.join(
+  __dirname,
+  "..",
+  "..",
+  "autoSite",
+  "public",
+  "images"
+);
+
+// Create upload directory if it does not exist
 if (!fs.existsSync(uploadDir)) {
   console.log("created");
   fs.mkdirSync(uploadDir, { recursive: true });
@@ -14,7 +19,12 @@ if (!fs.existsSync(uploadDir)) {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const uploadPath = path.resolve(__dirname, "..", "..", "public/images");
+    const uploadPath = path.resolve(
+      __dirname,
+      "..",
+      "..",
+      "autoSite/public/images"
+    );
     cb(null, uploadPath);
   },
   filename: function (req, file, cb) {
@@ -24,4 +34,4 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-export default upload;
+module.exports = upload;

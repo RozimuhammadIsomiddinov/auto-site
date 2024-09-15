@@ -1,7 +1,8 @@
-import Car from "../../data/models/automobile.js";
-import dotenv from "dotenv";
+const Car = require("../../data/models/automobile.js");
+const dotenv = require("dotenv");
 dotenv.config();
-export const createMidCar = async (req, res, next) => {
+
+const createMidCar = async (req, res, next) => {
   try {
     const {
       country,
@@ -20,11 +21,11 @@ export const createMidCar = async (req, res, next) => {
     } = req.body;
 
     if (!req.files || req.files.length === 0) {
-      return res.status(400).send("You must upload at least one image.");
+      return res.status(400).send("Siz kamida bitta rasm yuklashingiz kerak.");
     }
 
     const imagePaths = req.files.map(
-      (file) => `${process.env.BACKEND_URL}/uploads/${file.filename}`
+      (file) => `${process.env.BACKEND_URL}/${file?.filename}`
     );
 
     const newCar = await Car.create({
@@ -45,11 +46,13 @@ export const createMidCar = async (req, res, next) => {
     });
 
     res.status(201).json({
-      message: "Car added successfully",
+      message: "Mashina muvaffaqiyatli qo'shildi",
       car: newCar,
     });
     next();
   } catch (e) {
-    return res.status(400).send("Error in createMidCar:\n" + e.message);
+    return res.status(400).send("createMidCar xatoligi:\n" + e.message);
   }
 };
+
+module.exports = { createMidCar };

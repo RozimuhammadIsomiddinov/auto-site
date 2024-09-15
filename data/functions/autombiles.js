@@ -1,7 +1,7 @@
-import Car from "../models/automobile.js";
+const Car = require("../models/automobile.js");
 
 //read
-export const getAllCars = async () => {
+const getAllCars = async () => {
   try {
     const result = await Car.findAll();
     return result;
@@ -9,7 +9,8 @@ export const getAllCars = async () => {
     return e.message;
   }
 };
-export const getCarById = async (id) => {
+
+const getCarById = async (id) => {
   try {
     const res = await Car.findByPk(id);
     return res;
@@ -19,23 +20,24 @@ export const getCarById = async (id) => {
 };
 
 //create
-export const addCar = async (carData) => {
+const addCar = async (carData) => {
   try {
     const newCar = await Car.create(carData);
     return newCar;
   } catch (e) {
-    return "Error adding car" + e.message;
+    return "Error adding car: " + e.message;
   }
 };
+
 //update
-export const updateCar = async (upData) => {
-  //updata has got params and body
+const updateCar = async (upData) => {
+  // upData has got params and body
   try {
     const { body, params } = upData;
     const car = await Car.findByPk(params.id);
 
     if (!car) {
-      return { error: "car not found" };
+      return { error: "Car not found" };
     }
     const updatedCar = await car.update({
       image: body.image,
@@ -56,11 +58,12 @@ export const updateCar = async (upData) => {
 
     return updatedCar;
   } catch (e) {
-    return "Error updating car\n" + e.message;
+    return "Error updating car: " + e.message;
   }
 };
+
 //delete
-export const deleteCar = async (id) => {
+const deleteCar = async (id) => {
   try {
     const result = await Car.destroy({ where: { id } });
     return result;
@@ -68,3 +71,5 @@ export const deleteCar = async (id) => {
     return err.message;
   }
 };
+
+module.exports = { getAllCars, getCarById, addCar, updateCar, deleteCar };

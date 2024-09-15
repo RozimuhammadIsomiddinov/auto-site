@@ -1,9 +1,9 @@
-import {
+const {
   deleteMotorcycle,
   getMotorcycleById,
-} from "../../data/functions/motos.js";
+} = require("../../data/functions/motos.js");
 
-export const deleteMidMotorcycle = async (req, res, next) => {
+const deleteMidMotorcycle = async (req, res, next) => {
   try {
     const { id } = req.params;
     const motorcycle = await getMotorcycleById(id);
@@ -21,3 +21,5 @@ export const deleteMidMotorcycle = async (req, res, next) => {
       .send("Error from deleteMidMotorcycle: " + er.message);
   }
 };
+
+module.exports = { deleteMidMotorcycle };

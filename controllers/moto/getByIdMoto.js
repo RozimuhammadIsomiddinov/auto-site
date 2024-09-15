@@ -1,6 +1,6 @@
-import { getMotorcycleById } from "../../data/functions/motos.js";
+const { getMotorcycleById } = require("../../data/functions/motos.js");
 
-export const getMidMotorcycleById = async (req, res) => {
+const getMidMotorcycleById = async (req, res) => {
   try {
     const result = await getMotorcycleById(req.params.id);
     if (!result) {
@@ -9,12 +9,11 @@ export const getMidMotorcycleById = async (req, res) => {
     res.status(200).json(result);
   } catch (err) {
     if (!res.headersSent) {
-      res
-        .status(400)
-        .json({
-          message: "Error from getMidMotorcycleById",
-          error: err.message,
-        });
+      res.status(400).json({
+        message: "Error from getMidMotorcycleById",
+        error: err.message,
+      });
     }
   }
 };
+module.exports = { getMidMotorcycleById };

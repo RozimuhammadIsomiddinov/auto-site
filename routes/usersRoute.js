@@ -1,10 +1,10 @@
-import express from "express";
-import authenticate from "../controllers/users/auth.js";
-import { registerMid } from "../controllers/users/register.js";
-import { enteringMid } from "../controllers/users/entering.js";
-import { loginMid } from "../controllers/users/login.js";
-import { passwordMid } from "../controllers/forgotPassword/passwordMid.js";
-import { resetMid } from "../controllers/forgotPassword/resetMid.js";
+const express = require("express");
+const authenticate = require("../controllers/users/auth.js");
+const { registerMid } = require("../controllers/users/register.js");
+const { enteringMid } = require("../controllers/users/entering.js");
+const { loginMid } = require("../controllers/users/login.js");
+const { passwordMid } = require("../controllers/forgotPassword/passwordMid.js");
+const { resetMid } = require("../controllers/forgotPassword/resetMid.js");
 
 const router = express.Router();
 
@@ -168,4 +168,4 @@ router.post("/forgot-password", passwordMid);
  */
 router.get("/user-dashboard", authenticate, enteringMid);
 
-export default router;
+module.exports = router;

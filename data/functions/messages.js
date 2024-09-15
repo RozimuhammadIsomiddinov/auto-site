@@ -1,6 +1,8 @@
-import { Message } from "../models/message.js";
+const { Message } = require("../models/message.js");
+const Sequelize = require("sequelize");
 
-export const savedMessage = async (senderId, receiverId, message, status) => {
+// Xabarni saqlash
+const savedMessage = async (senderId, receiverId, message, status) => {
   try {
     const savedMessage = await Message.create({
       sender_id: senderId,
@@ -15,7 +17,8 @@ export const savedMessage = async (senderId, receiverId, message, status) => {
   }
 };
 
-export const updatedMessage = async (status, messageId) => {
+// Xabar holatini yangilash
+const updatedMessage = async (status, messageId) => {
   try {
     const [affectedRows, [updatedMessage]] = await Message.update(
       {
@@ -34,7 +37,8 @@ export const updatedMessage = async (status, messageId) => {
   }
 };
 
-export const message = async (userId, otherUserId) => {
+// Xabarlarni olish
+const message = async (userId, otherUserId) => {
   try {
     const messages = await Message.findAll({
       where: {
@@ -51,3 +55,5 @@ export const message = async (userId, otherUserId) => {
     throw error;
   }
 };
+
+module.exports = { savedMessage, updatedMessage, message };

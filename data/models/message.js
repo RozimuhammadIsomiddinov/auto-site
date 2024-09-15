@@ -1,7 +1,7 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../../config/dbconfig.js";
+const { DataTypes } = require("sequelize");
+const sequelize = require("../../config/dbconfig.js");
 
-export const Message = sequelize.define(
+const Message = sequelize.define(
   "Message",
   {
     sender_id: {
@@ -24,3 +24,5 @@ export const Message = sequelize.define(
     timestamps: false,
   }
 );
+
+module.exports = Message;

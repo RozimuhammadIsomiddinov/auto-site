@@ -1,5 +1,6 @@
-import dotenv from "dotenv";
-import { createTransport } from "nodemailer";
+const dotenv = require("dotenv");
+const { createTransport } = require("nodemailer");
+
 dotenv.config();
 
 const transporter = createTransport(
@@ -16,7 +17,8 @@ const transporter = createTransport(
     from: `mailer test <${process.env.SMTP_USER}>`,
   }
 );
-export const mailer = async (message) => {
+
+const mailer = async (message) => {
   try {
     const info = await transporter.sendMail(message);
     return info;
@@ -25,3 +27,5 @@ export const mailer = async (message) => {
     return err.message;
   }
 };
+
+module.exports = { mailer };
