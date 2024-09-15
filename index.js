@@ -43,8 +43,8 @@ const swaggerOptions = {
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
-app.use(express.json({ origin: "*" }));
-app.use(cors());
+app.use(express.json());
+app.use(cors({ origin: "*" }));
 app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static(path.resolve(__dirname, "public")));
 
