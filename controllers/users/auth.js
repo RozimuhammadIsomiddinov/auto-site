@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const Users = require("../../data/models/user.js");
 
 const authenticate = async (req, res, next) => {
-  const token = req.body.authorization?.split(" ")[1]; // bearer token
+  const token = req.headers.authorization?.split(" ")[1]; // bearer token
   if (!token) {
     return res.status(401).json({ error: "Access denied, token missing" });
   }
