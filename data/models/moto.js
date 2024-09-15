@@ -70,9 +70,7 @@ const Motorcycle = sequelize.define(
       type: DataTypes.STRING,
     },
   },
-  {
-    timestamps: false,
-  }
+  { timestamps: true, underscored: false }
 );
 
 module.exports = Motorcycle;
