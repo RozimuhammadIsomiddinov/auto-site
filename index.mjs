@@ -1,21 +1,23 @@
-require("dotenv").config();
-const express = require("express");
-const http = require("http");
-const cors = require("cors");
-const swaggerUi = require("swagger-ui-express");
-const swaggerJsDoc = require("swagger-jsdoc");
-const { Server: socketIo } = require("socket.io");
-const path = require("path");
-const carRoutes = require("./routes/carRoute");
-const userRoutes = require("./routes/usersRoute");
-const cartRoutes = require("./routes/cartRoute");
-const motoRoutes = require("./routes/motoRoute");
-//const { adminRouter } = require("./admin.js"); // Import the AdminJS router
-const {
+import dotenv from "dotenv";
+import express from "express";
+import http from "http";
+import cors from "cors";
+import swaggerUi from "swagger-ui-express";
+import swaggerJsDoc from "swagger-jsdoc";
+import { Server as socketIo } from "socket.io";
+import path from "path";
+import carRoutes from "./routes/carRoute.js";
+import userRoutes from "./routes/usersRoute.js";
+import cartRoutes from "./routes/cartRoute.js";
+import motoRoutes from "./routes/motoRoute.js";
+import { adminRouter } from "./admin.mjs"; // .mjs kengaytmasini o'zgartiring
+import {
   savedMessage,
   updatedMessage,
   message,
-} = require("./data/functions/messages");
+} from "./data/functions/messages.js";
+
+dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
@@ -44,15 +46,14 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 app.use(express.json());
-//app.use(cors({ origin: "*" }));
 app.use(express.urlencoded({ extended: true }));
-app.use("/public", express.static(path.resolve(__dirname, "public")));
+app.use("/public", express.static(path.resolve("./public")));
 
 // Swagger route
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // AdminJS router
-//app.use("/admin-cars", adminRouter);
+app.use("/admin-cars", adminRouter);
 
 // API routes
 app.use("/", carRoutes);
@@ -74,20 +75,20 @@ io.on("connection", (socket) => {
     console.log("Received message:", data);
 
     try {
-      const savedmessage = await savedMessage(
+      const savedMessageResult = await savedMessage(
         senderId,
         receiverId,
         message,
         "sent"
       );
-      console.log("Saved message:", savedmessage);
+      console.log("Saved message:", savedMessageResult);
 
       if (users[receiverId]) {
-        io.to(users[receiverId]).emit("private message", savedmessage);
+        io.to(users[receiverId]).emit("private message", savedMessageResult);
         io.to(users[receiverId]).emit("notification", { senderId, message });
       }
 
-      socket.emit("private message", savedmessage);
+      socket.emit("private message", savedMessageResult);
     } catch (error) {
       console.error("Error saving message", error);
       socket.emit("error", "Error sending message");
@@ -98,12 +99,12 @@ io.on("connection", (socket) => {
     const { messageId, receiverId } = data;
 
     try {
-      const updatedmessage = await updatedMessage("seen", messageId);
-      console.log("Updated message status:", updatedmessage);
+      const updatedMessageResult = await updatedMessage("seen", messageId);
+      console.log("Updated message status:", updatedMessageResult);
 
-      const senderSocketId = users[updatedmessage.sender_id];
+      const senderSocketId = users[updatedMessageResult.sender_id];
       if (senderSocketId) {
-        io.to(senderSocketId).emit("message seen", updatedmessage);
+        io.to(senderSocketId).emit("message seen", updatedMessageResult);
       }
     } catch (error) {
       console.error("Error updating message status", error);
@@ -115,10 +116,10 @@ io.on("connection", (socket) => {
     console.log("Fetching messages for:", data);
 
     try {
-      const messages = await message(userId, otherUserId);
-      console.log("Fetched messages:", messages);
+      const messagesResult = await message(userId, otherUserId);
+      console.log("Fetched messages:", messagesResult);
 
-      socket.emit("old messages", messages);
+      socket.emit("old messages", messagesResult);
     } catch (error) {
       console.error("Error fetching messages", error);
       socket.emit("error", "Error fetching messages");
