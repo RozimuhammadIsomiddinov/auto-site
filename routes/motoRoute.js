@@ -144,7 +144,7 @@ router.get("/motorcycles/:id", getMidMotorcycleById);
  *     requestBody:
  *       require: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             $ref: '#/components/schemas/motorcycles'
  *     responses:
@@ -179,7 +179,7 @@ router.post(
  *     requestBody:
  *       require: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             $ref: '#/components/schemas/motorcycles'
  *     responses:
