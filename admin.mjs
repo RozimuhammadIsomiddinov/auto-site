@@ -24,6 +24,73 @@ const adminJs = new AdminJS({
           "body",
           "statement",
         ],
+        properties: {
+          id: { isVisible: true },
+          image: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          country: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          year: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          cost: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          createdAt: {
+            isVisible: { list: false, edit: false, filter: false, show: true },
+          },
+        },
+      },
+    },
+    {
+      resource: Users,
+      options: {
+        listProperties: ["id", "name", "email", "password"],
+        properties: {
+          id: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
+          name: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          email: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          createdAt: {
+            isVisible: { list: false, edit: false, filter: false, show: true },
+          },
+        },
+      },
+    },
+    {
+      resource: Cart,
+      options: {
+        listProperties: [
+          "id",
+          "user_id",
+          "product_id",
+          "quantity",
+          "added_time",
+        ],
+        properties: {
+          id: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
+          user_id: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
+          product_id: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
+          quantity: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
+          added_time: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
+        },
       },
     },
     {
@@ -41,24 +108,24 @@ const adminJs = new AdminJS({
           "body",
           "statement",
         ],
-      },
-    },
-    {
-      resource: Users,
-      options: {
-        listProperties: ["id", "name", "email", "password"],
-      },
-    },
-    {
-      resource: Cart,
-      options: {
-        listProperties: [
-          "id",
-          "user_id",
-          "product_id",
-          "quantity",
-          "added_time",
-        ],
+        properties: {
+          id: { isVisible: true },
+          image: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          country: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          year: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          cost: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          createdAt: {
+            isVisible: { list: false, edit: false, filter: false, show: true },
+          },
+        },
       },
     },
   ],
