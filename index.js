@@ -10,7 +10,7 @@ const carRoutes = require("./routes/carRoute");
 const userRoutes = require("./routes/usersRoute");
 const cartRoutes = require("./routes/cartRoute");
 const motoRoutes = require("./routes/motoRoute");
-//const { adminRouter } = require("./admin/admin.js"); // Import the AdminJS router
+//const { adminRouter } = require("./admin.js"); // Import the AdminJS router
 const {
   savedMessage,
   updatedMessage,
@@ -44,13 +44,9 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(
-  "/images/uploads",
-  express.static(path.join(__dirname, "public/images/uploads"))
-);
-
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use("/public", express.static(path.resolve(__dirname, "public")));
 
 // Swagger route
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
