@@ -12,9 +12,21 @@ const uploadDir = path.join(
 );
 
 // Create upload directory if it does not exist
-if (!fs.existsSync(uploadDir)) {
-  console.log("created");
-  fs.mkdirSync(uploadDir, { recursive: true });
+const publicFolderPath = path.join(__dirname, 'public');
+const imagesFolderPath = path.join(publicFolderPath, 'images');
+
+if (!fs.existsSync(publicFolderPath)) {
+   fs.mkdirSync(publicFolderPath);
+   console.log('Public folder created successfully.');
+} else {
+   console.log('Public folder already exists.');
+}
+
+if (!fs.existsSync(imagesFolderPath)) {
+   fs.mkdirSync(imagesFolderPath);
+   console.log('Images folder created successfully.');
+} else {
+   console.log('Images folder already exists within the public folder.');
 }
 
 const storage = multer.diskStorage({
