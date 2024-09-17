@@ -2,15 +2,6 @@ const fs = require("fs");
 const path = require("path");
 const multer = require("multer");
 
-const uploadDir = path.join(
-  __dirname,
-  "..",
-  "..",
-  "autoSite",
-  "public",
-  "images"
-);
-
 // Create upload directory if it does not exist
 const publicFolderPath = path.join(__dirname, 'public');
 const imagesFolderPath = path.join(publicFolderPath, 'images');
