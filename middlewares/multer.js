@@ -2,21 +2,6 @@ const fs = require("fs");
 const path = require("path");
 const multer = require("multer");
 
-const uploadDir = path.join(
-  __dirname,
-  "..",
-  "..",
-  "autoSite",
-  "public",
-  "images"
-);
-
-// Create upload directory if it does not exist
-if (!fs.existsSync(uploadDir)) {
-  console.log("created");
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const uploadPath = path.resolve(

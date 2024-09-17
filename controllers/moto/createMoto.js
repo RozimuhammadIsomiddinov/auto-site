@@ -24,7 +24,7 @@ const createMidMotorcycle = async (req, res, next) => {
     }
 
     const imagePaths = req.files.map(
-      (file) => `${process.env.BACKEND_URL}/uploads/${file.filename}`
+      (file) => `${process.env.BACKEND_URL}/${file.filename}`
     );
 
     const newMotorcycle = await Motorcycle.create({

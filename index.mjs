@@ -6,11 +6,13 @@ import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import { Server as socketIo } from "socket.io";
 import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
 import carRoutes from "./routes/carRoute.js";
 import userRoutes from "./routes/usersRoute.js";
 import cartRoutes from "./routes/cartRoute.js";
 import motoRoutes from "./routes/motoRoute.js";
-import { adminRouter } from "./admin.mjs"; // .mjs kengaytmasini o'zgartiring
+import { adminRouter } from "./admin.mjs";
 import {
   savedMessage,
   updatedMessage,
@@ -45,7 +47,30 @@ const swaggerOptions = {
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
+// Fix __dirname issue
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Create upload directory if it does not exist
+const publicFolderPath = path.join(__dirname, "public");
+const imagesFolderPath = path.join(publicFolderPath, "images");
+
+if (!fs.existsSync(publicFolderPath)) {
+  fs.mkdirSync(publicFolderPath);
+  console.log("Public folder created successfully.");
+} else {
+  console.log("Public folder already exists.");
+}
+
+if (!fs.existsSync(imagesFolderPath)) {
+  fs.mkdirSync(imagesFolderPath);
+  console.log("Images folder created successfully.");
+} else {
+  console.log("Images folder already exists within the public folder.");
+}
+
 app.use(express.json());
+app.use(cors({ origin: "*" }));
 app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static(path.resolve("./public")));
 
