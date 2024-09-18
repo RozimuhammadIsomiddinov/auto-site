@@ -1,9 +1,9 @@
 const Motorcycle = require("../models/moto.js");
 
 // Read all motorcycles
-const getAllMotorcycles = async (limit = 10, offset = 0) => {
+const getAllMotorcycles = async () => {
   try {
-    const result = await Motorcycle.findAll({ limit, offset });
+    const result = await Motorcycle.findAll();
     return result;
   } catch (e) {
     return e.message;
