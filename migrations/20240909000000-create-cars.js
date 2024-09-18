@@ -71,8 +71,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      fuel: {
-        type: Sequelize.ENUM("petrol", "electric", "hybrid", "dizel"),
+      engine: {
+        type: Sequelize.ENUM("petrol", "electric", "hybrid", "diesel"),
         allowNull: false,
       },
       volume: {
@@ -214,7 +214,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      fuel: {
+      engine: {
         type: Sequelize.ENUM("petrol", "electric", "hybrid"),
         allowNull: false,
       },
