@@ -102,11 +102,11 @@ const adminJs = new AdminJS({
           "year",
           "cost",
           "engine",
-          "engineVolume",
+          "volume",
           "horsepower",
           "drive",
           "body",
-          "statement",
+          "condition",
         ],
         properties: {
           id: { isVisible: true },
