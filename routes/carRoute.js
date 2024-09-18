@@ -18,7 +18,7 @@ const fileUpload = require("../middlewares/multer.js");
  *         - year
  *         - cost
  *         - milage
- *         - fuel
+ *         - engine
  *         - volume
  *         - horsepower
  *         - drive
@@ -44,7 +44,7 @@ const fileUpload = require("../middlewares/multer.js");
  *         milage:
  *           type: number
  *           description: Car mileage
- *         fuel:
+ *         engine:
  *           type: string
  *           enum:
  *             - oil
