@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
       __dirname,
       "..",
       "..",
-      "autoSite/public/images"
+      "public/images"
     );
     cb(null, uploadPath);
   },
