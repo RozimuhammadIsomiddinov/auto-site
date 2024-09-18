@@ -47,9 +47,10 @@ const fileUpload = require("../middlewares/multer.js");
  *         engine:
  *           type: string
  *           enum:
- *             - oil
+ *             - petrol
  *             - electric
  *             - hybrid
+ *             - diesel
  *           description: Fuel type
  *         volume:
  *           type: number
