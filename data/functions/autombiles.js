@@ -6,7 +6,7 @@ const getAllCars = async () => {
     const result = await Car.findAll();
     return result;
   } catch (e) {
-    return e.message;
+    return "Error getting car: " + e.message;
   }
 };
 
@@ -68,7 +68,7 @@ const deleteCar = async (id) => {
     const result = await Car.destroy({ where: { id } });
     return result;
   } catch (err) {
-    return err.message;
+    return "Error deleting car: " + err.message;
   }
 };
 

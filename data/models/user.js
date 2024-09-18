@@ -37,8 +37,7 @@ const Users = sequelize.define(
         }
       },
     },
-    timestamps: true,
-    underscored: false,
+    timestamps: false,
   }
 );
 

@@ -18,11 +18,16 @@ const adminJs = new AdminJS({
           "country",
           "year",
           "cost",
+          "milage",
           "engine",
+          "volume",
+          "horsepower",
           "drive",
           "checkpoint",
+          "doors",
           "body",
           "statement",
+          "description",
         ],
         properties: {
           id: { isVisible: true },
@@ -38,7 +43,40 @@ const adminJs = new AdminJS({
           cost: {
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
+          milage: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          engine: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          volume: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          horsepower: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          drive: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          checkpoint: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          doors: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          body: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          statement: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          description: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
           createdAt: {
+            isVisible: { list: false, edit: false, filter: false, show: true },
+          },
+          updatedAt: {
             isVisible: { list: false, edit: false, filter: false, show: true },
           },
         },
@@ -53,10 +91,10 @@ const adminJs = new AdminJS({
             isVisible: { list: true, edit: false, filter: true, show: true },
           },
           name: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: true, edit: false, filter: true, show: true },
           },
           email: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: true, edit: false, filter: true, show: true },
           },
           createdAt: {
             isVisible: { list: false, edit: false, filter: false, show: true },
@@ -101,12 +139,15 @@ const adminJs = new AdminJS({
           "country",
           "year",
           "cost",
+          "milage",
           "engine",
           "volume",
           "horsepower",
           "drive",
+          "transmission",
           "body",
           "condition",
+          "description",
         ],
         properties: {
           id: { isVisible: true },
@@ -122,7 +163,37 @@ const adminJs = new AdminJS({
           cost: {
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
-          createdAt: {
+          milage: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          engine: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          volume: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          horsepower: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          drive: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          transmission: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          body: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          condition: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          description: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          created_at: {
+            isVisible: { list: false, edit: false, filter: false, show: true },
+          },
+          updated_at: {
             isVisible: { list: false, edit: false, filter: false, show: true },
           },
         },
@@ -133,4 +204,5 @@ const adminJs = new AdminJS({
 });
 
 const adminRouter = AdminJSExpress.buildRouter(adminJs);
+
 export { adminJs, adminRouter };
