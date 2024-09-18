@@ -32,7 +32,6 @@ const Users = sequelize.define(
       beforeCreate: async (user) => {
         try {
           user.password = await bcrypt.hash(user.password, 10);
-          console.log("Password hashed:", user.password); // Log the hashed password
         } catch (err) {
           console.error("Error hashing password:", err); // Log the error if hashing fails
         }

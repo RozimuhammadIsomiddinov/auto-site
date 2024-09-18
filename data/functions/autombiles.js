@@ -45,7 +45,7 @@ const updateCar = async (upData) => {
       year: body.year,
       cost: body.cost,
       milage: body.milage,
-      fuel: body.fuel,
+      engine: body.engine,
       volume: body.volume,
       horsepower: body.horsepower,
       drive: body.drive,

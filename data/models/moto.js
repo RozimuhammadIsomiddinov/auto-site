@@ -39,7 +39,7 @@ const Motorcycle = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    fuel: {
+    engine: {
       type: DataTypes.ENUM("petrol", "electric", "hybrid"),
       allowNull: false,
     },
