@@ -84,7 +84,7 @@ const CommerceCar = sequelize.define(
     },
   },
   {
-    timestamps: true,
+    timestamps: false,
   }
 );
 
