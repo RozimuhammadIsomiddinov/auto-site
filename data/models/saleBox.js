@@ -3,6 +3,7 @@ const sequelize = require("../../config/dbconfig.js");
 const Users = require("./user.js");
 const Car = require("./automobile.js");
 const Motorcycle = require("./moto.js");
+const CommerceCar = require("./commerce.js");
 
 const Cart = sequelize.define(
   "cart",
@@ -26,7 +27,7 @@ const Cart = sequelize.define(
       allowNull: false,
     },
     product_type: {
-      type: DataTypes.ENUM("car", "motorcycle"),
+      type: DataTypes.ENUM("car", "motorcycle", "commerce"),
       allowNull: false,
     },
     quantity: {
@@ -45,6 +46,13 @@ const Cart = sequelize.define(
   }
 );
 
+// Foreign key relationship for CommerceCar
+Cart.belongsTo(CommerceCar, {
+  foreignKey: "product_id",
+  constraints: false,
+  as: "commerceCars",
+});
+
 // Foreign key relationship for Car
 Cart.belongsTo(Car, {
   foreignKey: "product_id",
@@ -59,7 +67,7 @@ Cart.belongsTo(Motorcycle, {
   as: "motorcycles",
 });
 
-// Hook to handle car/motorcycle association
+// Hook to handle car/motorcycle/commerceCar association
 Cart.addHook("afterFind", (result) => {
   if (!Array.isArray(result)) result = [result];
   for (const instance of result) {
@@ -67,9 +75,15 @@ Cart.addHook("afterFind", (result) => {
       instance.product = instance.car;
     } else if (instance.product_type === "motorcycle" && instance.motorcycle) {
       instance.product = instance.motorcycle;
+    } else if (
+      instance.product_type === "commerce_car" &&
+      instance.commerceCars
+    ) {
+      instance.product = instance.commerceCars;
     }
     delete instance.car;
     delete instance.motorcycle;
+    delete instance.commerceCars;
   }
 });
 

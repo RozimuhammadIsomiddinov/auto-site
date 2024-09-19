@@ -133,6 +133,103 @@ module.exports = {
         defaultValue: Sequelize.NOW,
       },
     });
+    // Create commerce_cars table
+    const bodyOfCar = [
+      "hatchback",
+      "convertible",
+      "crossover",
+      "coupe",
+      "sedan",
+      "pickup",
+      "suv",
+      "van",
+      "mpv",
+      "jeep",
+      "wagon",
+      "cabriolet",
+      "roadster",
+      "microcar",
+      "estate",
+      "saloon",
+      "city-car",
+    ];
+
+    await queryInterface.createTable("commerce_cars", {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      image: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: false,
+      },
+      country: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      year: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      cost: {
+        type: Sequelize.FLOAT,
+        allowNull: false,
+      },
+      milage: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      engine: {
+        type: Sequelize.ENUM("petrol", "electric", "hybrid", "diesel"),
+        allowNull: false,
+      },
+      volume: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      horsepower: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      drive: {
+        type: Sequelize.ENUM("both", "all"),
+        allowNull: false,
+      },
+      checkpoint: {
+        type: Sequelize.ENUM("automatic", "manual"),
+        allowNull: false,
+      },
+      doors: {
+        type: Sequelize.INTEGER,
+      },
+      body: {
+        type: Sequelize.ENUM(...bodyOfCar),
+      },
+      statement: {
+        type: Sequelize.ENUM("used", "new"),
+        allowNull: false,
+      },
+      description: {
+        type: Sequelize.STRING,
+      },
+      stock: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+    });
 
     // Create cart table
     await queryInterface.createTable("cart", {
@@ -159,6 +256,10 @@ module.exports = {
           key: "id",
         },
         onDelete: "CASCADE",
+      },
+      product_type: {
+        type: Sequelize.ENUM("car", "motorcycle"),
+        allowNull: false,
       },
       quantity: {
         type: Sequelize.INTEGER,
@@ -296,6 +397,7 @@ module.exports = {
     await queryInterface.dropTable("motorcycles");
     await queryInterface.dropTable("cart");
     await queryInterface.dropTable("cars");
+    await queryInterface.dropTable("commerce_cars");
     await queryInterface.dropTable("users");
   },
 };

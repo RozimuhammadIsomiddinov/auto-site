@@ -12,6 +12,7 @@ import carRoutes from "./routes/carRoute.js";
 import userRoutes from "./routes/usersRoute.js";
 import cartRoutes from "./routes/cartRoute.js";
 import motoRoutes from "./routes/motoRoute.js";
+import commerceRoute from "./routes/commerceRoute.js";
 import { adminRouter } from "./admin.mjs";
 import {
   savedMessage,
@@ -85,6 +86,7 @@ app.use("/", carRoutes);
 app.use("/", userRoutes);
 app.use("/", cartRoutes);
 app.use("/", motoRoutes);
+app.use("/", commerceRoute);
 
 // Socket.io setup
 io.on("connection", (socket) => {
