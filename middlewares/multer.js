@@ -7,7 +7,6 @@ const storage = multer.diskStorage({
     const uploadPath = path.resolve(
       __dirname,
       "..",
-      "..",
       "public/images"
     );
     cb(null, uploadPath);
