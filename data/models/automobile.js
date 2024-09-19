@@ -79,7 +79,7 @@ const Car = sequelize.define(
     },
   },
   {
-    timestamps: false,
+    timestamps: true,
   }
 );
 
