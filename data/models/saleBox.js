@@ -41,7 +41,7 @@ const Cart = sequelize.define(
     },
   },
   {
-    timestamps: true,
+    timestamps: false,
     tableName: "cart",
   }
 );
