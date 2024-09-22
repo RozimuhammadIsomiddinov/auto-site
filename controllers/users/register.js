@@ -20,7 +20,15 @@ const registerMid = async (req, res) => {
     };
     await mailer(message);
 
-    res.status(201).json({ token });
+    res.status(201).json({
+      token,
+      userData: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (error) {
     console.error("Registration error:", error.message);
     res
