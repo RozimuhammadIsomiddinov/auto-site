@@ -3,8 +3,8 @@ const jwt = require("jsonwebtoken");
 const Users = require("../../data/models/user.js");
 
 const resetMid = async (req, res) => {
-  const { token, newPassword } = req.body;
-
+  const { newPassword } = req.body;
+  const { token } = req.params;
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
