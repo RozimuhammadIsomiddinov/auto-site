@@ -151,7 +151,7 @@ router.post("/forgot-password", passwordMid);
  *       400:
  *         description: Invalid or expired token
  */
-
+router.post('/reset-password', resetMid);
 /**
  * @swagger
  * /user-dashboard:
