@@ -150,7 +150,11 @@ router.post("/forgot-password", passwordMid);
  *       400:
  *         description: Invalid or expired token
  */
+<<<<<<< HEAD
 router.post("/reset-password/:token", resetMid);
+=======
+router.post('/reset-password/:token', resetMid);
+>>>>>>> e72c37c1d0d7187c31e451fa81bca749072e4731
 
 /**
  * @swagger
@@ -159,7 +163,7 @@ router.post("/reset-password/:token", resetMid);
  *     summary: Access user dashboard
  *     tags: [User]
  *     security:
- *       - bearerAuth: []
+ *       - bearerAuth: []  
  *     responses:
  *       200:
  *         description: User dashboard data
@@ -181,6 +185,11 @@ router.post("/reset-password/:token", resetMid);
  *                   type: string
  */
 
+<<<<<<< HEAD
 router.get("/user-dashboard", authenticate);
+=======
+
+router.get("/user-dashboard", authenticate, enteringMid);
+>>>>>>> e72c37c1d0d7187c31e451fa81bca749072e4731
 
 module.exports = router;
