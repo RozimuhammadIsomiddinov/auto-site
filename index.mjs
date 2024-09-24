@@ -104,22 +104,22 @@ io.on("connection", (socket) => {
 
     try {
       // Save the message to the database
-      const savedMessage = await model.savedMessage(
+      const savedMessages = await savedMessage(
         senderId,
         receiverId,
         message,
         "sent",
         type
       ); // Save with type
-      console.log("Saved message:", savedMessage);
+      console.log("Saved message:", savedMessages);
 
       // If the receiver is connected, send the message to them
       if (users[receiverId]) {
-        io.to(users[receiverId]).emit("receive message", savedMessage); // Emit under 'receive message'
+        io.to(users[receiverId]).emit("receive message", savedMessages); // Emit under 'receive message'
       }
 
       // Emit the message back to the sender
-      socket.emit("receive message", savedMessage); // Emit under 'receive message'
+      socket.emit("receive message", savedMessages); // Emit under 'receive message'
     } catch (error) {
       console.error("Error saving message", error);
       socket.emit("error", "Error sending message");
@@ -132,13 +132,13 @@ io.on("connection", (socket) => {
 
     try {
       // Update the message status in the database to 'seen'
-      const updatedMessage = await model.updatedMessage("seen", messageId);
-      console.log("Updated message status:", updatedMessage);
+      const updatedMessages = await updatedMessage("seen", messageId);
+      console.log("Updated message status:", updatedMessages);
 
       // Notify the sender that their message was seen
-      const senderSocketId = users[updatedMessage.sender_id];
+      const senderSocketId = users[updatedMessages.sender_id];
       if (senderSocketId) {
-        io.to(senderSocketId).emit("message seen", updatedMessage);
+        io.to(senderSocketId).emit("message seen", updatedMessages);
       }
     } catch (error) {
       console.error("Error updating message status", error);
@@ -152,7 +152,7 @@ io.on("connection", (socket) => {
 
     try {
       // Fetch messages between the two users from the database
-      const messages = await model.message(userId, otherUserId);
+      const messages = await message(userId, otherUserId);
       console.log("Fetched messages:", messages);
 
       // Send the old messages to the client

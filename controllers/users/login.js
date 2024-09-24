@@ -9,7 +9,6 @@ const loginMid = async (req, res) => {
 
   try {
     const user = await Users.findOne({ where: { email } });
-
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -21,7 +20,15 @@ const loginMid = async (req, res) => {
     }
 
     const token = generateJWT(user);
-    res.json({ token });
+    res.status(200).json({
+      token,
+      userData: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (error) {
     res.status(500).json({ error: "Login failed" });
   }

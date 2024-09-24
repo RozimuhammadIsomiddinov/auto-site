@@ -2,7 +2,7 @@ const Cart = require("../../data/models/saleBox.js");
 
 const deleteCartMid = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params; //cart id
     const cart = await Cart.findByPk(id);
     if (!cart) {
       return res.status(404).send("cart not found");

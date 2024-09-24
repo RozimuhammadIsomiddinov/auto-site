@@ -1,7 +1,7 @@
 const { addToCart } = require("../../data/functions/products.js");
 
 const createMid = async (req, res, next) => {
-  const { user_id, quantity } = req.body;
+  const { user_id, quantity, product_type } = req.body;
   const { id } = req.params; //product id
   if (!user_id) {
     return res.status(400).send("All fields are required.");
@@ -12,7 +12,7 @@ const createMid = async (req, res, next) => {
   }
 
   try {
-    const result = await addToCart(user_id, id, quantity);
+    const result = await addToCart(user_id, id, quantity, product_type);
 
     if (result.message === "not found anything") {
       return res.status(404).send(result.message);

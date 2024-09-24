@@ -1,5 +1,4 @@
 const sequelize = require("./config/dbconfig.js");
-
 sequelize
   .sync({ force: true })
   .then(() => {

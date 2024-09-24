@@ -1,7 +1,6 @@
 const express = require("express");
 const authenticate = require("../controllers/users/auth.js");
 const { registerMid } = require("../controllers/users/register.js");
-const { enteringMid } = require("../controllers/users/entering.js");
 const { loginMid } = require("../controllers/users/login.js");
 const { passwordMid } = require("../controllers/forgotPassword/passwordMid.js");
 const { resetMid } = require("../controllers/forgotPassword/resetMid.js");
@@ -151,6 +150,7 @@ router.post("/forgot-password", passwordMid);
  *       400:
  *         description: Invalid or expired token
  */
+router.post("/reset-password/:token", resetMid);
 
 /**
  * @swagger
@@ -163,9 +163,24 @@ router.post("/forgot-password", passwordMid);
  *     responses:
  *       200:
  *         description: User dashboard data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
  *       401:
- *         description: Unauthorized
+ *         description: Unauthorized access or missing/invalid token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
  */
-router.get("/user-dashboard", authenticate, enteringMid);
+
+router.get("/user-dashboard", authenticate);
 
 module.exports = router;
