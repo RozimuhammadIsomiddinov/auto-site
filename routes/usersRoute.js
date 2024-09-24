@@ -160,13 +160,29 @@ router.post('/reset-password/:token', resetMid);
  *     summary: Access user dashboard
  *     tags: [User]
  *     security:
- *       - bearerAuth: []
+ *       - bearerAuth: []  
  *     responses:
  *       200:
  *         description: User dashboard data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
  *       401:
- *         description: Unauthorized
+ *         description: Unauthorized access or missing/invalid token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
  */
+
+
 router.get("/user-dashboard", authenticate, enteringMid);
 
 module.exports = router;
