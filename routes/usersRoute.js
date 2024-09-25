@@ -153,7 +153,6 @@ router.post("/forgot-password", passwordMid);
 
 router.post("/reset-password/:token", resetMid);
 
-router.post('/reset-password/:token', resetMid);
 
 
 /**
@@ -187,7 +186,5 @@ router.post('/reset-password/:token', resetMid);
 
 router.get("/user-dashboard", authenticate);
 
-
-router.get("/user-dashboard", authenticate, enteringMid);
 
 module.exports = router;
