@@ -3,7 +3,7 @@ const { addToCart } = require("../../data/functions/products.js");
 const createMid = async (req, res, next) => {
   const { user_id, quantity, product_type } = req.body;
   const { id } = req.params; //product id
-  if (!user_id) {
+  if (!user_id || !id || !product_type) {
     return res.status(400).send("All fields are required.");
   }
 

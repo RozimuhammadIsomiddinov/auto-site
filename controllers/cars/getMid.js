@@ -4,7 +4,7 @@ const getMid = async (req, res, next) => {
   try {
     const result = await getAllCars();
     if (result.length == 0) {
-      return res.status(404).json({ message: "cars have not yet!" });
+      return res.status(204).json({ message: "cars have not yet!" });
     }
     res.status(200).json(result);
     next();

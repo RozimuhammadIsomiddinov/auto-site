@@ -21,7 +21,7 @@ const createMidCar = async (req, res, next) => {
     } = req.body;
 
     if (!req.files || req.files.length === 0) {
-      return res.status(400).send("Siz kamida bitta rasm yuklashingiz kerak.");
+      return res.status(400).send("you have to upload at least 1 picture");
     }
 
     const imagePaths = req.files.map(
@@ -46,12 +46,12 @@ const createMidCar = async (req, res, next) => {
     });
 
     res.status(201).json({
-      message: "Mashina muvaffaqiyatli qo'shildi",
+      message: "car successfully added",
       car: newCar,
     });
     next();
   } catch (e) {
-    return res.status(400).send("createMidCar xatoligi:\n" + e.message);
+    return res.status(400).send("error of createMidCar:\n" + e.message);
   }
 };
 

@@ -70,7 +70,7 @@ const Motorcycle = sequelize.define(
       type: DataTypes.STRING,
     },
   },
-  { timestamps: true, createdAt: "created_at", updatedAt: "updated_at" }
+  { timestamps: true }
 );
 
 module.exports = Motorcycle;

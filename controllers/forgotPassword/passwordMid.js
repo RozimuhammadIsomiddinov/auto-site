@@ -4,6 +4,8 @@ const { mailer } = require("../../config/nodemailer.js");
 
 const passwordMid = async (req, res, next) => {
   const { email } = req.body;
+  if (!email)
+    return res.status(400).json({ error: "you have to enter your email" });
   try {
     const user = await Users.findOne({ where: { email } });
     if (!user) {
