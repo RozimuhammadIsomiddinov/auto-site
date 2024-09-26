@@ -1,145 +1,78 @@
 const express = require("express");
-const authenticate = require("../controllers/users/auth.js");
-const { registerMid } = require("../controllers/users/register.js");
-const { loginMid } = require("../controllers/users/login.js");
-const { passwordMid } = require("../controllers/forgotPassword/passwordMid.js");
-const { resetMid } = require("../controllers/forgotPassword/resetMid.js");
+const { createMid } = require("../controllers/cart/createCartMid.js");
+const { getAllMid } = require("../controllers/cart/getAllMid.js");
+const { deleteCartMid } = require("../controllers/cart/deleteCartMid.js");
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Cart:
+ *       type: object
+ *       required:
+ *         - user_id
+ *         - product_id
+ *         - product_type
+ *         - quantity
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: Unique cart item identifier
+ *         user_id:
+ *           type: integer
+ *           description: ID of the user owning the cart
+ *         product_id:
+ *           type: integer
+ *           description: ID of the product in the cart
+ *         product_type:
+ *           type: string
+ *           description: Type of product in the cart (e.g., vehicle, electronics)
+ *         quantity:
+ *           type: integer
+ *           description: Quantity of the product
+ *         added_time:
+ *           type: string
+ *           format: date-time
+ *           description: Time when the item was added to the cart
+ */
 
 const router = express.Router();
 
 /**
  * @swagger
- * components:
- *   securitySchemes:
- *     bearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
- *   schemas:
- *     User:
- *       type: object
- *       required:
- *         - name
- *         - email
- *         - password
- *         - role
- *       properties:
- *         id:
- *           type: integer
- *           description: Unique user identifier
- *         name:
- *           type: string
- *           description: User's name
- *         email:
- *           type: string
- *           format: email
- *           description: User's email address
- *         password:
- *           type: string
- *           description: User's password
- *         role:
- *           type: string
- *           enum:
- *             - customer
- *             - seller
- *           description: User's role in the system
- *         createdAt:
- *           type: string
- *           format: date-time
- *           description: Date when the user was created
- *         updatedAt:
- *           type: string
- *           format: date-time
- *           description: Date when the user was last updated
- */
-
-/**
- * @swagger
- * /user-register:
- *   post:
- *     summary: Register a new user
- *     tags: [User]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
+ * /user-cart:
+ *   get:
+ *     summary: Get all cart items for the current user
+ *     tags: [Cart]
  *     responses:
- *       201:
- *         description: User successfully registered
+ *       200:
+ *         description: Successfully retrieved cart items
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/User'
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Cart'
+ *       404:
+ *         description: Cart not found
  *       400:
  *         description: Bad request
  */
-router.post("/user-register", registerMid);
+router.get("/user-cart", getAllMid);
 
 /**
  * @swagger
- * /login:
+ * /create-item/{id}:
  *   post:
- *     summary: User login
- *     tags: [User]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *               password:
- *                 type: string
- *     responses:
- *       200:
- *         description: User successfully logged in
- *       400:
- *         description: Invalid credentials
- */
-router.post("/login", loginMid);
-
-/**
- * @swagger
- * /forgot-password:
- *   post:
- *     summary: Request password reset
- *     tags: [User]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *     responses:
- *       200:
- *         description: Password reset link sent
- *       400:
- *         description: Error processing request
- */
-router.post("/forgot-password", passwordMid);
-
-/**
- * @swagger
- * /reset-password/{token}:
- *   post:
- *     summary: Reset user password
- *     tags: [User]
+ *     summary: Add a new item to the cart
+ *     tags: [Cart]
  *     parameters:
  *       - in: path
- *         name: token
+ *         name: id
  *         required: true
- *         description: Password reset token
+ *         description: Product ID to add to the cart
  *         schema:
- *           type: string
+ *           type: integer
  *     requestBody:
  *       required: true
  *       content:
@@ -147,44 +80,44 @@ router.post("/forgot-password", passwordMid);
  *           schema:
  *             type: object
  *             properties:
- *               newPassword:
+ *               user_id:
+ *                 type: integer
+ *                 description: ID of the user adding the product
+ *               quantity:
+ *                 type: integer
+ *                 description: Quantity of the product to add
+ *               product_type:
  *                 type: string
+ *                 description: Type of the product (e.g., vehicle, electronics)
  *     responses:
- *       200:
- *         description: Password successfully reset
+ *       201:
+ *         description: Successfully added item to the cart
  *       400:
- *         description: Invalid or expired token
+ *         description: Bad request
  */
-router.post("/reset-password/:token", resetMid);
+router.post("/create-item/:id", createMid);
 
 /**
  * @swagger
- * /user-dashboard:
- *   get:
- *     summary: Access user dashboard
- *     tags: [User]
- *     security:
- *       - bearerAuth: []
+ * /delete-cart/{id}:
+ *   delete:
+ *     summary: Remove an item from the cart
+ *     tags: [Cart]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the cart item to delete
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
- *         description: User dashboard data
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *       401:
- *         description: Unauthorized access or missing/invalid token
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
+ *         description: Successfully deleted item from the cart
+ *       404:
+ *         description: Cart item not found
+ *       400:
+ *         description: Bad request
  */
-router.get("/user-dashboard", authenticate);
+router.delete("/delete-cart/:id", deleteCartMid);
 
 module.exports = router;

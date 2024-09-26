@@ -279,6 +279,10 @@ const adminJs = new AdminJS({
     },
   ],
   rootPath: "/admin-cars",
+  branding: {
+    companyName: "Auto site",
+    softwareBrothers: false,
+  },
 });
 
 const adminRouter = AdminJSExpress.buildRouter(adminJs);
