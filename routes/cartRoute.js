@@ -26,7 +26,7 @@ const { deleteCartMid } = require("../controllers/cart/deleteCartMid.js");
  *           description: ID of the product in the cart
  *         product_type:
  *           type: string
- *           description: Product_type of the prduct in the cart
+ *           description: Type of product in the cart (e.g., vehicle, electronics)
  *         quantity:
  *           type: integer
  *           description: Quantity of the product
@@ -87,8 +87,8 @@ router.get("/user-cart", getAllMid);
  *                 type: integer
  *                 description: Quantity of the product to add
  *               product_type:
- *                 type:string
- *                 description:Product_type for search type of vehicle
+ *                 type: string
+ *                 description: Type of the product (e.g., vehicle, electronics)
  *     responses:
  *       201:
  *         description: Successfully added item to the cart
