@@ -390,6 +390,39 @@ module.exports = {
         defaultValue: Sequelize.NOW,
       },
     });
+    await queryInterface.createTable("news", {
+      id: {
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      content: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      author: {
+        type: DataTypes.STRING(100),
+        defaultValue: "admin",
+      },
+      image: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+    });
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -399,5 +432,6 @@ module.exports = {
     await queryInterface.dropTable("cars");
     await queryInterface.dropTable("commerce_cars");
     await queryInterface.dropTable("users");
+    await queryInterface.dropTable("news");
   },
 };
