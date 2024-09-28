@@ -1,9 +1,13 @@
 const Car = require("../models/automobile.js");
 
 //read
-const getAllCars = async () => {
+const getAllCars = async (page = 1, pageSize = 10) => {
   try {
-    const result = await Car.findAll();
+    const offset = (page - 1) * pageSize;
+    const result = await Car.findAll({
+      limit: pageSize,
+      offset,
+    });
     return result;
   } catch (e) {
     return "Error getting car: " + e.message;

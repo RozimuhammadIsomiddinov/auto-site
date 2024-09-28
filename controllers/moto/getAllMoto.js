@@ -2,7 +2,7 @@ const { getAllMotorcycles } = require("../../data/functions/motos.js");
 
 const getMidMotorcycle = async (req, res, next) => {
   try {
-    const result = await getAllMotorcycles();
+    const result = await getAllMotorcycles(req.query.page, req.query.pageSize);
     if (result.length === 0) {
       return res.status(404).json({ message: "Motocyles have not yet!" });
     }

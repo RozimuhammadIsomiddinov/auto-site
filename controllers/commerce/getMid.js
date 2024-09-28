@@ -2,7 +2,7 @@ const { getAllCommerceCars } = require("../../data/functions/commerceCar.js");
 
 const getMidCommerceCars = async (req, res, next) => {
   try {
-    const result = await getAllCommerceCars();
+    const result = await getAllCommerceCars(req.query.page, req.query.pageSize);
     if (result.length === 0) {
       return res
         .status(404)

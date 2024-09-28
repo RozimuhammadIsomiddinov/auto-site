@@ -117,6 +117,17 @@ const router = express.Router();
  *   get:
  *     summary: Get all cars
  *     tags: [cars]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: The page number
+ *       - in: query
+ *         name: pageSize
+ *         schema:
+ *           type: integer
+ *         description: The number of items per page
  *     responses:
  *       200:
  *         description: List of cars

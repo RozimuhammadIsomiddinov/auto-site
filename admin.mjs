@@ -6,6 +6,7 @@ import Cart from "./data/models/saleBox.js";
 import Users from "./data/models/user.js";
 import Motorcycle from "./data/models/moto.js";
 import CommerceCar from "./data/models/commerce.js";
+import News from "./data/models/news.js";
 
 AdminJS.registerAdapter({ Database, Resource });
 
@@ -273,6 +274,26 @@ const adminJs = new AdminJS({
           },
           added_time: {
             isVisible: { list: true, edit: false, filter: true, show: true },
+          },
+        },
+      },
+    },
+    {
+      resource: News,
+      options: {
+        listProperties: ["id", "title", "content", "image"],
+        properties: {
+          id: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
+          title: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          content: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          image: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
           },
         },
       },

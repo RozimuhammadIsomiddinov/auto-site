@@ -1,9 +1,13 @@
 const CommerceCar = require("../models/commerce.js");
 
 // Read all commerce cars
-const getAllCommerceCars = async () => {
+const getAllCommerceCars = async (page = 1, pageSize = 10) => {
   try {
-    const result = await CommerceCar.findAll();
+    const offset = (page - 1) * pageSize;
+    const result = await CommerceCar.findAll({
+      limit: pageSize,
+      offset,
+    });
     return result;
   } catch (e) {
     return "Error getting commerce cars: " + e.message;
