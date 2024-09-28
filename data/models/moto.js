@@ -19,6 +19,11 @@ const motorcycleTypes = [
 const Motorcycle = sequelize.define(
   "motorcycles",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     image: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,

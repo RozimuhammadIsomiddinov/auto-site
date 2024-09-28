@@ -24,6 +24,11 @@ const bodyOfCar = [
 const CommerceCar = sequelize.define(
   "commerce_cars",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     image: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,

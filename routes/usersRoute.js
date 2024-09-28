@@ -4,7 +4,8 @@ const { registerMid } = require("../controllers/users/register.js");
 const { loginMid } = require("../controllers/users/login.js");
 const { passwordMid } = require("../controllers/forgotPassword/passwordMid.js");
 const { resetMid } = require("../controllers/forgotPassword/resetMid.js");
-
+const { changeNameEmail } = require("../controllers/users/changeNameEmail.js");
+const { changePassword } = require("../controllers/users/changePass.js");
 const router = express.Router();
 
 /**
@@ -185,5 +186,74 @@ router.post("/login", loginMid);
  *                   type: string
  */
 router.get("/user-dashboard", authenticate);
+/**
+ * @swagger
+ * /update-name-email/{id}:
+ *   put:
+ *     summary: Update user's name and email
+ *     tags: [User]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Unique user ID
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               newName:
+ *                 type: string
+ *               newEmail:
+ *                 type: string
+ *                 format: email
+ *     responses:
+ *       200:
+ *         description: User's name and email successfully updated
+ *       400:
+ *         description: Invalid request body
+ *       404:
+ *         description: User not found
+ */
+
+router.put("/update-name-email/:id", changeNameEmail);
+/**
+ * @swagger
+ * /update-password/{id}:
+ *   put:
+ *     summary: Update user's password
+ *     tags: [User]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Unique user ID
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               oldPass:
+ *                 type: string
+ *               newPass:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Password successfully updated
+ *       400:
+ *         description: Invalid request or password mismatch
+ *       404:
+ *         description: User not found or old password is incorrect
+ */
+
+router.put("/update-password/:id", changePassword);
 
 module.exports = router;
