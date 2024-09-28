@@ -391,38 +391,39 @@ module.exports = {
       },
     });
     await queryInterface.createTable("news", {
-      id: {
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
-      title: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      content: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
-      author: {
-        type: DataTypes.STRING(100),
-        defaultValue: "admin",
-      },
-      image: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-      },
-    });
+  id: {
+    autoIncrement: true,
+    primaryKey: true,
+    type: Sequelize.INTEGER,
+  },
+  title: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  content: {
+    type: Sequelize.TEXT, 
+    allowNull: false,
+  },
+  author: {
+    type: Sequelize.STRING(100), 
+    defaultValue: "admin",
+  },
+  image: {
+    type: Sequelize.STRING, 
+    allowNull: false,
+  },
+  createdAt: {
+    allowNull: false,
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    allowNull: false,
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.NOW,
+  },
+});
+
   },
 
   down: async (queryInterface, Sequelize) => {
