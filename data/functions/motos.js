@@ -24,16 +24,6 @@ const getMotorcycleById = async (id) => {
   }
 };
 
-// Create a new motorcycle
-const addMotorcycle = async (motorcycleData) => {
-  try {
-    const newMotorcycle = await Motorcycle.create(motorcycleData);
-    return newMotorcycle;
-  } catch (e) {
-    return "Error adding motorcycle: " + e.message;
-  }
-};
-
 // Update an existing motorcycle
 const updateMotorcycle = async (upData) => {
   try {
@@ -46,6 +36,7 @@ const updateMotorcycle = async (upData) => {
 
     const updatedMotorcycle = await motorcycle.update({
       image: body.image,
+      color: body.color,
       country: body.country,
       year: body.year,
       cost: body.cost,
@@ -58,6 +49,8 @@ const updateMotorcycle = async (upData) => {
       body: body.body,
       condition: body.condition,
       description: body.description,
+      authoremail: body.authorEmail,
+      mark: body.mark,
     });
 
     return updatedMotorcycle;
@@ -79,7 +72,6 @@ const deleteMotorcycle = async (id) => {
 module.exports = {
   getAllMotorcycles,
   getMotorcycleById,
-  addMotorcycle,
   updateMotorcycle,
   deleteMotorcycle,
 };

@@ -39,13 +39,20 @@ const updateCommerceCar = async (upData) => {
   // upData has got params and body
   try {
     const { body, params } = upData;
-    const car = await CommerceCar.findByPk(params.id);
+    const commerceCar = await CommerceCar.findByPk(params.id);
 
-    if (!car) {
+    if (!commerceCar) {
       return { error: "Commerce car not found" };
     }
-    const updatedCar = await car.update({
-      image: body.image,
+    let imagePaths = commerceCar.image;
+    if (upData.files && upData.files.length > 0) {
+      imagePaths = upData.files.map(
+        (file) => `${process.env.BACKEND_URL}/${file?.filename}`
+      );
+    }
+    const updatedCar = await commerceCar.update({
+      image: imagePaths,
+      color: body.color,
       country: body.country,
       year: body.year,
       cost: body.cost,
@@ -60,6 +67,9 @@ const updateCommerceCar = async (upData) => {
       statement: body.statement,
       description: body.description,
       stock: body.stock,
+      authoremail: body.authorEmail,
+      rate: body.rate,
+      mark: body.mark,
     });
 
     return updatedCar;

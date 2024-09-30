@@ -6,6 +6,7 @@ const { passwordMid } = require("../controllers/forgotPassword/passwordMid.js");
 const { resetMid } = require("../controllers/forgotPassword/resetMid.js");
 const { changeNameEmail } = require("../controllers/users/changeNameEmail.js");
 const { changePassword } = require("../controllers/users/changePass.js");
+const fileUpload = require("../middlewares/multer.js");
 const router = express.Router();
 
 /**
@@ -63,9 +64,24 @@ const router = express.Router();
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: Username of the user
+ *               email:
+ *                 type: string
+ *                 description: Email of the user
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 description: User password
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *                 description: Profile image file for the user
  *     responses:
  *       201:
  *         description: User successfully registered
@@ -76,7 +92,7 @@ const router = express.Router();
  *       400:
  *         description: Bad request
  */
-router.post("/user-register", registerMid);
+router.post("/user-register", fileUpload.single("image"), registerMid);
 
 /**
  * @swagger
@@ -131,6 +147,7 @@ router.post("/forgot-password", passwordMid);
  *         description: Invalid or expired token
  */
 router.post("/reset-password/:token", resetMid);
+
 /**
  * @swagger
  * /login:
@@ -186,6 +203,7 @@ router.post("/login", loginMid);
  *                   type: string
  */
 router.get("/user-dashboard", authenticate);
+
 /**
  * @swagger
  * /update-name-email/{id}:
@@ -219,8 +237,8 @@ router.get("/user-dashboard", authenticate);
  *       404:
  *         description: User not found
  */
-
 router.put("/update-name-email/:id", changeNameEmail);
+
 /**
  * @swagger
  * /update-password/{id}:
@@ -253,7 +271,6 @@ router.put("/update-name-email/:id", changeNameEmail);
  *       404:
  *         description: User not found or old password is incorrect
  */
-
 router.put("/update-password/:id", changePassword);
 
 module.exports = router;

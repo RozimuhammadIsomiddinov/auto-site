@@ -6,7 +6,7 @@ const {
 
 const loginMid = async (req, res) => {
   const { email, password } = req.body;
-
+  console.log(email);
   try {
     const user = await Users.findOne({ where: { email } });
     if (!user) {
@@ -24,9 +24,11 @@ const loginMid = async (req, res) => {
       token,
       userData: {
         id: user.id,
+        image: user.image,
         name: user.name,
         email: user.email,
         role: user.role,
+        rate: user.userrate,
       },
     });
   } catch (error) {

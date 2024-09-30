@@ -29,6 +29,10 @@ const CommerceCar = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
+    color: {
+      type: DataTypes.STRING,
+      defaultValue: "white",
+    },
     image: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
@@ -85,7 +89,19 @@ const CommerceCar = sequelize.define(
     stock: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 0,
+      defaultValue: 1,
+    },
+    authoremail: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    rate: {
+      type: DataTypes.ENUM("cash", "credit"),
+      defaultValue: "cash",
+    },
+    mark: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   {

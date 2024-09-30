@@ -44,6 +44,7 @@ const updateCar = async (upData) => {
       return { error: "Car not found" };
     }
     const updatedCar = await car.update({
+      color: body.color,
       image: body.image,
       country: body.country,
       year: body.year,
@@ -58,6 +59,8 @@ const updateCar = async (upData) => {
       body: body.body,
       statement: body.statement,
       description: body.description,
+      authoremail: body.authorEmail,
+      mark: body.mark,
     });
 
     return updatedCar;

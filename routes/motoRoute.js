@@ -4,6 +4,7 @@ const { createMidMotorcycle } = require("../controllers/moto/createMoto.js");
 const { updateMotorcycleMid } = require("../controllers/moto/updateMoto.js");
 const { getMidMotorcycleById } = require("../controllers/moto/getByIdMoto.js");
 const { deleteMidMotorcycle } = require("../controllers/moto/deleteMoto.js");
+const { searchMoto } = require("../controllers/search/motoSearch.js");
 const fileUpload = require("../middlewares/multer.js");
 
 /**
@@ -30,6 +31,7 @@ const fileUpload = require("../middlewares/multer.js");
  *           description: Unique motorcycle identifier
  *         image:
  *           type: string
+ *           format: binary
  *           description: Image URL
  *         country:
  *           type: string
@@ -205,7 +207,11 @@ router.post(
  *       404:
  *         description: Motorcycle not found
  */
-router.put("/update-motorcycle/:id", updateMotorcycleMid);
+router.put(
+  "/update-motorcycle/:id",
+  fileUpload.array("image", 10),
+  updateMotorcycleMid
+);
 
 /**
  * @swagger
@@ -229,5 +235,5 @@ router.put("/update-motorcycle/:id", updateMotorcycleMid);
  *         description: Error deleting motorcycle
  */
 router.delete("/delete-motorcycle/:id", deleteMidMotorcycle);
-
+router.get("/moto-filter", searchMoto);
 module.exports = router;

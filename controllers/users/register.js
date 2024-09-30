@@ -1,17 +1,32 @@
 const Users = require("../../data/models/user.js");
 const { generateJWT } = require("../../data/functions/users.js");
 const { mailer } = require("../../config/nodemailer.js");
-
+const dotenv = require("dotenv");
+dotenv.config();
 const registerMid = async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role, userRate } = req.body;
   try {
     const existingUser = await Users.findOne({ where: { email } });
-
     if (existingUser) {
       return res.status(400).json({ error: "Email already registered" });
     }
 
-    const user = await Users.create({ name, email, password, role });
+    let imagePath = null;
+    if (req.file) {
+      imagePath = `${process.env.BACKEND_URL}/${req.file.filename}`;
+    }
+
+    const user = await Users.create({
+      image: imagePath,
+      name,
+      email,
+      password,
+      role,
+      userrate: userRate,
+    });
+    if (userRate) {
+      user.userRate = userRate;
+    }
     const token = generateJWT(user);
 
     const message = {
@@ -22,15 +37,9 @@ const registerMid = async (req, res) => {
 
     res.status(201).json({
       token,
-      userData: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
+      userData: user,
     });
   } catch (error) {
-    console.error("Registration error:", error.message);
     res
       .status(500)
       .json({ error: "Registration failed", details: error.message });

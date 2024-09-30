@@ -8,12 +8,14 @@ import { Server as socketIo } from "socket.io";
 import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
+import fileUpload from "./middlewares/multer.js";
 import carRoutes from "./routes/carRoute.js";
 import userRoutes from "./routes/usersRoute.js";
 import cartRoutes from "./routes/cartRoute.js";
 import motoRoutes from "./routes/motoRoute.js";
 import commerceRoute from "./routes/commerceRoute.js";
 import newsRoute from "./routes/news.js";
+import markRoute from "./routes/marks.js";
 import { adminRouter } from "./admin.mjs";
 import {
   savedMessage,
@@ -40,7 +42,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "http://212.67.11.143:4035/",
+        url: "http://l212.67.11.143:4035/",
       },
     ],
   },
@@ -89,8 +91,9 @@ app.use("/", cartRoutes);
 app.use("/", motoRoutes);
 app.use("/", commerceRoute);
 app.use("/", newsRoute);
+app.use("/", markRoute);
 
-// Socket.io setup
+// Socket.io setup for chat functionality
 io.on("connection", (socket) => {
   console.log("A user connected", socket.id);
 
@@ -178,6 +181,13 @@ io.on("connection", (socket) => {
       }
     }
   });
+});
+
+// File upload endpoint
+app.post("/upload", fileUpload.single("file"), (req, res) => {
+  const filePath = `${process.env.BACKEND_URL}/${req.file.filename}`;
+  io.emit("receiveFile", filePath); // Notify all users about the new file
+  res.json({ filePath }); // Send the file path back to the client
 });
 
 const port = process.env.PORT;

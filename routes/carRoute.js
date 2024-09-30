@@ -30,6 +30,7 @@ const fileUpload = require("../middlewares/multer.js");
  *           description: Unique car identifier
  *         image:
  *           type: string
+ *           format: binary
  *           description: Image URL
  *         country:
  *           type: string
@@ -182,6 +183,10 @@ router.get("/cars/:id", getMidById);
  *       content:
  *         multipart/form-data:
  *           schema:
+ *             type: object
+ *             properties:
+ *               image:
+ *                 type: string
  *             $ref: '#/components/schemas/cars'
  *     responses:
  *       201:
@@ -231,7 +236,7 @@ router.post(
  *       404:
  *         description: Car not found
  */
-router.put("/update-car/:id", updateCarMid);
+router.put("/update-car/:id", fileUpload.array("image", 10), updateCarMid);
 
 /**
  * @swagger
@@ -255,5 +260,4 @@ router.put("/update-car/:id", updateCarMid);
  *         description: Error deleting car
  */
 router.delete("/delete-car/:id", deleteMidCar);
-
 module.exports = router;

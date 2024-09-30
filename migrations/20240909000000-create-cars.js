@@ -397,19 +397,19 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       title: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       content: {
-        type: DataTypes.TEXT,
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       author: {
-        type: DataTypes.STRING(100),
+        type: Sequelize.STRING(100),
         defaultValue: "admin",
       },
       image: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       createdAt: {

@@ -11,7 +11,7 @@ const {
   deleteMidCommerceCar,
 } = require("../controllers/commerce/deleteCommerce.js");
 const fileUpload = require("../middlewares/multer.js");
-
+const { searchCommerce } = require("../controllers/search/searchCommerce.js");
 const router = express.Router();
 
 /**
@@ -37,7 +37,8 @@ const router = express.Router();
  *           type: integer
  *           description: Unique car identifier
  *         image:
- *           type: array
+ *           type: string
+ *           format: binary
  *           items:
  *             type: string
  *           description: List of image URLs
@@ -238,7 +239,11 @@ router.post(
  *       404:
  *         description: Car not found
  */
-router.put("/update-commerce-car/:id", updateCommerceCarMid);
+router.put(
+  "/update-commerce-car/:id",
+  fileUpload.array("image", 10),
+  updateCommerceCarMid
+);
 
 /**
  * @swagger
@@ -262,5 +267,5 @@ router.put("/update-commerce-car/:id", updateCommerceCarMid);
  *         description: Error deleting car
  */
 router.delete("/delete-commerce-car/:id", deleteMidCommerceCar);
-
+router.get("/commerce-filter", searchCommerce);
 module.exports = router;

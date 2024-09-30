@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const bcrypt = require("bcryptjs");
 const sequelize = require("../../config/dbconfig.js");
+const Mark = require("./carMark.js");
 
 const Users = sequelize.define(
   "users",
@@ -9,6 +10,9 @@ const Users = sequelize.define(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+    },
+    image: {
+      type: DataTypes.STRING,
     },
     name: {
       type: DataTypes.STRING,
@@ -30,6 +34,9 @@ const Users = sequelize.define(
       type: DataTypes.ENUM("customer", "seller"),
       allowNull: false,
       defaultValue: "customer",
+    },
+    userrate: {
+      type: DataTypes.ENUM("yearly", "monthly", "daily"),
     },
   },
   {

@@ -24,6 +24,10 @@ const Motorcycle = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
+    color: {
+      type: DataTypes.STRING,
+      defaultValue: "white",
+    },
     image: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
@@ -73,6 +77,18 @@ const Motorcycle = sequelize.define(
     },
     description: {
       type: DataTypes.STRING,
+    },
+    authoremail: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    rate: {
+      type: DataTypes.ENUM("cash", "credit"),
+      defaultValue: "cash",
+    },
+    mark: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   { timestamps: true }
