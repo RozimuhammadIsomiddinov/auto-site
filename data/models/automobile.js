@@ -20,6 +20,22 @@ const bodyOfCar = [
   "saloon",
   "city-car",
 ];
+const carModel = [
+  "BMW",
+  "Baic",
+  "Byd",
+  "Bently",
+  "Chery",
+  "Cadillac",
+  "Changan",
+  "Chevrolet",
+  "Citrion",
+  "Daewoo",
+  "Datsun",
+  "Dodge",
+  "Exed",
+  "ferrari",
+];
 
 const Car = sequelize.define(
   "cars",
@@ -55,33 +71,33 @@ const Car = sequelize.define(
     },
     engine: {
       type: DataTypes.ENUM("petrol", "electric", "hybrid", "diesel"),
-      allowNull: false,
+      defaultValue: "petrol",
     },
     volume: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
     horsepower: {
       type: DataTypes.INTEGER,
-      allowNull: false,
     },
     drive: {
       type: DataTypes.ENUM("AWD", "FWD"),
-      allowNull: false,
+      defaultValue: "AWD",
     },
     checkpoint: {
       type: DataTypes.ENUM("automatic", "manual"),
-      allowNull: false,
+      defaultValue: "manual",
     },
     doors: {
       type: DataTypes.INTEGER,
+      defaultValue: 4,
     },
     body: {
       type: DataTypes.ENUM(...bodyOfCar),
+      defaultValue: "sedan",
     },
     statement: {
       type: DataTypes.ENUM("used", "new"),
-      allowNull: false,
+      defaultValue: "used",
     },
     description: {
       type: DataTypes.STRING,
@@ -95,9 +111,10 @@ const Car = sequelize.define(
       defaultValue: "cash",
     },
     mark: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM(...carModel),
       allowNull: false,
     },
+    model: { type: DataTypes.STRING, allowNull: false },
   },
   {
     timestamps: true,

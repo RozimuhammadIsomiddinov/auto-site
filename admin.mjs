@@ -7,6 +7,7 @@ import Users from "./data/models/user.js";
 import Motorcycle from "./data/models/moto.js";
 import CommerceCar from "./data/models/commerce.js";
 import News from "./data/models/news.js";
+import Mark from "./data/models/carMark.js";
 
 AdminJS.registerAdapter({ Database, Resource });
 
@@ -16,6 +17,7 @@ const adminJs = new AdminJS({
       resource: Car,
       options: {
         listProperties: [
+          "id",
           "image",
           "country",
           "year",
@@ -30,9 +32,16 @@ const adminJs = new AdminJS({
           "body",
           "statement",
           "description",
+          "color",
+          "authoremail",
+          "rate",
+          "mark",
+          "model",
         ],
         properties: {
-          id: { isVisible: true },
+          id: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
           image: {
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
@@ -75,6 +84,21 @@ const adminJs = new AdminJS({
           description: {
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
+          color: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          authoremail: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          rate: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          mark: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          model: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
           createdAt: {
             isVisible: { list: false, edit: false, filter: false, show: true },
           },
@@ -101,9 +125,15 @@ const adminJs = new AdminJS({
           "body",
           "condition",
           "description",
+          "authoremail",
+          "rate",
+          "mark",
+          "model",
         ],
         properties: {
-          id: { isVisible: true },
+          id: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
           image: {
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
@@ -143,6 +173,18 @@ const adminJs = new AdminJS({
           description: {
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
+          authoremail: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          rate: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          mark: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          model: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
           created_at: {
             isVisible: { list: false, edit: false, filter: false, show: true },
           },
@@ -171,9 +213,15 @@ const adminJs = new AdminJS({
           "statement",
           "description",
           "stock",
+          "authoremail",
+          "rate",
+          "mark",
+          "model",
         ],
         properties: {
-          id: { isVisible: true },
+          id: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
           image: {
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
@@ -219,7 +267,18 @@ const adminJs = new AdminJS({
           stock: {
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
-
+          authoremail: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          rate: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          mark: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          model: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
           created_at: {
             isVisible: { list: false, edit: false, filter: false, show: true },
           },
@@ -232,15 +291,25 @@ const adminJs = new AdminJS({
     {
       resource: Users,
       options: {
-        listProperties: ["id", "name", "email", "password"],
+        listProperties: ["id", "image", "name", "email", "role", "userrate"],
         properties: {
           id: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
+          image: {
             isVisible: { list: true, edit: false, filter: true, show: true },
           },
           name: {
             isVisible: { list: true, edit: false, filter: true, show: true },
           },
           email: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
+          password: { isVisible: false },
+          role: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
+          userrate: {
             isVisible: { list: true, edit: false, filter: true, show: true },
           },
           createdAt: {
@@ -290,6 +359,23 @@ const adminJs = new AdminJS({
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
           content: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          image: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+        },
+      },
+    },
+    {
+      resource: Mark,
+      options: {
+        listProperties: ["id", "mark_name", "image"],
+        properties: {
+          id: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
+          mark_name: {
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
           image: {

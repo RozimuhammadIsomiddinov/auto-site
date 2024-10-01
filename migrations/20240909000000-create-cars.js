@@ -390,6 +390,7 @@ module.exports = {
         defaultValue: Sequelize.NOW,
       },
     });
+    //Create news table
     await queryInterface.createTable("news", {
       id: {
         autoIncrement: true,
@@ -423,6 +424,64 @@ module.exports = {
         defaultValue: Sequelize.NOW,
       },
     });
+    //Create mark table
+    await queryInterface.createTable("car_mark", {
+      id: {
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      mark_name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      image: { type: Sequelize.STRING, allowNull: false },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+    });
+    //create table chat
+    await queryInterface.createTable("chats", {
+      chat_id: {
+        type: Sequelize.BIGINT,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      chat_user_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onDelete: "CASCADE",
+      },
+      user_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onDelete: "CASCADE",
+      },
+      mute_type: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+    });
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -433,5 +492,7 @@ module.exports = {
     await queryInterface.dropTable("commerce_cars");
     await queryInterface.dropTable("users");
     await queryInterface.dropTable("news");
+    await queryInterface.dropTable("car_mark");
+    await queryInterface.dropTable("chats");
   },
 };

@@ -23,6 +23,7 @@ import {
   updatedMessage,
   message,
 } from "./data/functions/messages.js";
+import { addChat, editChatMute, getChats } from "./data/functions/chat.js";
 
 dotenv.config();
 
@@ -43,7 +44,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "http://localhost:4035/",
+        url: "http://212.67.11.143:4035/",
       },
     ],
   },
@@ -192,6 +193,73 @@ app.post("/upload", fileUpload.single("file"), (req, res) => {
   res.json({ filePath }); // Send the file path back to the client
 });
 
+// Chat routes
+app.get("/chat/users/:user_id", async (req, res) => {
+  try {
+    const { user_id } = req.params;
+    const chats = await getChats(user_id); // Use the imported function
+
+    if (chats?.length > 0) {
+      return res.status(200).json({
+        status: "Success",
+        data: chats,
+      });
+    } else {
+      return res.status(404).json({
+        status: 404,
+        message: "Not found",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: 500,
+      message: "Internal Server Error",
+    });
+  }
+});
+
+app.post("/chat/add", async (req, res) => {
+  try {
+    const { senderId, receiverId } = req.body; // Ensure to send these in the request body
+    const chat = await addChat(senderId, receiverId); // Use the imported function
+    return res.status(201).json({
+      status: "Success",
+      data: chat,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: 500,
+      message: "Internal Server Error",
+    });
+  }
+});
+
+app.post("/chat/edit/mute", async (req, res) => {
+  try {
+    const { user_id, chat_user_id, mute_type } = req.body;
+    const editChatResult = await editChatMute(user_id, chat_user_id, mute_type); // Use the imported function
+
+    if (editChatResult) {
+      return res.status(200).json({
+        status: "Success",
+        data: editChatResult,
+      });
+    } else {
+      return res.status(400).json({
+        status: 400,
+        message: "Bad request",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: 500,
+      message: "Internal Server Error",
+    });
+  }
+});
 const port = process.env.PORT;
 server.listen(port, () => {
   console.log(`Server is running on port ${port}`);

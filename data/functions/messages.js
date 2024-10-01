@@ -1,7 +1,7 @@
 const { Message } = require("../models/message.js");
-const Sequelize = require("sequelize");
+const { Op } = require("sequelize");
 
-// Xabarni saqlash
+// Xabarni
 const savedMessage = async (senderId, receiverId, message, status) => {
   try {
     const savedMessage = await Message.create({
@@ -23,7 +23,7 @@ const updatedMessage = async (status, messageId) => {
     const [affectedRows, [updatedMessage]] = await Message.update(
       {
         status,
-        een_at: new Date(),
+        updatedAt: new Date(), // `updatedAt` to'g'ri nomi
       },
       {
         where: { id: messageId },
@@ -36,18 +36,17 @@ const updatedMessage = async (status, messageId) => {
     throw error;
   }
 };
-
 // Xabarlarni olish
 const message = async (userId, otherUserId) => {
   try {
     const messages = await Message.findAll({
       where: {
-        [Sequelize.Op.or]: [
+        [Op.or]: [
           { sender_id: userId, receiver_id: otherUserId },
           { sender_id: otherUserId, receiver_id: userId },
         ],
       },
-      order: [["timestamp", "ASC"]],
+      order: [["createdAt", "ASC"]], // `createdAt` timestamp o'rnida
     });
     return messages;
   } catch (error) {
@@ -55,5 +54,8 @@ const message = async (userId, otherUserId) => {
     throw error;
   }
 };
-
-module.exports = { savedMessage, updatedMessage, message };
+module.exports = {
+  message,
+  updatedMessage,
+  savedMessage,
+};

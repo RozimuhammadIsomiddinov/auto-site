@@ -25,7 +25,7 @@ const searchCars = async (req, res, next) => {
 
     const cars = await Car.findAll({ where: filter, limit: pageSize, offset });
     const car = await Car.findAll({ where: filter });
-    res.status(200).json({ cars, much: car.length });
+    res.status(200).json({ cars, count: car.length });
   } catch (err) {
     res.status(500).json({ error: `Something went wrong:\t${err}` });
   }

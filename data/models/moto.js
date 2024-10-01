@@ -15,6 +15,28 @@ const motorcycleTypes = [
   "cafe-racer",
   "chopper",
 ];
+const motorcycleBrands = [
+  "Harley-Davidson",
+  "Ducati",
+  "Yamaha",
+  "Kawasaki",
+  "BMW",
+  "Suzuki",
+  "Honda",
+  "Triumph",
+  "KTM",
+  "Aprilia",
+  "Indian",
+  "Royal Enfield",
+  "Moto Guzzi",
+  "MV Agusta",
+  "Bajaj",
+  "Benelli",
+  "Husqvarna",
+  "CFMoto",
+  "Norton",
+  "Vespa",
+];
 
 const Motorcycle = sequelize.define(
   "motorcycles",
@@ -50,7 +72,7 @@ const Motorcycle = sequelize.define(
     },
     engine: {
       type: DataTypes.ENUM("petrol", "electric", "hybrid"),
-      allowNull: false,
+      defaultValue: "petrol",
     },
     volume: {
       type: DataTypes.STRING,
@@ -62,18 +84,19 @@ const Motorcycle = sequelize.define(
     },
     drive: {
       type: DataTypes.ENUM("chain", "belt", "shaft"),
-      allowNull: false,
+      defaultValue: "chain",
     },
     transmission: {
       type: DataTypes.ENUM("manual", "automatic"),
-      allowNull: false,
+      defaultValue: "manual",
     },
     body: {
       type: DataTypes.ENUM(...motorcycleTypes),
+      allowNull: false,
     },
     condition: {
       type: DataTypes.ENUM("used", "new"),
-      allowNull: false,
+      defaultValue: false,
     },
     description: {
       type: DataTypes.STRING,
@@ -90,6 +113,7 @@ const Motorcycle = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    model: { type: DataTypes.ENUM(...motorcycleBrands), allowNull: false },
   },
   { timestamps: true }
 );

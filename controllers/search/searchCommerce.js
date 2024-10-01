@@ -32,7 +32,7 @@ const searchCommerce = async (req, res, next) => {
     const commerce = await Commerce.findAll({
       where: filter,
     });
-    res.status(200).json({ commerceCar, much: commerce.length });
+    res.status(200).json({ commerceCar, count: commerce.length });
   } catch (err) {
     res.status(500).json({ error: `Something went wrong:\t${err}` });
   }

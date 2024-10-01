@@ -31,7 +31,7 @@ const searchMoto = async (req, res, next) => {
     const moto = await Motorcycle.findAll({
       where: filter,
     });
-    res.status(200).json({ motoCar, much: moto.length });
+    res.status(200).json({ motoCar, count: moto.length });
   } catch (err) {
     res.status(500).json({ error: `Something went wrong:\t${err}` });
   }
