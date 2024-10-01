@@ -2,13 +2,15 @@ const Commerce = require("../../data/models/commerce");
 const { Op } = require("sequelize");
 
 const searchCommerce = async (req, res, next) => {
-  let { statement, maxYear, minPrice, maxPrice, page, pageSize } = req.query;
+  let { rate, statement, maxYear, minPrice, maxPrice, page, pageSize } =
+    req.query;
   if (!page || !pageSize) {
     page = 1;
     pageSize = 10;
   }
   let filter = {};
   if (statement) filter.statement = statement;
+  if (rate) filter.rate = rate;
   if (maxYear) filter.year[Op.lte] = maxYear;
   if (minPrice || maxPrice) {
     filter.cost = {};
@@ -22,12 +24,15 @@ const searchCommerce = async (req, res, next) => {
   try {
     const offset = (page - 1) * pageSize;
 
-    const commerce = await Commerce.findAll({
+    const commerceCar = await Commerce.findAll({
       where: filter,
       limit: pageSize,
       offset,
     });
-    res.status(200).json(commerce);
+    const commerce = await Commerce.findAll({
+      where: filter,
+    });
+    res.status(200).json({ commerceCar, much: commerce.length });
   } catch (err) {
     res.status(500).json({ error: `Something went wrong:\t${err}` });
   }

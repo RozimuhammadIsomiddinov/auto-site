@@ -45,6 +45,14 @@ const router = express.Router();
  *             - new
  *             - used
  *         description: statement of cars
+ *       - in: query
+ *         name: rate
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - cash
+ *             - credit
+ *         description: The rate of the commercial vehicles
  *     responses:
  *       200:
  *         description: A list of filtered cars
@@ -98,6 +106,14 @@ const router = express.Router();
  *             - new
  *             - used
  *         description: statement of cars
+ *       - in: query
+ *         name: rate
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - cash
+ *             - credit
+ *         description: The rate of the commercial vehicles
  *     responses:
  *       200:
  *         description: A list of filtered motorcycles
@@ -151,6 +167,14 @@ const router = express.Router();
  *             - new
  *             - used
  *         description: statement of cars
+ *       - in: query
+ *         name: rate
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - cash
+ *             - credit
+ *         description: The rate of the commercial vehicles
  *     responses:
  *       200:
  *         description: A list of filtered commercial vehicles

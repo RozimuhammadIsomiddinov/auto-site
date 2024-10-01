@@ -2,13 +2,15 @@ const Motorcycle = require("../../data/models/moto.js");
 const { Op } = require("sequelize");
 
 const searchMoto = async (req, res, next) => {
-  let { statement, maxYear, minPrice, maxPrice, page, pageSize } = req.query;
+  let { rate, statement, maxYear, minPrice, maxPrice, page, pageSize } =
+    req.query;
   if (!page || !pageSize) {
     page = 1;
     pageSize = 10;
   }
   let filter = {};
   if (statement) filter.statement = statement;
+  if (rate) filter.rate = rate;
   if (maxYear) filter.year[Op.lte] = maxYear;
   if (minPrice || maxPrice) {
     filter.cost = {};
@@ -21,12 +23,15 @@ const searchMoto = async (req, res, next) => {
   }
   try {
     const offset = (page - 1) * pageSize;
-    const moto = await Motorcycle.findAll({
+    const motoCar = await Motorcycle.findAll({
       where: filter,
       limit: pageSize,
       offset,
     });
-    res.status(200).json(moto);
+    const moto = await Motorcycle.findAll({
+      where: filter,
+    });
+    res.status(200).json({ motoCar, much: moto.length });
   } catch (err) {
     res.status(500).json({ error: `Something went wrong:\t${err}` });
   }
