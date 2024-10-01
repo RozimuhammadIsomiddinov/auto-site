@@ -549,12 +549,12 @@ module.exports = {
         allowNull: false,
       },
       image: { type: Sequelize.STRING, allowNull: false },
-      createdat: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
-      updatedat: {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,

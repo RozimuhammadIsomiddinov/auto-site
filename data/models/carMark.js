@@ -39,8 +39,6 @@ const Mark = sequelize.define(
   {
     tableName: "car_mark",
     timestamps: true,
-    createdAt: "createdat",
-    updatedAt: "updatedat",
   }
 );
 
