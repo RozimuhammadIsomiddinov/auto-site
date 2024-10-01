@@ -367,6 +367,28 @@ module.exports = {
       "cafe-racer",
       "chopper",
     ];
+const motorcycleBrands = [
+  "Harley-Davidson",
+  "Ducati",
+  "Yamaha",
+  "Kawasaki",
+  "BMW",
+  "Suzuki",
+  "Honda",
+  "Triumph",
+  "KTM",
+  "Aprilia",
+  "Indian",
+  "Royal Enfield",
+  "Moto Guzzi",
+  "MV Agusta",
+  "Bajaj",
+  "Benelli",
+  "Husqvarna",
+  "CFMoto",
+  "Norton",
+  "Vespa",
+];
 
     await queryInterface.createTable("motorcycles", {
       id: {
