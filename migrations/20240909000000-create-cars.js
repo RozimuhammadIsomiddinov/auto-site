@@ -10,6 +10,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      image: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       name: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -31,6 +35,10 @@ module.exports = {
         allowNull: false,
         defaultValue: "customer",
       },
+      userrate: {
+        type: Sequelize.ENUM("yearly", "monthly", "daily"),
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -42,7 +50,6 @@ module.exports = {
         defaultValue: Sequelize.NOW,
       },
     });
-
     // Create cars table
     await queryInterface.createTable("cars", {
       id: {
@@ -84,7 +91,7 @@ module.exports = {
         allowNull: false,
       },
       drive: {
-        type: Sequelize.ENUM("both", "all"),
+        type: Sequelize.ENUM("AWD", "FWD"),
         allowNull: false,
       },
       checkpoint: {
@@ -93,6 +100,8 @@ module.exports = {
       },
       doors: {
         type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: 4,
       },
       body: {
         type: Sequelize.ENUM(
@@ -114,13 +123,49 @@ module.exports = {
           "saloon",
           "city-car"
         ),
+        allowNull: false,
+        defaultValue: "sedan",
       },
       statement: {
         type: Sequelize.ENUM("used", "new"),
         allowNull: false,
+        defaultValue: "used",
       },
       description: {
         type: Sequelize.STRING,
+        allowNull: true,
+      },
+      authoremail: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      rate: {
+        type: Sequelize.ENUM("cash", "credit"),
+        allowNull: false,
+        defaultValue: "cash",
+      },
+      mark: {
+        type: Sequelize.ENUM(
+          "BMW",
+          "Baic",
+          "Byd",
+          "Bently",
+          "Chery",
+          "Cadillac",
+          "Changan",
+          "Chevrolet",
+          "Citrion",
+          "Daewoo",
+          "Datsun",
+          "Dodge",
+          "Exed",
+          "ferrari"
+        ),
+        allowNull: false,
+      },
+      model: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -194,7 +239,7 @@ module.exports = {
         allowNull: false,
       },
       drive: {
-        type: Sequelize.ENUM("both", "all"),
+        type: Sequelize.ENUM("AWD", "FWD"),
         allowNull: false,
       },
       checkpoint: {
@@ -203,13 +248,16 @@ module.exports = {
       },
       doors: {
         type: Sequelize.INTEGER,
+        defaultValue: 4,
       },
       body: {
         type: Sequelize.ENUM(...bodyOfCar),
+        allowNull: false,
       },
       statement: {
         type: Sequelize.ENUM("used", "new"),
         allowNull: false,
+        defaultValue: "new",
       },
       description: {
         type: Sequelize.STRING,
@@ -217,7 +265,39 @@ module.exports = {
       stock: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        defaultValue: 0,
+        defaultValue: 1,
+      },
+      authoremail: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      rate: {
+        type: Sequelize.ENUM("cash", "credit"),
+        allowNull: false,
+        defaultValue: "cash",
+      },
+      mark: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      model: {
+        type: Sequelize.ENUM(
+          "BMW",
+          "Baic",
+          "Byd",
+          "Bently",
+          "Chery",
+          "Cadillac",
+          "Changan",
+          "Chevrolet",
+          "Citrion",
+          "Daewoo",
+          "Datsun",
+          "Dodge",
+          "Exed",
+          "ferrari"
+        ),
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -318,6 +398,7 @@ module.exports = {
       engine: {
         type: Sequelize.ENUM("petrol", "electric", "hybrid"),
         allowNull: false,
+        defaultValue: "petrol",
       },
       volume: {
         type: Sequelize.STRING,
@@ -330,20 +411,41 @@ module.exports = {
       drive: {
         type: Sequelize.ENUM("chain", "belt", "shaft"),
         allowNull: false,
+        defaultValue: "chain",
       },
       transmission: {
         type: Sequelize.ENUM("manual", "automatic"),
         allowNull: false,
+        defaultValue: "manual",
       },
       body: {
         type: Sequelize.ENUM(...motorcycleTypes),
+        allowNull: false,
       },
       condition: {
         type: Sequelize.ENUM("used", "new"),
         allowNull: false,
+        defaultValue: "used",
       },
       description: {
         type: Sequelize.STRING,
+      },
+      authoremail: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      rate: {
+        type: Sequelize.ENUM("cash", "credit"),
+        allowNull: false,
+        defaultValue: "cash",
+      },
+      mark: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      model: {
+        type: Sequelize.ENUM(...motorcycleBrands),
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -356,7 +458,6 @@ module.exports = {
         defaultValue: Sequelize.NOW,
       },
     });
-
     // Create messages table
     await queryInterface.createTable("messages", {
       id: {
@@ -366,18 +467,30 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       sender_id: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onDelete: "CASCADE",
       },
       receiver_id: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onDelete: "CASCADE",
       },
       message: {
         type: Sequelize.STRING(1000),
+        allowNull: true,
       },
       status: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,
@@ -436,12 +549,12 @@ module.exports = {
         allowNull: false,
       },
       image: { type: Sequelize.STRING, allowNull: false },
-      createdAt: {
+      createdat: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
-      updatedAt: {
+      updatedat: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
