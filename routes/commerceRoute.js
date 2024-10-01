@@ -72,8 +72,8 @@ const router = express.Router();
  *         drive:
  *           type: string
  *           enum:
- *             - both
- *             - all
+ *             - AWD
+ *             - FWD
  *           description: Drive type
  *         checkpoint:
  *           type: string

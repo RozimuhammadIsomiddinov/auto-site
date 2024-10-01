@@ -8,12 +8,12 @@ const router = express.Router();
 /**
  * @swagger
  * /cars-filter:
- *   get:
+ *   post:
  *     summary: Filter cars by year, price range, and pagination
  *     tags: [Filters]
  *     parameters:
  *       - in: query
- *         name: year
+ *         name: maxYear
  *         schema:
  *           type: integer
  *         description: Filter cars by year
@@ -37,6 +37,14 @@ const router = express.Router();
  *         schema:
  *           type: integer
  *         description: Number of cars per page for pagination
+ *       - in: query
+ *         name: statement
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - new
+ *             - used
+ *         description: statement of cars
  *     responses:
  *       200:
  *         description: A list of filtered cars
@@ -53,12 +61,12 @@ const router = express.Router();
 /**
  * @swagger
  * /moto-filter:
- *   get:
+ *   post:
  *     summary: Filter motorcycles by year, price range, and pagination
  *     tags: [Filters]
  *     parameters:
  *       - in: query
- *         name: year
+ *         name: maxYear
  *         schema:
  *           type: integer
  *         description: Filter motorcycles by year
@@ -82,6 +90,14 @@ const router = express.Router();
  *         schema:
  *           type: integer
  *         description: Number of motorcycles per page for pagination
+ *       - in: query
+ *         name: statement
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - new
+ *             - used
+ *         description: statement of cars
  *     responses:
  *       200:
  *         description: A list of filtered motorcycles
@@ -98,12 +114,12 @@ const router = express.Router();
 /**
  * @swagger
  * /commerce-filter:
- *   get:
+ *   post:
  *     summary: Filter commercial vehicles by year, price range, and pagination
  *     tags: [Filters]
  *     parameters:
  *       - in: query
- *         name: year
+ *         name: maxYear
  *         schema:
  *           type: integer
  *         description: Filter commercial vehicles by year
@@ -127,6 +143,14 @@ const router = express.Router();
  *         schema:
  *           type: integer
  *         description: Number of commercial vehicles per page for pagination
+ *       - in: query
+ *         name: statement
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - new
+ *             - used
+ *         description: statement of cars
  *     responses:
  *       200:
  *         description: A list of filtered commercial vehicles
@@ -140,8 +164,8 @@ const router = express.Router();
  *         description: Internal server error
  */
 
-router.get("/cars-filter", searchCars);
-router.get("/moto-filter", searchMoto);
-router.get("/commerce-filter", searchCommerce);
+router.post("/cars-filter", searchCars);
+router.post("/moto-filter", searchMoto);
+router.post("/commerce-filter", searchCommerce);
 
 module.exports = router;

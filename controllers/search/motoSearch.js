@@ -2,13 +2,14 @@ const Motorcycle = require("../../data/models/moto.js");
 const { Op } = require("sequelize");
 
 const searchMoto = async (req, res, next) => {
-  let { year, minPrice, maxPrice, page, pageSize } = req.body;
+  let { statement, maxYear, minPrice, maxPrice, page, pageSize } = req.query;
   if (!page || !pageSize) {
     page = 1;
     pageSize = 10;
   }
   let filter = {};
-  if (year) filter.year = year;
+  if (statement) filter.statement = statement;
+  if (maxYear) filter.year[Op.lte] = maxYear;
   if (minPrice || maxPrice) {
     filter.cost = {};
     if (minPrice) {

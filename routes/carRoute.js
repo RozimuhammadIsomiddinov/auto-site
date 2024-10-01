@@ -62,8 +62,8 @@ const fileUpload = require("../middlewares/multer.js");
  *         drive:
  *           type: string
  *           enum:
- *             - both
- *             - all
+ *             - AWD
+ *             - FWD
  *           description: Drive type
  *         checkpoint:
  *           type: string

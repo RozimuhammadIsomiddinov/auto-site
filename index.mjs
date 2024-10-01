@@ -16,6 +16,7 @@ import motoRoutes from "./routes/motoRoute.js";
 import commerceRoute from "./routes/commerceRoute.js";
 import newsRoute from "./routes/news.js";
 import markRoute from "./routes/marks.js";
+import filter from "./routes/filters.js";
 import { adminRouter } from "./admin.mjs";
 import {
   savedMessage,
@@ -42,7 +43,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "http://l212.67.11.143:4035/",
+        url: "http://localhost:4035/",
       },
     ],
   },
@@ -92,6 +93,7 @@ app.use("/", motoRoutes);
 app.use("/", commerceRoute);
 app.use("/", newsRoute);
 app.use("/", markRoute);
+app.use("/", filter);
 
 // Socket.io setup for chat functionality
 io.on("connection", (socket) => {

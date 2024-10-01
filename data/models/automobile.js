@@ -66,7 +66,7 @@ const Car = sequelize.define(
       allowNull: false,
     },
     drive: {
-      type: DataTypes.ENUM("both", "all"),
+      type: DataTypes.ENUM("AWD", "FWD"),
       allowNull: false,
     },
     checkpoint: {
