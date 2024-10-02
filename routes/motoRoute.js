@@ -11,9 +11,9 @@ const fileUpload = require("../middlewares/multer.js");
  * @swagger
  * components:
  *   schemas:
- *     motorcycles:
+ *     Motorcycle:
  *       type: object
- *       require:
+ *       required:
  *         - image
  *         - country
  *         - year
@@ -23,16 +23,25 @@ const fileUpload = require("../middlewares/multer.js");
  *         - volume
  *         - horsepower
  *         - drive
- *         - checkpoint
- *         - statement
+ *         - transmission
+ *         - body
+ *         - condition
+ *         - authoremail
+ *         - mark
+ *         - model
  *       properties:
  *         id:
  *           type: integer
  *           description: Unique motorcycle identifier
- *         image:
+ *         color:
  *           type: string
- *           format: binary
- *           description: Image URL
+ *           description: Motorcycle color
+ *           default: white
+ *         image:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: List of image URLs
  *         country:
  *           type: string
  *           description: Manufacturing country
@@ -44,47 +53,106 @@ const fileUpload = require("../middlewares/multer.js");
  *           format: float
  *           description: Motorcycle cost
  *         milage:
- *           type: number
+ *           type: integer
  *           description: Motorcycle mileage
  *         engine:
  *           type: string
  *           enum:
- *             - oil
+ *             - petrol
  *             - electric
  *             - hybrid
  *           description: Fuel type
+ *           default: petrol
  *         volume:
- *           type: number
+ *           type: string
  *           description: Engine volume
  *         horsepower:
- *           type: number
+ *           type: integer
  *           description: Horsepower
  *         drive:
  *           type: string
  *           enum:
- *             - AWD
- *             - FWD
+ *             - chain
+ *             - belt
+ *             - shaft
  *           description: Drive type
- *         checkpoint:
+ *           default: chain
+ *         transmission:
  *           type: string
  *           enum:
- *             - automatic
  *             - manual
+ *             - automatic
  *           description: Transmission type
- *         statement:
+ *           default: manual
+ *         body:
+ *           type: string
+ *           enum:
+ *             - cruiser
+ *             - sport
+ *             - touring
+ *             - standard
+ *             - dual-sport
+ *             - dirt-bike
+ *             - naked-bike
+ *             - scooter
+ *             - adventure
+ *             - bobber
+ *             - cafe-racer
+ *             - chopper
+ *           description: Motorcycle body type
+ *         condition:
  *           type: string
  *           enum:
  *             - used
  *             - new
  *           description: Motorcycle condition
+ *           default: new
  *         description:
  *           type: string
  *           description: Motorcycle description
+ *         authoremail:
+ *           type: string
+ *           description: Seller's email
+ *         rate:
+ *           type: string
+ *           enum:
+ *             - cash
+ *             - credit
+ *           description: Payment method
+ *           default: cash
+ *         mark:
+ *           type: string
+ *           description: Motorcycle brand
+ *         model:
+ *           type: string
+ *           enum:
+ *             - Harley-Davidson
+ *             - Ducati
+ *             - Yamaha
+ *             - Kawasaki
+ *             - BMW
+ *             - Suzuki
+ *             - Honda
+ *             - Triumph
+ *             - KTM
+ *             - Aprilia
+ *             - Indian
+ *             - Royal Enfield
+ *             - Moto Guzzi
+ *             - MV Agusta
+ *             - Bajaj
+ *             - Benelli
+ *             - Husqvarna
+ *             - CFMoto
+ *             - Norton
+ *             - Vespa
+ *           description: Motorcycle model
  *         createdAt:
  *           type: string
  *           format: date-time
  *           description: Date added
  */
+
 
 const router = express.Router();
 
