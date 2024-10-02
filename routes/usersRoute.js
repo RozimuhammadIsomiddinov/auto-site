@@ -36,15 +36,27 @@ const router = express.Router();
  *           type: string
  *           format: email
  *           description: User's email address
+ *           unique: true
  *         password:
  *           type: string
- *           description: User's password
+ *           description: User's password (hashed)
  *         role:
  *           type: string
  *           enum:
  *             - customer
  *             - seller
  *           description: User's role in the system
+ *           default: customer
+ *         userrate:
+ *           type: string
+ *           enum:
+ *             - yearly
+ *             - monthly
+ *             - daily
+ *           description: User's subscription rate
+ *         image:
+ *           type: string
+ *           description: User's profile image URL
  *         createdAt:
  *           type: string
  *           format: date-time
