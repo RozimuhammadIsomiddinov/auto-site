@@ -6,6 +6,50 @@ const { createMark } = require("../controllers/mark/createMark");
 const router = express.Router();
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Mark:
+ *       type: object
+ *       required:
+ *         - mark_name
+ *         - image
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: Unique identifier for the car mark
+ *         mark_name:
+ *           type: string
+ *           description: Name of the car mark
+ *           enum:
+ *             - BMW
+ *             - Baic
+ *             - Byd
+ *             - Bently
+ *             - Chery
+ *             - Cadillac
+ *             - Changan
+ *             - Chevrolet
+ *             - Citrion
+ *             - Daewoo
+ *             - Datsun
+ *             - Dodge
+ *             - Exed
+ *             - ferrari
+ *         image:
+ *           type: string
+ *           description: URL of the mark's image
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: Date the mark was created
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: Date the mark was last updated
+ */
+
+/**
+ * @swagger
  * /marks:
  *   get:
  *     summary: Get a paginated list of all car marks
@@ -33,7 +77,7 @@ const router = express.Router();
  *       404:
  *         description: No marks available
  *       400:
- *         description: Error from getAllMark
+ *         description: Error occurred while retrieving marks
  *         content:
  *           application/json:
  *             schema:
@@ -44,6 +88,7 @@ const router = express.Router();
  *                 error:
  *                   type: string
  */
+
 /**
  * @swagger
  * /mark:
@@ -56,7 +101,7 @@ const router = express.Router();
  *         schema:
  *           type: string
  *         required: true
- *         description: The mark to filter the vehicles
+ *         description: The car mark to filter the vehicles by
  *       - in: query
  *         name: page
  *         schema:
@@ -93,7 +138,7 @@ const router = express.Router();
  *                       items:
  *                         $ref: '#/components/schemas/CommerceCar'
  *       400:
- *         description: Error from getByIdMark
+ *         description: Error occurred while retrieving vehicles by mark
  *         content:
  *           application/json:
  *             schema:
@@ -121,7 +166,7 @@ const router = express.Router();
  *               image:
  *                 type: string
  *                 format: binary
- *               name:
+ *               mark_name:
  *                 type: string
  *               description:
  *                 type: string
@@ -134,6 +179,15 @@ const router = express.Router();
  *               $ref: '#/components/schemas/Mark'
  *       400:
  *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 error:
+ *                   type: string
  */
 
 router.get("/marks", getAllMark);
