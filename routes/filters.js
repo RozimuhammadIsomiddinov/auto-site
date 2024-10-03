@@ -61,7 +61,7 @@ const router = express.Router();
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Car'
+ *                 $ref: '#/components/schemas/cars'
  *       500:
  *         description: Internal server error
  */
@@ -183,7 +183,7 @@ const router = express.Router();
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Commerce'
+ *                 $ref: '#/components/schemas/CommerceCar'
  *       500:
  *         description: Internal server error
  */

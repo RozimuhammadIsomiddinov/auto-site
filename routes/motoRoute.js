@@ -181,7 +181,7 @@ const router = express.Router();
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/motorcycles'
+ *                 $ref: '#/components/schemas/Motorcycle'
  *       404:
  *         description: Motorcycles not found
  *       400:
@@ -208,7 +208,7 @@ router.get("/motorcycles", getMidMotorcycle);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/motorcycles'
+ *               $ref: '#/components/schemas/Motorcycle'
  *       404:
  *         description: Motorcycle not found
  *       400:
@@ -270,7 +270,7 @@ router.post(
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/motorcycles'
+ *               $ref: '#/components/schemas/Motorcycle'
  *       400:
  *         description: Error updating motorcycle
  *       404:
