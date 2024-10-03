@@ -1,5 +1,6 @@
 const Motorcycle = require("../models/moto.js");
-
+const dotenv = require("dotenv");
+dotenv.config();
 // Read all motorcycles
 const getAllMotorcycles = async (page = 1, pageSize = 10) => {
   try {
@@ -33,9 +34,14 @@ const updateMotorcycle = async (upData) => {
     if (!motorcycle) {
       return { error: "Motorcycle not found" };
     }
-
+    let imagePaths = commerceCar.image;
+    if (upData.files && upData.files.length > 0) {
+      imagePaths = upData.files.map(
+        (file) => `${process.env.BACKEND_URL}/${file?.filename}`
+      );
+    }
     const updatedMotorcycle = await motorcycle.update({
-      image: body.image,
+      image: imagePaths,
       color: body.color,
       country: body.country,
       year: body.year,
@@ -51,6 +57,7 @@ const updateMotorcycle = async (upData) => {
       description: body.description,
       authoremail: body.authorEmail,
       mark: body.mark,
+      model: body.model,
     });
 
     return updatedMotorcycle;

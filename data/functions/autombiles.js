@@ -43,9 +43,15 @@ const updateCar = async (upData) => {
     if (!car) {
       return { error: "Car not found" };
     }
+    let imagePaths = car.image;
+    if (upData.files && upData.files.length > 0) {
+      imagePaths = upData.files.map(
+        (file) => `${process.env.BACKEND_URL}/${file?.filename}`
+      );
+    }
     const updatedCar = await car.update({
       color: body.color,
-      image: body.image,
+      image: imagePaths,
       country: body.country,
       year: body.year,
       cost: body.cost,
@@ -59,8 +65,9 @@ const updateCar = async (upData) => {
       body: body.body,
       statement: body.statement,
       description: body.description,
-      authoremail: body.authorEmail,
+      authoremail: body.authoremail,
       mark: body.mark,
+      model: body.model,
     });
 
     return updatedCar;

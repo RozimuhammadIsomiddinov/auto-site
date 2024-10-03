@@ -32,15 +32,23 @@ const router = express.Router();
  *         - drive
  *         - checkpoint
  *         - statement
+ *         - stock
+ *         - authoremail
+ *         - mark
+ *         - model
  *       properties:
  *         id:
  *           type: integer
  *           description: Unique car identifier
- *         image:
+ *         color:
  *           type: string
- *           format: binary
+ *           description: Car color
+ *           default: white
+ *         image:
+ *           type: array
  *           items:
  *             type: string
+ *             format: binary
  *           description: List of image URLs
  *         country:
  *           type: string
@@ -53,7 +61,7 @@ const router = express.Router();
  *           format: float
  *           description: Car cost
  *         milage:
- *           type: number
+ *           type: integer
  *           description: Car mileage
  *         engine:
  *           type: string
@@ -67,7 +75,7 @@ const router = express.Router();
  *           type: string
  *           description: Engine volume
  *         horsepower:
- *           type: number
+ *           type: integer
  *           description: Horsepower
  *         drive:
  *           type: string
@@ -81,6 +89,10 @@ const router = express.Router();
  *             - automatic
  *             - manual
  *           description: Transmission type
+ *         doors:
+ *           type: integer
+ *           description: Number of doors
+ *           default: 4
  *         body:
  *           type: string
  *           enum:
@@ -108,12 +120,45 @@ const router = express.Router();
  *             - used
  *             - new
  *           description: Car condition
+ *           default: new
  *         description:
  *           type: string
  *           description: Car description
  *         stock:
  *           type: integer
  *           description: Available stock
+ *           default: 1
+ *         authoremail:
+ *           type: string
+ *           description: Seller's email
+ *         rate:
+ *           type: string
+ *           enum:
+ *             - cash
+ *             - credit
+ *           description: Payment method
+ *           default: cash
+ *         model:
+ *           type: string
+ *           description: Car brand
+ *         mark:
+ *           type: string
+ *           enum:
+ *             - BMW
+ *             - Baic
+ *             - Byd
+ *             - Bently
+ *             - Chery
+ *             - Cadillac
+ *             - Changan
+ *             - Chevrolet
+ *             - Citrion
+ *             - Daewoo
+ *             - Datsun
+ *             - Dodge
+ *             - Exed
+ *             - ferrari
+ *           description: Car model
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -191,6 +236,11 @@ router.get("/commerce-cars/:id", getMidCommerceCarById);
  *       content:
  *         multipart/form-data:
  *           schema:
+ *             type: object
+ *             properties:
+ *               image:
+ *                 type: string
+ *                 format: binary
  *             $ref: '#/components/schemas/CommerceCar'
  *     responses:
  *       201:

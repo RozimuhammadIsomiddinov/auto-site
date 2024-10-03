@@ -11,7 +11,7 @@ const searchCommerce = async (req, res, next) => {
   let filter = {};
   if (statement) filter.statement = statement;
   if (rate) filter.rate = rate;
-  if (maxYear) filter.year[Op.lte] = maxYear;
+  if (maxYear) filter.year = { [Op.lte]: maxYear };
   if (minPrice || maxPrice) {
     filter.cost = {};
     if (minPrice) {

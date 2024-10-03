@@ -110,10 +110,10 @@ const Motorcycle = sequelize.define(
       defaultValue: "cash",
     },
     mark: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM(...motorcycleBrands),
       allowNull: false,
     },
-    model: { type: DataTypes.ENUM(...motorcycleBrands), allowNull: false },
+    model: { type: DataTypes.STRING, allowNull: false },
   },
   { timestamps: true }
 );

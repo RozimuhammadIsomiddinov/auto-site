@@ -20,14 +20,15 @@ const createMidCar = async (req, res, next) => {
       body,
       statement,
       description,
-      authorEmail,
+      authoremail,
       rate,
       mark,
+      model,
     } = req.body;
     if (!req.files || req.files.length === 0) {
       return res.status(400).send("you have to upload at least 1 picture");
     }
-    const author = await Users.findOne({ where: { email: authorEmail } });
+    const author = await Users.findOne({ where: { email: authoremail } });
     if (!author)
       return res.status(400).json({
         message: "you have to be registration",
@@ -54,9 +55,10 @@ const createMidCar = async (req, res, next) => {
       body,
       statement,
       description,
-      authoremail: authorEmail,
+      authoremail,
       rate,
       mark,
+      model,
     });
 
     res.status(201).json({

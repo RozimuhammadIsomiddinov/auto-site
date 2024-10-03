@@ -23,8 +23,10 @@ const router = express.Router();
  *       required:
  *         - name
  *         - email
+ *         - image
  *         - password
  *         - role
+ *         - userrate
  *       properties:
  *         id:
  *           type: integer
@@ -36,6 +38,7 @@ const router = express.Router();
  *           type: string
  *           format: email
  *           description: User's email address
+ *           unique: true
  *         password:
  *           type: string
  *           description: User's password
@@ -45,6 +48,18 @@ const router = express.Router();
  *             - customer
  *             - seller
  *           description: User's role in the system
+ *           default: customer
+ *         userrate:
+ *           type: string
+ *           enum:
+ *             - yearly
+ *             - monthly
+ *             - daily
+ *           description: User's subscription rate
+ *         image:
+ *           type: string
+ *           format: binary
+ *           description: User's profile image URL
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -67,21 +82,7 @@ const router = express.Router();
  *         multipart/form-data:
  *           schema:
  *             type: object
- *             properties:
- *               username:
- *                 type: string
- *                 description: Username of the user
- *               email:
- *                 type: string
- *                 description: Email of the user
- *               password:
- *                 type: string
- *                 format: password
- *                 description: User password
- *               image:
- *                 type: string
- *                 format: binary
- *                 description: Profile image file for the user
+ *             $ref: '#/components/schemas/User'
  *     responses:
  *       201:
  *         description: User successfully registered

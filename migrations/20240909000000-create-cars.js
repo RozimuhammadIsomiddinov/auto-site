@@ -58,6 +58,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      color: {
+        type: Sequelize.STRING,
+        defaultValue: "white",
+      },
       image: {
         type: Sequelize.ARRAY(Sequelize.STRING),
         allowNull: false,
@@ -206,6 +210,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      color: {
+        type: Sequelize.STRING,
+        defaultValue: "white",
+      },
+
       image: {
         type: Sequelize.ARRAY(Sequelize.STRING),
         allowNull: false,
@@ -311,7 +320,6 @@ module.exports = {
       },
     });
 
-    // Create cart table
     await queryInterface.createTable("cart", {
       id: {
         allowNull: false,
@@ -323,7 +331,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "users",
+          model: "users", // Table name for users
           key: "id",
         },
         onDelete: "CASCADE",
@@ -331,14 +339,9 @@ module.exports = {
       product_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: "cars",
-          key: "id",
-        },
-        onDelete: "CASCADE",
       },
       product_type: {
-        type: Sequelize.ENUM("car", "motorcycle"),
+        type: Sequelize.ENUM("car", "motorcycle", "commerce"),
         allowNull: false,
       },
       quantity: {
@@ -352,6 +355,8 @@ module.exports = {
       },
     });
 
+    // Creating index on product_id and product_type for performance
+    await queryInterface.addIndex("cart", ["product_id", "product_type"]);
     // Create motorcycles table
     const motorcycleTypes = [
       "cruiser",
@@ -367,6 +372,28 @@ module.exports = {
       "cafe-racer",
       "chopper",
     ];
+    const motorcycleBrands = [
+      "Harley-Davidson",
+      "Ducati",
+      "Yamaha",
+      "Kawasaki",
+      "BMW",
+      "Suzuki",
+      "Honda",
+      "Triumph",
+      "KTM",
+      "Aprilia",
+      "Indian",
+      "Royal Enfield",
+      "Moto Guzzi",
+      "MV Agusta",
+      "Bajaj",
+      "Benelli",
+      "Husqvarna",
+      "CFMoto",
+      "Norton",
+      "Vespa",
+    ];
 
     await queryInterface.createTable("motorcycles", {
       id: {
@@ -374,6 +401,10 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
+      },
+      color: {
+        type: Sequelize.STRING,
+        defaultValue: "white",
       },
       image: {
         type: Sequelize.ARRAY(Sequelize.STRING),
@@ -601,6 +632,11 @@ module.exports = {
     await queryInterface.dropTable("messages");
     await queryInterface.dropTable("motorcycles");
     await queryInterface.dropTable("cart");
+
+    await queryInterface.sequelize.query(
+      'DROP TYPE IF EXISTS "enum_cart_product_type";'
+    );
+
     await queryInterface.dropTable("cars");
     await queryInterface.dropTable("commerce_cars");
     await queryInterface.dropTable("users");

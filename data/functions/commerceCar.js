@@ -67,8 +67,9 @@ const updateCommerceCar = async (upData) => {
       statement: body.statement,
       description: body.description,
       stock: body.stock,
-      authoremail: body.authorEmail,
+      authoremail: body.authoremail,
       rate: body.rate,
+      model: body.model,
       mark: body.mark,
     });
 

@@ -4,7 +4,7 @@ const { mailer } = require("../../config/nodemailer.js");
 const dotenv = require("dotenv");
 dotenv.config();
 const registerMid = async (req, res) => {
-  const { name, email, password, role, userRate } = req.body;
+  const { name, email, password, role, userrate } = req.body;
   try {
     const existingUser = await Users.findOne({ where: { email } });
     if (existingUser) {
@@ -22,10 +22,10 @@ const registerMid = async (req, res) => {
       email,
       password,
       role,
-      userrate: userRate,
+      userrate,
     });
-    if (userRate) {
-      user.userRate = userRate;
+    if (userrate) {
+      user.userrate = userrate;
     }
     const token = generateJWT(user);
 

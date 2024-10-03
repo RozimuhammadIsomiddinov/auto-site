@@ -7,9 +7,9 @@ const Users = require("../../data/models/user.js");
 const deleteMidMotorcycle = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { authorEmail } = req.body;
+    const { authoremail } = req.query;
 
-    const author = await Users.findOne({ where: { email: authorEmail } });
+    const author = await Users.findOne({ where: { email: authoremail } });
     if (!author)
       return res.status(400).json({
         message: "you have to be registration",

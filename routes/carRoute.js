@@ -24,14 +24,23 @@ const fileUpload = require("../middlewares/multer.js");
  *         - drive
  *         - checkpoint
  *         - statement
+ *         - authoremail
+ *         - mark
+ *         - model
  *       properties:
  *         id:
  *           type: integer
  *           description: Unique car identifier
- *         image:
+ *         color:
  *           type: string
- *           format: binary
- *           description: Image URL
+ *           description: Car color
+ *           default: white
+ *         image:
+ *           type: array
+ *           items:
+ *             type: string
+ *             format: binary
+ *           description: Image URLs
  *         country:
  *           type: string
  *           description: Manufacturing country
@@ -43,7 +52,7 @@ const fileUpload = require("../middlewares/multer.js");
  *           format: float
  *           description: Car cost
  *         milage:
- *           type: number
+ *           type: integer
  *           description: Car mileage
  *         engine:
  *           type: string
@@ -54,10 +63,10 @@ const fileUpload = require("../middlewares/multer.js");
  *             - diesel
  *           description: Fuel type
  *         volume:
- *           type: number
+ *           type: float
  *           description: Engine volume
  *         horsepower:
- *           type: number
+ *           type: integer
  *           description: Horsepower
  *         drive:
  *           type: string
@@ -73,6 +82,7 @@ const fileUpload = require("../middlewares/multer.js");
  *           description: Transmission type
  *         doors:
  *           type: integer
+ *           default: 4
  *           description: Number of doors
  *         body:
  *           type: string
@@ -104,6 +114,36 @@ const fileUpload = require("../middlewares/multer.js");
  *         description:
  *           type: string
  *           description: Car description
+ *         authoremail:
+ *           type: string
+ *           description: Seller's email
+ *         rate:
+ *           type: string
+ *           enum:
+ *             - cash
+ *             - credit
+ *           description: Payment method
+ *         mark:
+ *           type: string
+ *           enum:
+ *             - BMW
+ *             - Baic
+ *             - Byd
+ *             - Bently
+ *             - Chery
+ *             - Cadillac
+ *             - Changan
+ *             - Chevrolet
+ *             - Citrion
+ *             - Daewoo
+ *             - Datsun
+ *             - Dodge
+ *             - Exed
+ *             - ferrari
+ *           description: Car brand
+ *         model:
+ *           type: string
+ *           description: Car model
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -184,9 +224,6 @@ router.get("/cars/:id", getMidById);
  *         multipart/form-data:
  *           schema:
  *             type: object
- *             properties:
- *               image:
- *                 type: string
  *             $ref: '#/components/schemas/cars'
  *     responses:
  *       201:
@@ -237,7 +274,6 @@ router.post(
  *         description: Car not found
  */
 router.put("/update-car/:id", fileUpload.array("image", 10), updateCarMid);
-
 /**
  * @swagger
  * /delete-car/{id}:
@@ -251,6 +287,12 @@ router.put("/update-car/:id", fileUpload.array("image", 10), updateCarMid);
  *         description: Car ID to delete
  *         schema:
  *           type: integer
+ *       - in: query
+ *         name: authoremail
+ *         required: true
+ *         description: User email for deleting
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: Car deleted
@@ -259,5 +301,6 @@ router.put("/update-car/:id", fileUpload.array("image", 10), updateCarMid);
  *       400:
  *         description: Error deleting car
  */
+
 router.delete("/delete-car/:id", deleteMidCar);
 module.exports = router;

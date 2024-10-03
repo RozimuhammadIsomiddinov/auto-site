@@ -99,13 +99,13 @@ const router = express.Router();
  *           type: integer
  *         description: Number of motorcycles per page for pagination
  *       - in: query
- *         name: statement
+ *         name: condition
  *         schema:
  *           type: string
  *           enum:
  *             - new
  *             - used
- *         description: statement of cars
+ *         description: condition of cars
  *       - in: query
  *         name: rate
  *         schema:

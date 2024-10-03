@@ -5,8 +5,8 @@ const updateCarMid = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const { authorEmail } = req.body;
-    const author = await Users.findOne({ where: { email: authorEmail } });
+    const { authoremail } = req.body;
+    const author = await Users.findOne({ where: { email: authoremail } });
 
     if (!author)
       return res.status(400).json({

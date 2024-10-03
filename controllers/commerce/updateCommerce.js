@@ -7,13 +7,13 @@ const Users = require("../../data/models/user.js");
 const updateCommerceCarMid = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { authorEmail } = req.body;
+    const { authoremail } = req.body;
 
     if (!id) {
       return res.status(400).json({ message: "Commerce car ID is required" });
     }
 
-    const author = await Users.findOne({ where: { email: authorEmail } });
+    const author = await Users.findOne({ where: { email: authoremail } });
     if (!author)
       return res.status(400).json({
         message: "you have to be registration",

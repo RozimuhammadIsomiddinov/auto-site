@@ -19,21 +19,24 @@ const createMidMotorcycle = async (req, res, next) => {
       body,
       condition,
       description,
-      authorEmail,
+      authoremail,
       rate,
+      model,
       mark,
     } = req.body;
 
     if (!req.files || req.files.length === 0) {
       return res.status(400).send("You must upload at least one image.");
     }
-    const author = await Users.findOne({ where: { email: authorEmail } });
+
+    const author = await Users.findOne({ where: { email: authoremail } });
     if (!author)
       return res.status(400).json({
-        message: "you have to be registration",
+        message: "you have to be registered",
         method: "post",
         path: `http://212.67.11.143:4035/user-register`,
       });
+
     const imagePaths = req.files.map(
       (file) => `${process.env.BACKEND_URL}/${file.filename}`
     );
@@ -53,8 +56,9 @@ const createMidMotorcycle = async (req, res, next) => {
       body,
       condition,
       description,
-      authoremail: authorEmail,
+      authoremail,
       rate,
+      model,
       mark,
     });
 

@@ -4,8 +4,8 @@ const Users = require("../../data/models/user.js");
 const deleteMidCar = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { authorEmail } = req.body;
-    const author = await Users.findOne({ where: { email: authorEmail } });
+    const { authoremail } = req.query;
+    const author = await Users.findOne({ where: { email: authoremail } });
     if (!author)
       return res.status(400).json({
         message: "you have to be registration",
@@ -16,7 +16,7 @@ const deleteMidCar = async (req, res, next) => {
     if (!car) {
       return res.status(404).send("car not found in DB");
     }
-    const result = await deleteCar(id); //returns array
+    await deleteCar(id); //returns array
     res.status(200).send("Product deleted");
     next();
   } catch (er) {
