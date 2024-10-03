@@ -138,10 +138,10 @@ const router = express.Router();
  *             - credit
  *           description: Payment method
  *           default: cash
- *         model:
+ *         mark:
  *           type: string
  *           description: Car brand
- *         mark:
+ *         model:
  *           type: string
  *           enum:
  *             - BMW
@@ -157,7 +157,7 @@ const router = express.Router();
  *             - Datsun
  *             - Dodge
  *             - Exed
- *             - ferrari
+ *             - Ferrari
  *           description: Car model
  *         createdAt:
  *           type: string
@@ -317,5 +317,7 @@ router.put(
  *         description: Error deleting car
  */
 router.delete("/delete-commerce-car/:id", deleteMidCommerceCar);
+
 router.get("/commerce-filter", searchCommerce);
+
 module.exports = router;

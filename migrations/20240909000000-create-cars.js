@@ -372,6 +372,7 @@ module.exports = {
       "cafe-racer",
       "chopper",
     ];
+
     const motorcycleBrands = [
       "Harley-Davidson",
       "Ducati",

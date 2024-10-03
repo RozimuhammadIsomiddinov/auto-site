@@ -34,12 +34,9 @@ const fileUpload = require("../middlewares/multer.js");
  *         color:
  *           type: string
  *           description: Car color
- *           default: white
  *         image:
- *           type: array
- *           items:
- *             type: string
- *             format: binary
+ *           type: string
+ *           format: binary
  *           description: Image URLs
  *         country:
  *           type: string
@@ -63,7 +60,8 @@ const fileUpload = require("../middlewares/multer.js");
  *             - diesel
  *           description: Fuel type
  *         volume:
- *           type: float
+ *           type: number
+ *           format: float
  *           description: Engine volume
  *         horsepower:
  *           type: integer
@@ -139,7 +137,7 @@ const fileUpload = require("../middlewares/multer.js");
  *             - Datsun
  *             - Dodge
  *             - Exed
- *             - ferrari
+ *             - Ferrari
  *           description: Car brand
  *         model:
  *           type: string
@@ -235,12 +233,7 @@ router.get("/cars/:id", getMidById);
  *       400:
  *         description: Error adding car
  */
-router.post(
-  "/add-car",
-  fileUpload.array("image", 10),
-
-  createMidCar
-);
+router.post("/add-car", fileUpload.array("image", 10), createMidCar);
 
 /**
  * @swagger
@@ -274,6 +267,7 @@ router.post(
  *         description: Car not found
  */
 router.put("/update-car/:id", fileUpload.array("image", 10), updateCarMid);
+
 /**
  * @swagger
  * /delete-car/{id}:
@@ -301,6 +295,6 @@ router.put("/update-car/:id", fileUpload.array("image", 10), updateCarMid);
  *       400:
  *         description: Error deleting car
  */
-
 router.delete("/delete-car/:id", deleteMidCar);
+
 module.exports = router;
