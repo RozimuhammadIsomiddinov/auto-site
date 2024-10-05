@@ -10,10 +10,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      image: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
+
       name: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -171,6 +168,12 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      seen: {
+        type: Sequelize.INTEGER,
+      },
+      liked: {
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -307,6 +310,12 @@ module.exports = {
           "ferrari"
         ),
         allowNull: false,
+      },
+      seen: {
+        type: Sequelize.INTEGER,
+      },
+      liked: {
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
@@ -478,6 +487,12 @@ module.exports = {
       model: {
         type: Sequelize.ENUM(...motorcycleBrands),
         allowNull: false,
+      },
+      seen: {
+        type: Sequelize.INTEGER,
+      },
+      liked: {
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,

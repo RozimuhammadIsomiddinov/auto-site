@@ -122,10 +122,10 @@ const { getLikedMoto } = require("../controllers/moto/getLikedMoto.js");
  *             - credit
  *           description: Payment method
  *           default: cash
- *         model:
+ *         mark:
  *           type: string
  *           description: Motorcycle brand
- *         mark:
+ *         model:
  *           type: string
  *           enum:
  *             - Harley-Davidson
