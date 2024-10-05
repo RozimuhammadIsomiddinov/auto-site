@@ -121,7 +121,7 @@ const Motorcycle = sequelize.define(
       type: DataTypes.INTEGER,
     },
   },
-  { timestamps: true, createdAt: "created_at", updatedAt: "updated_at" }
+  { timestamps: true }
 );
 
 module.exports = Motorcycle;
