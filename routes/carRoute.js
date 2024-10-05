@@ -5,6 +5,7 @@ const { updateCarMid } = require("../controllers/cars/updateMidCar.js");
 const { getMidById } = require("../controllers/cars/getMidById.js");
 const { deleteMidCar } = require("../controllers/cars/deleteMidCar.js");
 const fileUpload = require("../middlewares/multer.js");
+const { getLiked } = require("../controllers/cars/getLiked.js");
 
 /**
  * @swagger
@@ -296,5 +297,44 @@ router.put("/update-car/:id", fileUpload.array("image", 10), updateCarMid);
  *         description: Error deleting car
  */
 router.delete("/delete-car/:id", deleteMidCar);
+/**
+ * @swagger
+ * /liked-car/{id}:
+ *   get:
+ *     summary: Add or subtract a like from a car
+ *     tags: [cars]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Car ID
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: user_id
+ *         required: true
+ *         description: User ID who is liking/disliking the car
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: count
+ *         required: true
+ *         description: Number to increment or decrement the like count (1 or -1)
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Like count updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/cars'
+ *       400:
+ *         description: User not registered or other error occurred
+ *       404:
+ *         description: Car not found
+ */
+
+router.get("/liked-car/:id", getLiked);
 
 module.exports = router;

@@ -115,6 +115,12 @@ const Car = sequelize.define(
       allowNull: false,
     },
     model: { type: DataTypes.STRING, allowNull: false },
+    seen: {
+      type: DataTypes.INTEGER,
+    },
+    liked: {
+      type: DataTypes.INTEGER,
+    },
   },
   {
     timestamps: true,

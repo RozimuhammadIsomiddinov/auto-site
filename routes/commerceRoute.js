@@ -12,6 +12,9 @@ const {
 } = require("../controllers/commerce/deleteCommerce.js");
 const fileUpload = require("../middlewares/multer.js");
 const { searchCommerce } = require("../controllers/search/searchCommerce.js");
+const {
+  getLikedCommerce,
+} = require("../controllers/commerce/getLikedCommerce.js");
 const router = express.Router();
 
 /**
@@ -320,4 +323,43 @@ router.delete("/delete-commerce-car/:id", deleteMidCommerceCar);
 
 router.get("/commerce-filter", searchCommerce);
 
+/**
+ * @swagger
+ * /liked-commerce/{id}:
+ *   get:
+ *     summary: Add or subtract a like from a car
+ *     tags: [CommerceCar]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Car ID
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: user_id
+ *         required: true
+ *         description: User ID who is liking/disliking the car
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: count
+ *         required: true
+ *         description: Number to increment or decrement the like count (1 or -1)
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Like count updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/CommerceCar'
+ *       400:
+ *         description: User not registered or other error occurred
+ *       404:
+ *         description: Car not found
+ */
+
+router.get("/liked-commerce/:id", getLikedCommerce);
 module.exports = router;

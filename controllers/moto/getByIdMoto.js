@@ -3,9 +3,12 @@ const { getMotorcycleById } = require("../../data/functions/motos.js");
 const getMidMotorcycleById = async (req, res) => {
   try {
     const result = await getMotorcycleById(req.params.id);
+
     if (!result) {
       return res.status(404).json({ message: "Motorcycle not found!" });
     }
+    await result.update({ seen: (result.seen || 0) + 1 });
+
     res.status(200).json(result);
   } catch (err) {
     if (!res.headersSent) {

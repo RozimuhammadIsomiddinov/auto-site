@@ -6,7 +6,6 @@ const { passwordMid } = require("../controllers/forgotPassword/passwordMid.js");
 const { resetMid } = require("../controllers/forgotPassword/resetMid.js");
 const { changeNameEmail } = require("../controllers/users/changeNameEmail.js");
 const { changePassword } = require("../controllers/users/changePass.js");
-const fileUpload = require("../middlewares/multer.js");
 const router = express.Router();
 
 /**
@@ -23,14 +22,10 @@ const router = express.Router();
  *       required:
  *         - name
  *         - email
- *         - image
  *         - password
  *         - role
  *         - userrate
  *       properties:
- *         id:
- *           type: integer
- *           description: Unique user identifier
  *         name:
  *           type: string
  *           description: User's name
@@ -56,10 +51,6 @@ const router = express.Router();
  *             - monthly
  *             - daily
  *           description: User's subscription rate
- *         image:
- *           type: string
- *           format: binary
- *           description: User's profile image URL
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -79,7 +70,7 @@ const router = express.Router();
  *     requestBody:
  *       required: true
  *       content:
- *         multipart/form-data:
+ *         application/json:
  *           schema:
  *             type: object
  *             $ref: '#/components/schemas/User'
@@ -93,7 +84,7 @@ const router = express.Router();
  *       400:
  *         description: Bad request
  */
-router.post("/user-register", fileUpload.single("image"), registerMid);
+router.post("/user-register", registerMid);
 
 /**
  * @swagger

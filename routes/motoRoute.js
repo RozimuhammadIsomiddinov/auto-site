@@ -6,6 +6,7 @@ const { getMidMotorcycleById } = require("../controllers/moto/getByIdMoto.js");
 const { deleteMidMotorcycle } = require("../controllers/moto/deleteMoto.js");
 const { searchMoto } = require("../controllers/search/motoSearch.js");
 const fileUpload = require("../middlewares/multer.js");
+const { getLikedMoto } = require("../controllers/moto/getLikedMoto.js");
 
 /**
  * @swagger
@@ -308,4 +309,44 @@ router.put(
  */
 router.delete("/delete-motorcycle/:id", deleteMidMotorcycle);
 router.get("/moto-filter", searchMoto);
+
+/**
+ * @swagger
+ * /liked-moto/{id}:
+ *   get:
+ *     summary: Add or subtract a like from a car
+ *     tags: [motorcycles]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Car ID
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: user_id
+ *         required: true
+ *         description: User ID who is liking/disliking the car
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: count
+ *         required: true
+ *         description: Number to increment or decrement the like count (1 or -1)
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Like count updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Motorcycle'
+ *       400:
+ *         description: User not registered or other error occurred
+ *       404:
+ *         description: Car not found
+ */
+
+router.get("/liked-moto/:id", getLikedMoto);
 module.exports = router;

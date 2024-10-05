@@ -11,13 +11,7 @@ const registerMid = async (req, res) => {
       return res.status(400).json({ error: "Email already registered" });
     }
 
-    let imagePath = null;
-    if (req.file) {
-      imagePath = `${process.env.BACKEND_URL}/${req.file.filename}`;
-    }
-
     const user = await Users.create({
-      image: imagePath,
       name,
       email,
       password,

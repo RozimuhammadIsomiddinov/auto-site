@@ -11,9 +11,6 @@ const Users = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    image: {
-      type: DataTypes.STRING,
-    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,

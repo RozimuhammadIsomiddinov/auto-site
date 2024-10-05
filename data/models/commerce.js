@@ -121,9 +121,17 @@ const CommerceCar = sequelize.define(
       allowNull: false,
     },
     model: { type: DataTypes.ENUM(...carMark), allowNull: false },
+    seen: {
+      type: DataTypes.INTEGER,
+    },
+    liked: {
+      type: DataTypes.INTEGER,
+    },
   },
   {
     timestamps: true,
+    createdAt: "created_at",
+    updatedAt: "updated_at",
   }
 );
 

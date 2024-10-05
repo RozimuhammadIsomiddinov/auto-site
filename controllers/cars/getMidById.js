@@ -6,6 +6,8 @@ const getMidById = async (req, res) => {
     if (!result) {
       return res.status(404).json({ message: "car has not!" });
     }
+    await result.update({ seen: (result.seen || 0) + 1 });
+
     res.status(200).json(result);
   } catch (err) {
     if (!res.headersSent) {
