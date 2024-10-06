@@ -2,6 +2,7 @@ const { Op } = require("sequelize");
 const Chat = require("../models/chats.js");
 const Message = require("../models/message.js");
 const Users = require("../models/user.js");
+const sequelize = require("../../config/dbconfig.js");
 
 const getChats = async (user_id) => {
   try {
