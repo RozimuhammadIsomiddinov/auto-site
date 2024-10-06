@@ -41,7 +41,7 @@ const getChats = async (user_id) => {
     });
     return chats;
   } catch (error) {
-    console.error("Chatlarni olishda xatolik:", error);
+    console.error("Chatlarni olishda xatolik:", error.message);
     throw error;
   }
 };
@@ -54,20 +54,22 @@ const addChat = async (senderId, receiverId) => {
     });
     return chat;
   } catch (error) {
-    console.error("Chat qo'shishda xatolik:", error);
+    console.error("Chat qo'shishda xatolik:", error.message);
     throw error;
   }
 };
+
 const editChatMute = async (user_id, chat_user_id, mute_type) => {
   try {
     const [updated] = await Chat.update(
       { mute_type },
-      { where: { user_id, chat_user_id }, returning: true }
+      { where: { user_id, chat_user_id } }
     );
-    return updated;
+    return updated ? true : false;
   } catch (error) {
-    console.error("Chatni ovozdan chiqarishda xatolik:", error);
+    console.error("Chatni ovozdan chiqarishda xatolik:", error.message);
     throw error;
   }
 };
+
 module.exports = { addChat, editChatMute, getChats };
