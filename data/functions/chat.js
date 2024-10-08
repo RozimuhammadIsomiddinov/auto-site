@@ -12,13 +12,7 @@ const getChats = async (user_id) => {
         {
           model: Users,
           as: "ChatUser",
-          attributes: [
-            "id",
-            "user_name",
-            "user_surname",
-            "user_gender",
-            "user_contact",
-          ],
+          attributes: ["id", "name", "email", "password", "role", "userrate"],
         },
         {
           model: Message,
@@ -30,7 +24,7 @@ const getChats = async (user_id) => {
           required: false,
           attributes: [
             [
-              sequelize.fn("COUNT", sequelize.col("Message.id")),
+              sequelize.fn("COUNT", sequelize.col("messages.id")),
               "unread_messages_count",
             ],
           ],

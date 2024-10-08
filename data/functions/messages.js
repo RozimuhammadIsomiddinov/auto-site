@@ -1,4 +1,4 @@
-const { Message } = require("../models/message.js");
+const Message = require("../models/message.js");
 const { Op } = require("sequelize");
 
 // Xabarni
