@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/dbconfig.js");
 const Users = require("./user.js");
-const Message = require("./message.js"); // Message modelini keyinchalik import qiling
+const Message = require("./message.js");
 
 const Chat = sequelize.define(
   "Chat",
