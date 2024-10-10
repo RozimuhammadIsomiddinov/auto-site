@@ -36,8 +36,6 @@ const io = new socketIo(server, {
     credentials: true,
   },
 });
-
-
 const users = {};
 
 // Swagger configuration

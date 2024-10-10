@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/dbconfig.js");
 const Users = require("./user.js");
-const Chat = require("./chats.js"); // Chat modelini import qilish
+const Chat = require("./chats.js");
 
 const Message = sequelize.define(
   "Message",
@@ -12,7 +12,7 @@ const Message = sequelize.define(
       primaryKey: true,
     },
     chat_id: {
-      type: DataTypes.BIGINT, // Chatdagi chat_id bilan bir xil bo'lishi kerak
+      type: DataTypes.BIGINT,
       allowNull: false,
       references: {
         model: Chat,
@@ -53,6 +53,6 @@ const Message = sequelize.define(
 
 Message.belongsTo(Users, { as: "Sender", foreignKey: "sender_id" });
 Message.belongsTo(Users, { as: "Receiver", foreignKey: "receiver_id" });
-Message.belongsTo(Chat, { foreignKey: "chat_id" });
+Message.belongsTo(Chat, { as: "Message", foreignKey: "chat_id" });
 
 module.exports = Message;

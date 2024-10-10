@@ -1,7 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/dbconfig.js");
 const Users = require("./user.js");
-const Message = require("./message.js");
 
 const Chat = sequelize.define(
   "Chat",
@@ -13,7 +12,6 @@ const Chat = sequelize.define(
     },
     chat_user_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       references: {
         model: Users,
         key: "id",
@@ -46,6 +44,5 @@ const Chat = sequelize.define(
 
 Chat.belongsTo(Users, { as: "ChatUser", foreignKey: "chat_user_id" });
 Chat.belongsTo(Users, { as: "User", foreignKey: "user_id" });
-Chat.hasMany(Message, { foreignKey: "chat_id" }); // Message modeliga hasMany bog'lanishi
 
 module.exports = Chat;

@@ -16,6 +16,7 @@ const getChats = async (user_id) => {
         },
         {
           model: Message,
+          as: "messages",
           where: {
             receiver_id: { [Op.col]: "Chat.chat_user_id" },
             sender_id: user_id,
