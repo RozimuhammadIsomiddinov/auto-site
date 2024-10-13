@@ -81,7 +81,18 @@ if (!fs.existsSync(imagesFolderPath)) {
 }
 
 app.use(express.json());
-app.use(cors({ origin: "*" }));
+app.use(cors({
+  origin: (origin, callback) => {
+    if (origin === "https://youcarrf.ru/") {
+      callback(new Error("Not allowed by CORS"));
+    } else {
+      callback(null, true); 
+    }
+  },
+  methods: ["GET", "POST","PUT", "DELETE"],  
+  credentials: true
+}));
+
 app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static(path.resolve("./public")));
 
