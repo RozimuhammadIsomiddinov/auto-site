@@ -31,8 +31,8 @@ const app = express();
 const server = http.createServer(app);
 const io = new socketIo(server, {
   cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
+    origin: "https://youcarrf.ru/",
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   },
 });
@@ -82,13 +82,7 @@ if (!fs.existsSync(imagesFolderPath)) {
 
 app.use(express.json());
 app.use(cors({
-  origin: (origin, callback) => {
-    if (origin === "https://youcarrf.ru/") {
-      callback(new Error("Not allowed by CORS"));
-    } else {
-      callback(null, true); 
-    }
-  },
+  origin: "https://youcarrf.ru/",
   methods: ["GET", "POST","PUT", "DELETE"],  
   credentials: true
 }));
