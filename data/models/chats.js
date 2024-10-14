@@ -11,6 +11,7 @@ const Chat = sequelize.define(
       primaryKey: true,
     },
     chat_user_id: {
+      // Existing field for sender
       type: DataTypes.INTEGER,
       references: {
         model: Users,
@@ -19,6 +20,7 @@ const Chat = sequelize.define(
       onDelete: "CASCADE",
     },
     user_id: {
+      // Existing field for receiver
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -42,7 +44,11 @@ const Chat = sequelize.define(
   }
 );
 
-Chat.belongsTo(Users, { as: "ChatUser", foreignKey: "chat_user_id" });
-Chat.belongsTo(Users, { as: "User", foreignKey: "user_id" });
+// Update associations to use existing column names
+Users.hasMany(Chat, { as: "sentChats", foreignKey: "chat_user_id" });
+Users.hasMany(Chat, { as: "receivedChats", foreignKey: "user_id" });
+
+Chat.belongsTo(Users, { as: "sender", foreignKey: "chat_user_id" });
+Chat.belongsTo(Users, { as: "receiver", foreignKey: "user_id" });
 
 module.exports = Chat;

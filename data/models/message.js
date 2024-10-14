@@ -51,8 +51,12 @@ const Message = sequelize.define(
   }
 );
 
-Message.belongsTo(Users, { as: "Sender", foreignKey: "sender_id" });
-Message.belongsTo(Users, { as: "Receiver", foreignKey: "receiver_id" });
-Message.belongsTo(Chat, { as: "Message", foreignKey: "chat_id" });
+Chat.hasMany(Message, {
+  foreignKey: "sender_id",
+  as: "messages",
+});
+
+Message.belongsTo(Users, { foreignKey: "sender_id", as: "sender" });
+Message.belongsTo(Users, { foreignKey: "receiver_id", as: "receiver" });
 
 module.exports = Message;

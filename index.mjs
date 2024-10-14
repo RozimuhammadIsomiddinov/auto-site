@@ -31,8 +31,8 @@ const app = express();
 const server = http.createServer(app);
 const io = new socketIo(server, {
   cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
+    origin: "https://youcarrf.ru/",
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   },
 });
@@ -81,7 +81,13 @@ if (!fs.existsSync(imagesFolderPath)) {
 }
 
 app.use(express.json());
-app.use(cors({ origin: "*" }));
+app.use(
+  cors({
+    origin: "https://youcarrf.ru/",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static(path.resolve("./public")));
 
@@ -244,7 +250,7 @@ app.post("/chat/add", async (req, res) => {
 app.post("/chat/edit/mute", async (req, res) => {
   try {
     const { user_id, chat_user_id, mute_type } = req.body;
-    const editChatResult = await editChatMute(user_id, chat_user_id, mute_type); // Use the imported function
+    const editChatResult = await editChatMute(user_id, chat_user_id, mute_type);
 
     if (editChatResult) {
       return res.status(200).json({

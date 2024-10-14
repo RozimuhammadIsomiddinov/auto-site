@@ -36,8 +36,10 @@ const { getLiked } = require("../controllers/cars/getLiked.js");
  *           type: string
  *           description: Car color
  *         image:
- *           type: string
- *           format: binary
+ *           type: array
+ *           items:
+ *             type: string
+ *             format: binary
  *           description: Image URLs
  *         country:
  *           type: string
@@ -133,12 +135,51 @@ const { getLiked } = require("../controllers/cars/getLiked.js");
  *             - Cadillac
  *             - Changan
  *             - Chevrolet
- *             - Citrion
+ *             - Citroen
  *             - Daewoo
  *             - Datsun
  *             - Dodge
- *             - Exed
+ *             - Exeed
  *             - Ferrari
+ *             - Ford
+ *             - Fiat
+ *             - GMC
+ *             - Geely
+ *             - Genesis
+ *             - Honda
+ *             - Hummer
+ *             - Hyundai
+ *             - Infiniti
+ *             - Isuzu
+ *             - Jaguar
+ *             - Jeep
+ *             - Kia
+ *             - Lamborghini
+ *             - Lancia
+ *             - Land Rover
+ *             - Lexus
+ *             - Lincoln
+ *             - Maserati
+ *             - Mazda
+ *             - McLaren
+ *             - Mercedes-Benz
+ *             - Mini
+ *             - Mitsubishi
+ *             - Nissan
+ *             - Opel
+ *             - Peugeot
+ *             - Porsche
+ *             - Renault
+ *             - Rolls-Royce
+ *             - Saab
+ *             - Seat
+ *             - Skoda
+ *             - Subaru
+ *             - Suzuki
+ *             - Tesla
+ *             - Toyota
+ *             - Volkswagen
+ *             - Volvo
  *           description: Car brand
  *         model:
  *           type: string

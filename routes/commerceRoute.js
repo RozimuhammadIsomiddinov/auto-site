@@ -11,7 +11,7 @@ const {
   deleteMidCommerceCar,
 } = require("../controllers/commerce/deleteCommerce.js");
 const fileUpload = require("../middlewares/multer.js");
-const { searchCommerce } = require("../controllers/search/searchCommerce.js");
+const { searchCommerce } = require("../controllers/filter/commerceFilter.js");
 const {
   getLikedCommerce,
 } = require("../controllers/commerce/getLikedCommerce.js");
@@ -141,10 +141,10 @@ const router = express.Router();
  *             - credit
  *           description: Payment method
  *           default: cash
- *         mark:
+ *         model:
  *           type: string
  *           description: Car brand
- *         model:
+ *         mark:
  *           type: string
  *           enum:
  *             - BMW
@@ -155,13 +155,52 @@ const router = express.Router();
  *             - Cadillac
  *             - Changan
  *             - Chevrolet
- *             - Citrion
+ *             - Citroen
  *             - Daewoo
  *             - Datsun
  *             - Dodge
- *             - Exed
+ *             - Exeed
  *             - Ferrari
- *           description: Car model
+ *             - Ford
+ *             - Fiat
+ *             - GMC
+ *             - Geely
+ *             - Genesis
+ *             - Honda
+ *             - Hummer
+ *             - Hyundai
+ *             - Infiniti
+ *             - Isuzu
+ *             - Jaguar
+ *             - Jeep
+ *             - Kia
+ *             - Lamborghini
+ *             - Lancia
+ *             - Land Rover
+ *             - Lexus
+ *             - Lincoln
+ *             - Maserati
+ *             - Mazda
+ *             - McLaren
+ *             - Mercedes-Benz
+ *             - Mini
+ *             - Mitsubishi
+ *             - Nissan
+ *             - Opel
+ *             - Peugeot
+ *             - Porsche
+ *             - Renault
+ *             - Rolls-Royce
+ *             - Saab
+ *             - Seat
+ *             - Skoda
+ *             - Subaru
+ *             - Suzuki
+ *             - Tesla
+ *             - Toyota
+ *             - Volkswagen
+ *             - Volvo
+ *           description: commerce Car brand
  *         createdAt:
  *           type: string
  *           format: date-time

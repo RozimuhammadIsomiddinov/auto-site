@@ -23,6 +23,19 @@ const getAllNews = async (page = 1, pageSize = 10) => {
   }
 };
 
+const getVehicle = async (page, pageSize) => {
+  try {
+    const offset = (page - 1) * pageSize;
+    const vehicleNews = await News.findAll({
+      where: { vehicle: true },
+      limit: pageSize,
+      offset,
+    });
+    return vehicleNews;
+  } catch (e) {
+    return "Error getting vehicle news:" + e.message;
+  }
+};
 //create
 
 const createNews = async (newsData) => {
@@ -70,4 +83,5 @@ module.exports = {
   createNews,
   updateNews,
   deleteNews,
+  getVehicle,
 };

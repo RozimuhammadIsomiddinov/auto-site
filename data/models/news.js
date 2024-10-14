@@ -17,6 +17,10 @@ const News = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    vehicle: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
     author: {
       type: DataTypes.STRING(100),
       defaultValue: "admin",
@@ -28,6 +32,8 @@ const News = sequelize.define(
   },
   {
     timestamps: true,
+    createdAt: "created_at",
+    updatedAt: "updated_at",
   }
 );
 

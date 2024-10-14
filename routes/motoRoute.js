@@ -4,7 +4,7 @@ const { createMidMotorcycle } = require("../controllers/moto/createMoto.js");
 const { updateMotorcycleMid } = require("../controllers/moto/updateMoto.js");
 const { getMidMotorcycleById } = require("../controllers/moto/getByIdMoto.js");
 const { deleteMidMotorcycle } = require("../controllers/moto/deleteMoto.js");
-const { searchMoto } = require("../controllers/search/motoSearch.js");
+const { searchMoto } = require("../controllers/filter/motoFilter.js");
 const fileUpload = require("../middlewares/multer.js");
 const { getLikedMoto } = require("../controllers/moto/getLikedMoto.js");
 

@@ -1,8 +1,10 @@
 const Mark = require("../../data/models/carMark");
 
-const getAllMark = async (req, res, next) => {
+const getAllMark = async (req, res) => {
   try {
-    const { page, pageSize } = req.query;
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
+
     const offset = (page - 1) * pageSize;
     const result = await Mark.findAll({
       limit: pageSize,
