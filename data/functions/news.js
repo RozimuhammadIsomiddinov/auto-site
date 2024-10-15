@@ -51,13 +51,14 @@ const createNews = async (newsData) => {
 
 const updateNews = async (upData) => {
   const { body, params } = upData;
-  const { title, content, image } = body;
+  const { title, content, image, vehicle } = body;
   try {
     const news = await News.findByPk(params.id);
     if (!news) return { error: "News not found" };
     const updateNew = await news.update({
       title,
       content,
+      vehicle,
       image,
     });
     return updateNew;

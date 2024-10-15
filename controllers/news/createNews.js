@@ -2,12 +2,12 @@ const { createNews } = require("../../data/functions/news");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const createMidNews = async (req, res, next) => {
+const createMidNews = async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, vehicle } = req.body;
+
     if (!title || !content)
       return res.status(400).json({ message: "you have to fill all field" });
-    console.log(req.body);
     if (!req.file) {
       return res.status(400).send("You have to upload at least 1 picture");
     }
@@ -16,14 +16,14 @@ const createMidNews = async (req, res, next) => {
     const newData = {
       title,
       content,
+      vehicle,
       image: imagePaths,
     };
     const createNew = await createNews(newData);
     res.status(201).json({
       message: "succesfully added",
-      news: createNew,
+      createNew,
     });
-    next();
   } catch (e) {
     return res.status(400).send("error of createMidNews:\n" + e.message);
   }
