@@ -4,34 +4,39 @@ const CommerceCar = require("../../data/models/commerce");
 const Motorcycle = require("../../data/models/moto");
 
 const allFilter = async (req, res) => {
-  let { rate, statement, maxYear, minPrice, maxPrice, page, pageSize } =
-    req.query;
-  if (!page || !pageSize) {
-    page = 1;
-    pageSize = 10;
-  }
+  let {
+    rate,
+    statement,
+    maxYear,
+    minPrice,
+    maxPrice,
+    page = 1,
+    pageSize = 10,
+  } = req.query;
+
   let filter = {};
-  if (statement) filter.statement = statement;
   if (rate) filter.rate = rate;
   if (maxYear) filter.year = { [Op.lte]: maxYear };
 
   if (minPrice || maxPrice) {
     filter.cost = {};
-    if (minPrice) {
-      filter.cost[Op.gte] = minPrice;
-    }
-    if (maxPrice) {
-      filter.cost[Op.lte] = maxPrice;
-    }
+    if (minPrice) filter.cost[Op.gte] = minPrice;
+    if (maxPrice) filter.cost[Op.lte] = maxPrice;
   }
+
   try {
     const offset = (page - 1) * pageSize;
 
-    let counter =
-      (await Car.findAll({ where: filter })).length +
-      (await CommerceCar.findAll({ where: filter })).length +
-      (await Motorcycle.findAll({ where: filter })).length;
-    console.log("xa");
+    if (statement) filter.statement = statement;
+
+    let motoFilter = { ...filter };
+    delete motoFilter.statement;
+    if (statement) motoFilter.condition = statement;
+
+    const carCount = await Car.count({ where: filter });
+    const commerceCount = await CommerceCar.count({ where: filter });
+    const motoCount = await Motorcycle.count({ where: motoFilter });
+    const counter = carCount + commerceCount + motoCount;
 
     const cars = await Car.findAll({ where: filter, limit: pageSize, offset });
     const commerce = await CommerceCar.findAll({
@@ -40,10 +45,11 @@ const allFilter = async (req, res) => {
       offset,
     });
     const moto = await Motorcycle.findAll({
-      where: filter,
+      where: motoFilter,
       limit: pageSize,
       offset,
     });
+
     res.status(200).json({ cars, commerce, moto, count: counter });
   } catch (err) {
     res
