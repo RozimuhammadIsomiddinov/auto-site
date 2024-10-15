@@ -643,6 +643,10 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
+      vehicle: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       author: {
         type: Sequelize.STRING(100),
         defaultValue: "admin",
