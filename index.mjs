@@ -30,13 +30,14 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 const io = new socketIo(server, {
-    cors({
-    origin: "https://api.youcarrf.ru", 
+  cors: {
+    origin: "https://api.youcarrf.ru",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
-  }),  
+  }
 });
+
 
 const users = {};
 
