@@ -31,7 +31,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new socketIo(server, {
   cors({
-    origin: ["https://api.youcarrf.ru", "http://localhost:5173"], 
+    origin: "https://api.youcarrf.ru", 
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -85,7 +85,7 @@ if (!fs.existsSync(imagesFolderPath)) {
 app.use(express.json());
 app.use(
   cors({
-    origin: ["https://api.youcarrf.ru", "http://localhost:5173"], 
+    origin: "https://api.youcarrf.ru", 
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
