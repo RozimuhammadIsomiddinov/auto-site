@@ -30,12 +30,12 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 const io = new socketIo(server, {
-  cors: {
+  cors({
     origin: ["https://api.youcarrf.ru", "http://localhost:5173"], 
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
-  },
+  }), 
 });
 
 const users = {};
@@ -84,12 +84,12 @@ if (!fs.existsSync(imagesFolderPath)) {
 
 app.use(express.json());
 app.use(
-  cors: {
+  cors({
     origin: ["https://api.youcarrf.ru", "http://localhost:5173"], 
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
-  },
+  }), 
 );
 
 app.use(express.urlencoded({ extended: true }));
