@@ -31,9 +31,13 @@ const app = express();
 const server = http.createServer(app);
 const io = new socketIo(server, {
   cors: {
-    origin: "*",
+    origin: ["https://api.youcarrf.ru", "http://localhost:5173"], 
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   },
 });
+
 const users = {};
 
 // Swagger configuration
@@ -80,9 +84,12 @@ if (!fs.existsSync(imagesFolderPath)) {
 
 app.use(express.json());
 app.use(
-  cors({
-    origin: "*",
-  })
+  cors: {
+    origin: ["https://api.youcarrf.ru", "http://localhost:5173"], 
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  },
 );
 
 app.use(express.urlencoded({ extended: true }));
