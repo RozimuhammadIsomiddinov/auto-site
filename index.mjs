@@ -14,6 +14,7 @@ import userRoutes from "./routes/usersRoute.js";
 import cartRoutes from "./routes/cartRoute.js";
 import motoRoutes from "./routes/motoRoute.js";
 import commerceRoute from "./routes/commerceRoute.js";
+import bannerRoute from "./routes/banner.js";
 import newsRoute from "./routes/news.js";
 import markRoute from "./routes/marks.js";
 import filter from "./routes/filters.js";
@@ -31,11 +32,12 @@ const app = express();
 const server = http.createServer(app);
 const io = new socketIo(server, {
   cors: {
-    origin: "https://youcarrf.ru/",
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
   },
 });
+
 const users = {};
 
 // Swagger configuration
@@ -49,7 +51,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "http://212.67.11.143:4035/",
+        url: "https://api.youcarrf.ru",
       },
     ],
   },
@@ -79,13 +81,28 @@ if (!fs.existsSync(imagesFolderPath)) {
 } else {
   console.log("Images folder already exists within the public folder.");
 }
+const allowedOrigins = ["https://api.youcarrf.ru", "http://127.0.0.1:5173"];
+
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, token"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  next();
+});
 
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://youcarrf.ru/",
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -107,6 +124,7 @@ app.use("/", commerceRoute);
 app.use("/", newsRoute);
 app.use("/", markRoute);
 app.use("/", filter);
+app.use("/", bannerRoute);
 
 // Socket.io setup for chat functionality
 io.on("connection", (socket) => {

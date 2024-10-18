@@ -25,6 +25,20 @@ const getMotorcycleById = async (id) => {
   }
 };
 
+const getNewMoto = async (page, pageSize) => {
+  try {
+    const offset = (page - 1) * pageSize;
+    const result = await Motorcycle.findAll({
+      where: { condition: "new" },
+      limit: pageSize,
+      offset,
+    });
+    return result;
+  } catch (e) {
+    return e.message;
+  }
+};
+
 // Update an existing motorcycle
 const updateMotorcycle = async (upData) => {
   try {
@@ -79,6 +93,7 @@ const deleteMotorcycle = async (id) => {
 module.exports = {
   getAllMotorcycles,
   getMotorcycleById,
+  getNewMoto,
   updateMotorcycle,
   deleteMotorcycle,
 };

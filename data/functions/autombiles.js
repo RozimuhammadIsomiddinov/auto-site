@@ -22,6 +22,19 @@ const getCarById = async (id) => {
     return e.message;
   }
 };
+const getNewcar = async (page, pageSize) => {
+  try {
+    const offset = (page - 1) * pageSize;
+    const result = await Car.findAll({
+      where: { statement: "new" },
+      limit: pageSize,
+      offset,
+    });
+    return result;
+  } catch (e) {
+    return e.message;
+  }
+};
 
 //create
 const addCar = async (carData) => {
@@ -86,4 +99,11 @@ const deleteCar = async (id) => {
   }
 };
 
-module.exports = { getAllCars, getCarById, addCar, updateCar, deleteCar };
+module.exports = {
+  getAllCars,
+  getCarById,
+  getNewcar,
+  addCar,
+  updateCar,
+  deleteCar,
+};

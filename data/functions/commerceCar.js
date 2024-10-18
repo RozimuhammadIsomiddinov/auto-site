@@ -24,6 +24,19 @@ const getCommerceCarById = async (id) => {
   }
 };
 
+const getNewCommerce = async (page, pageSize) => {
+  try {
+    const offset = (page - 1) * pageSize;
+    const result = await CommerceCar.findAll({
+      where: { statement: "new" },
+      limit: pageSize,
+      offset,
+    });
+    return result;
+  } catch (e) {
+    return e.message;
+  }
+};
 // Create a new commerce car
 const addCommerceCar = async (carData) => {
   try {
@@ -92,6 +105,7 @@ const deleteCommerceCar = async (id) => {
 module.exports = {
   getAllCommerceCars,
   getCommerceCarById,
+  getNewCommerce,
   addCommerceCar,
   updateCommerceCar,
   deleteCommerceCar,
