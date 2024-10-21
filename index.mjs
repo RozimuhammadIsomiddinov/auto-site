@@ -82,6 +82,7 @@ if (!fs.existsSync(imagesFolderPath)) {
 }
 
 app.use(express.json());
+/* 
 app.use(
   cors({
     origin: ["https://youcarrf.ru", "http://localhost:5174"],
@@ -89,6 +90,8 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+*/
+
 app.options("*", cors());
 app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static(path.resolve("./public")));
