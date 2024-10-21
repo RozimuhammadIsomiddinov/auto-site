@@ -84,7 +84,7 @@ if (!fs.existsSync(imagesFolderPath)) {
 app.use(express.json());
 app.use(
   cors({
-    origin: "*",
+    origin: ["https://youcarrf.ru", "http://localhost:5174"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
