@@ -39,7 +39,6 @@ const io = new socketIo(server, {
       "Accept",
       "X-Requested-With",
     ],
-    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
@@ -98,7 +97,6 @@ app.use(
       "Accept",
       "X-Requested-With",
     ],
-    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
