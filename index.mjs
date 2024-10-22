@@ -32,8 +32,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new socketIo(server, {
   cors: {
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: ["https://youcarrf.ru", "http://localhost:5174"],
     allowedHeaders: ["Content-Type", "Authorization"],
   },
 });
@@ -85,8 +84,8 @@ app.use(express.json());
 app.use(
   cors({
     origin: ["https://youcarrf.ru", "http://localhost:5174"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 app.options("*", cors());
