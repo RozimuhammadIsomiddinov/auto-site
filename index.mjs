@@ -33,7 +33,14 @@ const server = http.createServer(app);
 const io = new socketIo(server, {
   cors: {
     origin: "*",
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Accept",
+      "X-Requested-With",
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
 const users = {};
@@ -85,7 +92,14 @@ app.use(express.json());
 app.use(
   cors({
     origin: "*",
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Accept",
+      "X-Requested-With",
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
 
