@@ -33,12 +33,6 @@ const server = http.createServer(app);
 const io = new socketIo(server, {
   cors: {
     origin: "*",
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "Accept",
-      "X-Requested-With",
-    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
@@ -91,17 +85,10 @@ app.use(express.json());
 app.use(
   cors({
     origin: "*",
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "Accept",
-      "X-Requested-With",
-    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
 
-app.options("*", cors());
 app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static(path.resolve("./public")));
 
