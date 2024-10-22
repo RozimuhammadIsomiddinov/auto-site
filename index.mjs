@@ -27,12 +27,12 @@ import {
 import { addChat, editChatMute, getChats } from "./data/functions/chat.js";
 
 dotenv.config();
-
+``;
 const app = express();
 const server = http.createServer(app);
 const io = new socketIo(server, {
   cors: {
-    origin: ["https://youcarrf.ru", "http://localhost:5174"],
+    origin: "*",
     allowedHeaders: ["Content-Type", "Authorization"],
   },
 });
@@ -84,9 +84,8 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: ["https://youcarrf.ru", "http://localhost:5174"],
+    origin: "*",
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
   })
 );
 
