@@ -90,7 +90,6 @@ app.use(
   })
 );
 
-app.options("*", cors());
 app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static(path.resolve("./public")));
 
