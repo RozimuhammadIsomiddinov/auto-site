@@ -2,6 +2,7 @@ const {
   updateCommerceCar,
   getCommerceCarById,
 } = require("../../data/functions/commerceCar.js");
+const CommerceCar = require("../../data/models/commerce.js");
 const Users = require("../../data/models/user.js");
 
 const updateCommerceCarMid = async (req, res, next) => {
@@ -13,16 +14,19 @@ const updateCommerceCarMid = async (req, res, next) => {
       return res.status(400).json({ message: "Commerce car ID is required" });
     }
 
-    const author = await Users.findOne({ where: { email: authoremail } });
-    if (!author)
+    const commerce = await CommerceCar.findByPk(id);
+    if (!commerce) {
+      return res.status(404).json({ message: "Car not found" });
+    }
+
+    if (commerce.authoremail !== authoremail) {
       return res.status(400).json({
-        message: "you have to be registration",
+        message: "This product is not yours",
         method: "post",
         path: `http://212.67.11.143:4035/user-register`,
       });
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).send("you have to upload at least 1 picture");
     }
+
     const car = await getCommerceCarById(id);
     if (!car) {
       return res.status(404).json({ message: "Commerce car not found" });

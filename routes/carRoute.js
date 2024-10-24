@@ -327,8 +327,6 @@ router.put("/update-car/:id", fileUpload.array("image", 10), updateCarMid);
  *         name: authoremail
  *         required: true
  *         description: User email for deleting
- *         schema:
- *           type: string
  *     responses:
  *       200:
  *         description: Car deleted

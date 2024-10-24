@@ -350,6 +350,10 @@ router.put(
  *         description: Commerce car ID to delete
  *         schema:
  *           type: integer
+ *       - in: query
+ *         name: authoremail
+ *         required: true
+ *         description: User email for deleting
  *     responses:
  *       200:
  *         description: Commerce car deleted

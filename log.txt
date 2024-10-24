@@ -1,0 +1,120 @@
+{
+  message: 'Public folder already exists.',
+  level: 'info',
+  timestamp: '2024-10-24 12:52:29'
+}
+{
+  message: 'Images folder already exists within the public folder.',
+  level: 'info',
+  timestamp: '2024-10-24 12:52:29'
+}
+{
+  message: 'Server is running on port 4035',
+  level: 'info',
+  timestamp: '2024-10-24 12:52:29'
+}
+{
+  message: 'Swagger docs available at http://localhost:4035/api-docs',
+  level: 'info',
+  timestamp: '2024-10-24 12:52:29'
+}
+{
+  message: 'Public folder already exists.',
+  level: 'info',
+  timestamp: '2024-10-24 12:53:29'
+}
+{
+  message: 'Images folder already exists within the public folder.',
+  level: 'info',
+  timestamp: '2024-10-24 12:53:29'
+}
+{
+  message: 'Server is running on port 4035',
+  level: 'info',
+  timestamp: '2024-10-24 12:53:29'
+}
+{
+  message: 'Swagger docs available at http://localhost:4035/api-docs',
+  level: 'info',
+  timestamp: '2024-10-24 12:53:29'
+}
+{
+  message: 'Public folder already exists.',
+  level: 'info',
+  timestamp: '2024-10-24 12:53:36'
+}
+{
+  message: 'Images folder already exists within the public folder.',
+  level: 'info',
+  timestamp: '2024-10-24 12:53:36'
+}
+{
+  message: 'Server is running on port 4035',
+  level: 'info',
+  timestamp: '2024-10-24 12:53:36'
+}
+{
+  message: 'Swagger docs available at http://localhost:4035/api-docs',
+  level: 'info',
+  timestamp: '2024-10-24 12:53:36'
+}
+{
+  message: 'Public folder already exists.',
+  level: 'info',
+  timestamp: '2024-10-24 12:54:26'
+}
+{
+  message: 'Images folder already exists within the public folder.',
+  level: 'info',
+  timestamp: '2024-10-24 12:54:26'
+}
+{
+  message: 'Server is running on port 4035',
+  level: 'info',
+  timestamp: '2024-10-24 12:54:26'
+}
+{
+  message: 'Swagger docs available at http://localhost:4035/api-docs',
+  level: 'info',
+  timestamp: '2024-10-24 12:54:26'
+}
+{
+  message: 'Public folder already exists.',
+  level: 'info',
+  timestamp: '2024-10-24 12:54:43'
+}
+{
+  message: 'Images folder already exists within the public folder.',
+  level: 'info',
+  timestamp: '2024-10-24 12:54:43'
+}
+{
+  message: 'Server is running on port 4035',
+  level: 'info',
+  timestamp: '2024-10-24 12:54:43'
+}
+{
+  message: 'Swagger docs available at http://localhost:4035/api-docs',
+  level: 'info',
+  timestamp: '2024-10-24 12:54:43'
+}
+{
+  message: 'Public folder already exists.',
+  level: 'info',
+  timestamp: '2024-10-24 12:54:54'
+}
+{
+  message: 'Images folder already exists within the public folder.',
+  level: 'info',
+  timestamp: '2024-10-24 12:54:54'
+}
+{
+  message: 'Server is running on port 4035',
+  level: 'info',
+  timestamp: '2024-10-24 12:54:54'
+}
+{
+  message: 'Swagger docs available at http://localhost:4035/api-docs',
+  level: 'info',
+  timestamp: '2024-10-24 12:54:54'
+}

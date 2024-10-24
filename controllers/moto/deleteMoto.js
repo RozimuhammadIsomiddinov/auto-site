@@ -2,20 +2,30 @@ const {
   deleteMotorcycle,
   getMotorcycleById,
 } = require("../../data/functions/motos.js");
+const Motorcycle = require("../../data/models/moto.js");
 const Users = require("../../data/models/user.js");
 
 const deleteMidMotorcycle = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { authoremail } = req.query;
+    if (!id) {
+      return res.status(400).json({ message: "moto ID is required" });
+    }
 
-    const author = await Users.findOne({ where: { email: authoremail } });
-    if (!author)
+    const moto = await Motorcycle.findByPk(id);
+
+    if (!moto) {
+      return res.status(404).json({ message: "moto not found" });
+    }
+
+    if (moto.authoremail !== authoremail) {
       return res.status(400).json({
-        message: "you have to be registration",
+        message: "This product is not yours",
         method: "post",
         path: `http://212.67.11.143:4035/user-register`,
       });
+    }
     const motorcycle = await getMotorcycleById(id);
 
     if (!motorcycle) {

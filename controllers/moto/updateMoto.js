@@ -2,7 +2,6 @@ const {
   updateMotorcycle,
   getMotorcycleById,
 } = require("../../data/functions/motos.js");
-const Users = require("../../data/models/user.js");
 
 const updateMotorcycleMid = async (req, res, next) => {
   try {
@@ -17,16 +16,17 @@ const updateMotorcycleMid = async (req, res, next) => {
     if (!existingMotorcycle) {
       return res.status(404).json({ message: "Motorcycle not found" });
     }
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).send("you have to upload at least 1 picture");
-    }
-    const author = await Users.findOne({ where: { email: authoremail } });
-    if (!author)
+
+    if (existingMotorcycle.authoremail !== authoremail) {
       return res.status(400).json({
-        message: "you have to be registration",
+        message: "This product is not yours",
         method: "post",
         path: `http://212.67.11.143:4035/user-register`,
       });
+    }
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).send("you have to upload at least 1 picture");
+    }
 
     const result = await updateMotorcycle(req);
 

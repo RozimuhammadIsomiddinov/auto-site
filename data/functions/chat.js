@@ -3,6 +3,7 @@ const Chat = require("../models/chats.js");
 const Message = require("../models/message.js");
 const Users = require("../models/user.js");
 const sequelize = require("../../config/dbconfig.js");
+const logger = require("../../logs/logs.js");
 
 const getChats = async (user_id) => {
   const chats = await Chat.findAll({
@@ -68,7 +69,7 @@ const addChat = async (senderId, receiverId) => {
     });
     return chat;
   } catch (error) {
-    console.error("Chat qo'shishda xatolik:", error.message);
+    logger.error(`Chat qo'shishda xatolik: ${error.message}`);
     throw error;
   }
 };
@@ -83,7 +84,7 @@ const editChatMute = async (user_id, chat_user_id, mute_type) => {
 
     return updated > 0;
   } catch (error) {
-    console.error("Chatni ovozdan chiqarishda xatolik:", error.message);
+    logger.error(`Chatni ovozdan chiqarishda xatolik: ${error.message}`);
     throw error;
   }
 };

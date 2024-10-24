@@ -25,6 +25,7 @@ import {
   message,
 } from "./data/functions/messages.js";
 import { addChat, editChatMute, getChats } from "./data/functions/chat.js";
+import logger from "./logs/logs.js";
 
 dotenv.config();
 ``;
@@ -33,12 +34,6 @@ const server = http.createServer(app);
 const io = new socketIo(server, {
   cors: {
     origin: "*",
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "Accept",
-      "X-Requested-With",
-    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
@@ -74,16 +69,16 @@ const imagesFolderPath = path.join(publicFolderPath, "images");
 
 if (!fs.existsSync(publicFolderPath)) {
   fs.mkdirSync(publicFolderPath);
-  console.log("Public folder created successfully.");
+  logger.info("Public folder created successfully.");
 } else {
-  console.log("Public folder already exists.");
+  logger.info("Public folder already exists.");
 }
 
 if (!fs.existsSync(imagesFolderPath)) {
   fs.mkdirSync(imagesFolderPath);
-  console.log("Images folder created successfully.");
+  logger.info("Images folder created successfully.");
 } else {
-  console.log("Images folder already exists within the public folder.");
+  logger.info("Images folder already exists within the public folder.");
 }
 
 app.use(express.json());
@@ -91,12 +86,6 @@ app.use(express.json());
 app.use(
   cors({
     origin: "*",
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "Accept",
-      "X-Requested-With",
-    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
@@ -124,18 +113,18 @@ app.use("/", bannerRoute);
 
 // Socket.io setup for chat functionality
 io.on("connection", (socket) => {
-  console.log("A user connected", socket.id);
+  logger.info("A user connected", socket.id);
 
   // When a user joins
   socket.on("join", (userId) => {
     users[userId] = socket.id;
-    console.log(`User ${userId} joined with socket ID ${socket.id}`);
+    logger.info(`User ${userId} joined with socket ID ${socket.id}`);
   });
 
   // Handle sending private messages
   socket.on("send message", async (data) => {
     const { senderId, receiverId, message, type } = data; // Extract type
-    console.log("Received message:", data);
+    logger.info(`Received message: ${data}`);
 
     try {
       // Save the message to the database
@@ -146,7 +135,7 @@ io.on("connection", (socket) => {
         "sent",
         type
       ); // Save with type
-      console.log("Saved message:", savedMessages);
+      logger.info(`Saved message: ${savedMessages}`);
 
       // If the receiver is connected, send the message to them
       if (users[receiverId]) {
@@ -156,7 +145,7 @@ io.on("connection", (socket) => {
       // Emit the message back to the sender
       socket.emit("receive message", savedMessages); // Emit under 'receive message'
     } catch (error) {
-      console.error("Error saving message", error);
+      logger.error(`Error saving message: ${error}`);
       socket.emit("error", "Error sending message");
     }
   });
@@ -168,7 +157,7 @@ io.on("connection", (socket) => {
     try {
       // Update the message status in the database to 'seen'
       const updatedMessages = await updatedMessage("seen", messageId);
-      console.log("Updated message status:", updatedMessages);
+      logger.info(`Updated message status: ${updatedMessages}`);
 
       // Notify the sender that their message was seen
       const senderSocketId = users[updatedMessages.sender_id];
@@ -176,31 +165,31 @@ io.on("connection", (socket) => {
         io.to(senderSocketId).emit("message seen", updatedMessages);
       }
     } catch (error) {
-      console.error("Error updating message status", error);
+      logger.error(`Error updating message status: ${error}`);
     }
   });
 
   // Fetch old messages between two users
   socket.on("fetch messages", async (data) => {
     const { userId, otherUserId } = data;
-    console.log("Fetching messages for:", data);
+    logger.info(`Fetching messages for: ${data}`);
 
     try {
       // Fetch messages between the two users from the database
       const messages = await message(userId, otherUserId);
-      console.log("Fetched messages:", messages);
+      logger.info(`Fetched messages: ${messages}`);
 
       // Send the old messages to the client
       socket.emit("old messages", messages);
     } catch (error) {
-      console.error("Error fetching messages", error);
+      logger.error(`Error fetching messages: ${error}`);
       socket.emit("error", "Error fetching messages");
     }
   });
 
   // Handle user disconnect
   socket.on("disconnect", () => {
-    console.log("User disconnected", socket.id);
+    logger.info(`User disconnected: ${socket.id}`);
 
     // Remove the user from the `users` object when they disconnect
     for (const userId in users) {
@@ -215,8 +204,8 @@ io.on("connection", (socket) => {
 // File upload endpoint
 app.post("/upload", fileUpload.single("file"), (req, res) => {
   const filePath = `${process.env.BACKEND_URL}/${req.file.filename}`;
-  io.emit("receiveFile", filePath); // Notify all users about the new file
-  res.json({ filePath }); // Send the file path back to the client
+  io.emit("receiveFile", filePath);
+  res.json({ filePath });
 });
 
 // Chat routes
@@ -237,7 +226,7 @@ app.get("/chat/users/:user_id", async (req, res) => {
       });
     }
   } catch (error) {
-    console.error(error);
+    logger.error(`chat getdagi error: ${error}`);
     res.status(500).json({
       status: 500,
       message: "Internal Server Error",
@@ -254,7 +243,7 @@ app.post("/chat/add", async (req, res) => {
       data: chat,
     });
   } catch (error) {
-    console.error(error);
+    logger.error(`chat add dagi error: ${error}`);
     res.status(500).json({
       status: 500,
       message: "Internal Server Error",
@@ -279,7 +268,7 @@ app.post("/chat/edit/mute", async (req, res) => {
       });
     }
   } catch (error) {
-    console.error(error);
+    logger.error(`mute dagi error: ${error}`);
     res.status(500).json({
       status: 500,
       message: "Internal Server Error",
@@ -288,6 +277,6 @@ app.post("/chat/edit/mute", async (req, res) => {
 });
 const port = process.env.PORT;
 server.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-  console.log(`Swagger docs available at http://localhost:${port}/api-docs`);
+  logger.info(`Server is running on port ${port}`);
+  logger.info(`Swagger docs available at http://localhost:${port}/api-docs`);
 });
