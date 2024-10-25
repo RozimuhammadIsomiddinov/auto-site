@@ -21,7 +21,7 @@ const Message = sequelize.define(
       onDelete: "CASCADE",
     },
     sender_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: Users,
@@ -30,7 +30,7 @@ const Message = sequelize.define(
       onDelete: "CASCADE",
     },
     receiver_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: Users,
