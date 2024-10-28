@@ -28,7 +28,6 @@ import { addChat, editChatMute, getChats } from "./data/functions/chat.js";
 import logger from "./logs/logs.js";
 
 dotenv.config();
-``;
 const app = express();
 const server = http.createServer(app);
 const io = new socketIo(server, {
