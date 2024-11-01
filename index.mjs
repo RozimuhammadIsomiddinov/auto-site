@@ -49,7 +49,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "http://212.67.11.143:4035",
+        url: "https://api.youcarrf.ru",
       },
     ],
   },
