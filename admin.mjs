@@ -82,7 +82,7 @@ const adminJs = new AdminJS({
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
           description: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           color: {
             isVisible: { list: true, edit: true, filter: true, show: true },
@@ -171,7 +171,7 @@ const adminJs = new AdminJS({
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
           description: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           authoremail: {
             isVisible: { list: true, edit: true, filter: true, show: true },
@@ -262,7 +262,7 @@ const adminJs = new AdminJS({
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
           description: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           stock: {
             isVisible: { list: true, edit: true, filter: true, show: true },
