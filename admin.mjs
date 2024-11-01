@@ -61,22 +61,22 @@ const adminJs = new AdminJS({
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
           volume: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           horsepower: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           drive: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           checkpoint: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           doors: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           body: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           statement: {
             isVisible: { list: true, edit: true, filter: true, show: true },
@@ -85,13 +85,13 @@ const adminJs = new AdminJS({
             isVisible: { list: false, edit: true, filter: true, show: true },
           },
           color: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           authoremail: {
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
           rate: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           mark: {
             isVisible: { list: true, edit: true, filter: true, show: true },
@@ -153,19 +153,19 @@ const adminJs = new AdminJS({
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
           volume: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           horsepower: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           drive: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           transmission: {
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
           body: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           condition: {
             isVisible: { list: true, edit: true, filter: true, show: true },
@@ -185,10 +185,10 @@ const adminJs = new AdminJS({
           model: {
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
-          created_at: {
+          createdAt: {
             isVisible: { list: false, edit: false, filter: false, show: true },
           },
-          updated_at: {
+          updatedAt: {
             isVisible: { list: false, edit: false, filter: false, show: true },
           },
         },
@@ -238,25 +238,25 @@ const adminJs = new AdminJS({
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
           engine: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           volume: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           horsepower: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           drive: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           checkpoint: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           doors: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           body: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           statement: {
             isVisible: { list: true, edit: true, filter: true, show: true },
@@ -265,7 +265,7 @@ const adminJs = new AdminJS({
             isVisible: { list: false, edit: true, filter: true, show: true },
           },
           stock: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           authoremail: {
             isVisible: { list: true, edit: true, filter: true, show: true },
@@ -279,10 +279,10 @@ const adminJs = new AdminJS({
           model: {
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
-          created_at: {
+          createdAt: {
             isVisible: { list: false, edit: false, filter: false, show: true },
           },
-          updated_at: {
+          updatedAt: {
             isVisible: { list: false, edit: false, filter: false, show: true },
           },
         },
