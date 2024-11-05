@@ -5,6 +5,8 @@ const Motorcycle = require("../../data/models/moto");
 
 const allFilter = async (req, res) => {
   let {
+    model,
+    country,
     rate,
     statement,
     maxYear,
@@ -12,31 +14,59 @@ const allFilter = async (req, res) => {
     maxPrice,
     page = 1,
     pageSize = 10,
-  } = req.query;
-
+  } = req.body;
   let filter = {};
-  if (rate) filter.rate = rate;
-  if (maxYear) filter.year = { [Op.lte]: maxYear };
+
+  if (rate) {
+    filter.rate = rate;
+    return await getFilteredData(filter, pageSize, page, res);
+  }
+
+  if (maxYear) {
+    filter.year = { [Op.lte]: Number(maxYear) };
+    return await getFilteredData(filter, pageSize, page, res);
+  }
+  if (country) {
+    filter.country = country;
+    return await getFilteredData(filter, pageSize, page, res);
+  }
+
+  if (model) {
+    filter.model = model;
+    return await getFilteredData(filter, pageSize, page, res);
+  }
 
   if (minPrice || maxPrice) {
     filter.cost = {};
-    if (minPrice) filter.cost[Op.gte] = minPrice;
-    if (maxPrice) filter.cost[Op.lte] = maxPrice;
+    if (minPrice) filter.cost[Op.gte] = Number(minPrice);
+    if (maxPrice) filter.cost[Op.lte] = Number(maxPrice);
+    return await getFilteredData(filter, pageSize, page, res);
   }
 
-  try {
-    const offset = (page - 1) * pageSize;
-
-    if (statement) filter.statement = statement;
-
+  if (statement) {
+    filter.statement = statement;
     let motoFilter = { ...filter };
     delete motoFilter.statement;
-    if (statement) motoFilter.condition = statement;
+    motoFilter.condition = statement;
+    return await getFilteredData(filter, pageSize, page, res, motoFilter);
+  }
 
+  res.status(400).json({ error: "At least one filter condition is required." });
+};
+
+const getFilteredData = async (
+  filter,
+  pageSize,
+  page,
+  res,
+  motoFilter = filter
+) => {
+  try {
+    const offset = (page - 1) * pageSize;
     const carCount = await Car.count({ where: filter });
     const commerceCount = await CommerceCar.count({ where: filter });
     const motoCount = await Motorcycle.count({ where: motoFilter });
-    const counter = carCount + commerceCount + motoCount;
+    const totalCount = carCount + motoCount + commerceCount;
 
     const cars = await Car.findAll({ where: filter, limit: pageSize, offset });
     const commerce = await CommerceCar.findAll({
@@ -44,17 +74,17 @@ const allFilter = async (req, res) => {
       limit: pageSize,
       offset,
     });
-    const moto = await Motorcycle.findAll({
+    const motorcycles = await Motorcycle.findAll({
       where: motoFilter,
       limit: pageSize,
       offset,
     });
 
-    res.status(200).json({ cars, commerce, moto, count: counter });
+    res.status(200).json({ cars, motorcycles, commerce, count: totalCount });
   } catch (err) {
-    res
-      .status(500)
-      .json({ error: `Something went wrong on allFilter:\t${err}` });
+    res.status(500).json({
+      error: `Something went wrong on getFilteredData:\t${err.message}`,
+    });
   }
 };
 

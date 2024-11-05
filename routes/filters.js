@@ -4,6 +4,10 @@ const { searchCars } = require("../controllers/filter/carFilter.js");
 const { searchMoto } = require("../controllers/filter/motoFilter.js");
 const { searchCommerce } = require("../controllers/filter/commerceFilter.js");
 const allFilter = require("../controllers/filter/allFilter.js");
+const {
+  beforeFilter,
+  modelFilter,
+} = require("../controllers/filter/before-filter.js");
 const router = express.Router();
 
 /**
@@ -188,55 +192,45 @@ const router = express.Router();
  *       500:
  *         description: Internal server error
  */
-
 /**
  * @swagger
  * /all-filter:
  *   post:
  *     summary: Filter all vehicles by year, price range, and pagination
  *     tags: [Filters]
- *     parameters:
- *       - in: query
- *         name: maxYear
- *         schema:
- *           type: integer
- *         description: Filter vehicles by maximum year
- *       - in: query
- *         name: minPrice
- *         schema:
- *           type: number
- *         description: Filter vehicles by minimum price
- *       - in: query
- *         name: maxPrice
- *         schema:
- *           type: number
- *         description: Filter vehicles by maximum price
- *       - in: query
- *         name: page
- *         schema:
- *           type: integer
- *         description: Page number for pagination
- *       - in: query
- *         name: pageSize
- *         schema:
- *           type: integer
- *         description: Number of vehicles per page for pagination
- *       - in: query
- *         name: statement
- *         schema:
- *           type: string
- *           enum:
- *             - new
- *             - used
- *         description: Condition of the vehicles (new or used)
- *       - in: query
- *         name: rate
- *         schema:
- *           type: string
- *           enum:
- *             - cash
- *             - credit
- *         description: The rate of the vehicles (cash or credit)
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               model:
+ *                 type: string
+ *               country:
+ *                 type: string
+ *               rate:
+ *                 type: string
+ *                 enum:
+ *                   - cash
+ *                   - credit
+ *               statement:
+ *                 type: string
+ *                 enum:
+ *                   - new
+ *                   - used
+ *               maxYear:
+ *                 type: integer
+ *               minPrice:
+ *                 type: number
+ *               maxPrice:
+ *                 type: number
+ *               page:
+ *                 type: integer
+ *                 default: 1
+ *               pageSize:
+ *                 type: integer
+ *                 default: 10
  *     responses:
  *       200:
  *         description: A list of filtered vehicles
@@ -249,11 +243,7 @@ const router = express.Router();
  *                   type: array
  *                   items:
  *                     $ref: '#/components/schemas/cars'
- *                 commerce:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/CommerceCar'
- *                 moto:
+ *                 motorcycles:
  *                   type: array
  *                   items:
  *                     $ref: '#/components/schemas/Motorcycle'
@@ -264,9 +254,80 @@ const router = express.Router();
  *         description: Internal server error
  */
 
+/**
+ * @swagger
+ * /before-filter:
+ *   post:
+ *     summary: Retrieve unique marks for cars, motorcycles, and commercial vehicles.
+ *     tags: [Filters]
+ *     responses:
+ *       200:
+ *         description: A list of unique marks for cars, motorcycles, and commercial vehicles.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 car:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                 moto:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                 commerce:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /model-filter:
+ *   post:
+ *     summary: Retrieve models based on the specified mark for cars, motorcycles, and commercial vehicles.
+ *     tags: [Filters]
+ *     parameters:
+ *       - in: query
+ *         name: mark
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The mark of the vehicle to filter models
+ *     responses:
+ *       200:
+ *         description: A list of filtered models based on the specified mark.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 cars:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                 motorcycles:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                 commerceCars:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *       400:
+ *         description: Mark parameter is required.
+ *       500:
+ *         description: Internal server error
+ */
+
 router.post("/cars-filter", searchCars);
 router.post("/moto-filter", searchMoto);
 router.post("/commerce-filter", searchCommerce);
+router.post("/before-filter", beforeFilter);
+router.post("/model-filter", modelFilter);
 router.post("/all-filter", allFilter);
 
 module.exports = router;
