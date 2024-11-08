@@ -1,10 +1,11 @@
+// Import necessary modules
 import dotenv from "dotenv";
 import express from "express";
 import http from "http";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
-import { Server as socketIo } from "socket.io";
+import { Server as SocketIO } from "socket.io";
 import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
@@ -24,19 +25,27 @@ import {
   updatedMessage,
   message,
 } from "./data/functions/messages.js";
-import { addChat, editChatMute, getChats } from "./data/functions/chat.js";
+import {
+  addChat,
+  editChatMute,
+  getChats,
+  getNotifications,
+} from "./data/functions/chat.js";
 import logger from "./logs/logs.js";
 
 dotenv.config();
+
+// Set up server and socket.io
 const app = express();
 const server = http.createServer(app);
-const io = new socketIo(server, {
+const io = new SocketIO(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
-const users = {};
+
+const users = {}; // Store connected users
 
 // Swagger configuration
 const swaggerOptions = {
@@ -109,17 +118,28 @@ app.use("/", markRoute);
 app.use("/", filter);
 app.use("/", bannerRoute);
 
-// Socket.io setup for chat functionality
+// Socket.io setup
 io.on("connection", (socket) => {
   logger.info("A user connected", socket.id);
 
   // When a user joins
-  socket.on("join", (userId) => {
+  socket.on("join", async (userId) => {
     users[userId] = socket.id;
     logger.info(`User ${userId} joined with socket ID ${socket.id}`);
+
+    // Get unread messages and notify the user
+    try {
+      const notifications = await getNotifications(userId);
+      if (notifications.length > 0) {
+        socket.emit("notifications", notifications);
+      }
+    } catch (error) {
+      logger.error(
+        `Error fetching notifications for user ${userId}: ${error.message}`
+      );
+    }
   });
 
-  // Handle sending private messages
   socket.on("send message", async (data) => {
     const { senderId, receiverId, message, type } = data; // Extract type
     logger.info(`Received message: ${data}`);
@@ -159,9 +179,8 @@ io.on("connection", (socket) => {
 
       // Notify the sender that their message was seen
       const senderSocketId = users[updatedMessages.sender_id];
-      if (senderSocketId) {
+      if (senderSocketId)
         io.to(senderSocketId).emit("message seen", updatedMessages);
-      }
     } catch (error) {
       logger.error(`Error updating message status: ${error}`);
     }
@@ -199,7 +218,17 @@ io.on("connection", (socket) => {
   });
 });
 
-// File upload endpoint
+// Notification example: Emit a notification when a message is received
+app.post("/notify", (req, res) => {
+  const { userId, notification } = req.body;
+  if (users[userId]) {
+    io.to(users[userId]).emit("notification", notification);
+    res.status(200).json({ message: "Notification sent" });
+  } else {
+    res.status(404).json({ message: "User not connected" });
+  }
+});
+
 app.post("/upload", fileUpload.single("file"), (req, res) => {
   const filePath = `${process.env.BACKEND_URL}/${req.file.filename}`;
   io.emit("receiveFile", filePath);

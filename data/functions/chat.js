@@ -89,4 +89,50 @@ const editChatMute = async (user_id, chat_user_id, mute_type) => {
   }
 };
 
-module.exports = { addChat, editChatMute, getChats };
+// Notification function to get unread messages and notify the user
+const getNotifications = async (user_id) => {
+  try {
+    const notifications = await Chat.findAll({
+      attributes: [
+        "chat_id",
+        [sequelize.col("sender.id"), "chat_user_id"],
+        [sequelize.col("sender.name"), "chat_user_name"],
+        [
+          sequelize.fn("COUNT", sequelize.col("messages.id")),
+          "unread_messages_count",
+        ],
+      ],
+      include: [
+        {
+          model: Users,
+          as: "sender",
+          attributes: [],
+        },
+        {
+          model: Message,
+          as: "messages",
+          required: false,
+          attributes: [],
+          where: {
+            receiver_id: user_id,
+            status: "sent",
+          },
+        },
+      ],
+      where: { user_id, mute_type: false }, // Only notify if chat is not muted
+      group: ["Chat.chat_id", "sender.id", "sender.name"],
+    });
+
+    return notifications.map((notification) => ({
+      chatId: notification.chat_id,
+      chatUserId: notification.chat_user_id,
+      chatUserName: notification.chat_user_name,
+      unreadMessagesCount: notification.unread_messages_count,
+    }));
+  } catch (error) {
+    logger.error(`Bildirishnoma olishda xatolik: ${error.message}`);
+    throw error;
+  }
+};
+
+module.exports = { addChat, editChatMute, getChats, getNotifications };

@@ -21,7 +21,7 @@ const beforeFilter = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ error: `Something went wrong on beforeFilter:\t${err.message}` });
+      .json({ error: `Something went wrong on beforeFilter: ${err.message}` });
   }
 };
 
@@ -61,7 +61,7 @@ const modelFilter = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ error: `Something went wrong on modelFilter:\t${err.message}` });
+      .json({ error: `Something went wrong on modelFilter: ${err.message}` });
   }
 };
 
