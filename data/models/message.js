@@ -44,6 +44,10 @@ const Message = sequelize.define(
     status: {
       type: DataTypes.STRING,
     },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     tableName: "messages",

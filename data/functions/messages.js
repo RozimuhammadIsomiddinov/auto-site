@@ -2,12 +2,13 @@ const Message = require("../models/message.js");
 const { Op } = require("sequelize");
 
 // Xabarni
-const savedMessage = async (senderId, receiverId, message, status) => {
+const savedMessage = async (senderId, receiverId, message, status, type) => {
   try {
     const savedMessage = await Message.create({
       sender_id: senderId,
       receiver_id: receiverId,
       message,
+      type,
       status,
     });
     return savedMessage;
