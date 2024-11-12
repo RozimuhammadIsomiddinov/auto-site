@@ -6,6 +6,7 @@ const { getMidById } = require("../controllers/cars/getMidById.js");
 const { deleteMidCar } = require("../controllers/cars/deleteMidCar.js");
 const fileUpload = require("../middlewares/multer.js");
 const { getLiked } = require("../controllers/cars/getLiked.js");
+const { getAllLiked } = require("../controllers/getAllLiked.js");
 
 /**
  * @swagger
@@ -375,5 +376,33 @@ router.delete("/delete-car/:id", deleteMidCar);
  */
 
 router.get("/liked-car/:id", getLiked);
+/**
+ * @swagger
+ * /favourite:
+ *   get:
+ *     summary: Get all cars liked by a specific user
+ *     tags: [cars]
+ *     parameters:
+ *       - in: query
+ *         name: user_email
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The email of the user whose liked cars you want to retrieve
+ *     responses:
+ *       200:
+ *         description: List of cars liked by the user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/cars'
+ *       404:
+ *         description: No cars liked by this user
+ *       400:
+ *         description: Error fetching liked cars
+ */
 
+router.get("/favourite", getAllLiked);
 module.exports = router;

@@ -159,6 +159,11 @@ const Car = sequelize.define(
     },
     liked: {
       type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    liked_user: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: [],
     },
   },
   {

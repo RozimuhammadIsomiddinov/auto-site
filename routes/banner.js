@@ -1,5 +1,9 @@
 const express = require("express");
-const getNewVehicleMid = require("../controllers/news/getNewVehicle");
+const {
+  getNewVehicleMid,
+  createBanner,
+} = require("../controllers/news/getNewVehicle");
+const fileUpload = require("../middlewares/multer.js");
 const router = express.Router();
 
 /**
@@ -7,7 +11,7 @@ const router = express.Router();
  * /banner:
  *   get:
  *     summary: Get a list of new vehicles
- *     tags: [Vehicles]
+ *     tags: [Banner]
  *     parameters:
  *       - name: page
  *         in: query
@@ -49,4 +53,66 @@ const router = express.Router();
  */
 
 router.get("/banner", getNewVehicleMid);
+/**
+ * @swagger
+ * /create-banner:
+ *   post:
+ *     summary: Create a new banner
+ *     tags: [Banner]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: Title of the banner
+ *                 example: "Big Sale!"
+ *               image:
+ *                 type: array
+ *                 format: binary
+ *                 description: Array of image URLs for the banner
+ *                 items:
+ *                   type: string
+ *               subtitle:
+ *                 type: string
+ *                 description: Subtitle of the banner
+ *                 example: "Don't miss out on our huge discounts!"
+ *     responses:
+ *       201:
+ *         description: Banner created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Banner created successfully."
+ *                 banner:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     title:
+ *                       type: string
+ *                       example: "Big Sale!"
+ *                     image:
+ *                       type: array
+ *                       format: binary
+ *                       items:
+ *                         type: string
+ *                     subtitle:
+ *                       type: string
+ *                       example: "Don't miss out on our huge discounts!"
+ *       400:
+ *         description: Bad request, missing or invalid parameters
+ *       500:
+ *         description: Internal server error
+ */
+
+router.post("/create-banner", fileUpload.array("image", 5), createBanner);
 module.exports = router;

@@ -1,4 +1,5 @@
 import AdminJS from "adminjs";
+import { dark, light, noSidebar } from "@adminjs/themes";
 import AdminJSExpress from "@adminjs/express";
 import { Database, Resource } from "@adminjs/sequelize";
 import Car from "./data/models/automobile.js";
@@ -12,6 +13,8 @@ import Mark from "./data/models/carMark.js";
 AdminJS.registerAdapter({ Database, Resource });
 
 const adminJs = new AdminJS({
+  defaultTheme: dark.id,
+  availableThemes: [dark, light, noSidebar],
   resources: [
     {
       resource: Car,

@@ -46,7 +46,6 @@ const Message = sequelize.define(
     },
     type: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
   },
   {

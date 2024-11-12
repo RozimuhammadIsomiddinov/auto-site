@@ -213,6 +213,11 @@ module.exports = {
       liked: {
         type: Sequelize.INTEGER,
       },
+      liked_user: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: false,
+        defaultValue: [],
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -395,6 +400,11 @@ module.exports = {
       liked: {
         type: Sequelize.INTEGER,
       },
+      liked_user: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: false,
+        defaultValue: [],
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -572,6 +582,11 @@ module.exports = {
       liked: {
         type: Sequelize.INTEGER,
       },
+      liked_user: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: false,
+        defaultValue: [],
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -726,6 +741,35 @@ module.exports = {
         defaultValue: Sequelize.NOW,
       },
     });
+    await queryInterface.createTable("banner", {
+      id: {
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      title: {
+        type: Sequelize.STRING(1024),
+        allowNull: false,
+      },
+      image: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: false,
+      },
+      subtitle: {
+        type: Sequelize.STRING(1024),
+        allowNull: false,
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+    });
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -743,5 +787,6 @@ module.exports = {
     await queryInterface.dropTable("news");
     await queryInterface.dropTable("car_mark");
     await queryInterface.dropTable("chats");
+    await queryInterface.dropTable("banner");
   },
 };

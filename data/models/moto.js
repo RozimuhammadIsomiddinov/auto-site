@@ -120,6 +120,10 @@ const Motorcycle = sequelize.define(
     liked: {
       type: DataTypes.INTEGER,
     },
+    liked_user: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: [],
+    },
   },
   { timestamps: true }
 );
