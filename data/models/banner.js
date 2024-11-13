@@ -24,7 +24,7 @@ const Banner = sequelize.define(
   },
   {
     tableName: "banner",
-    timestamps: true,
+    timestamps: false ,
   }
 );
 
