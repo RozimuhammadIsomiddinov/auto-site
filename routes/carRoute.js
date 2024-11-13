@@ -340,7 +340,7 @@ router.delete("/delete-car/:id", deleteMidCar);
 /**
  * @swagger
  * /liked-car/{id}:
- *   get:
+ *   post:
  *     summary: Add or subtract a like from a car
  *     tags: [cars]
  *     parameters:
@@ -375,7 +375,7 @@ router.delete("/delete-car/:id", deleteMidCar);
  *         description: Car not found
  */
 
-router.get("/liked-car/:id", getLiked);
+router.post("/liked-car/:id", getLiked);
 /**
  * @swagger
  * /favourite:
