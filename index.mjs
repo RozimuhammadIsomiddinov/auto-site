@@ -169,7 +169,7 @@ io.on("connection", (socket) => {
       socket.emit("receive message", savedMessages); // Emit under 'receive message'
     } catch (error) {
       logger.error(`Error saving message: ${error}`);
-      socket.emit("error", "Error sending message");
+   
     }
   });
 
