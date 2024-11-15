@@ -169,11 +169,9 @@ io.on("connection", (socket) => {
       socket.emit("receive message", savedMessages); // Emit under 'receive message'
     } catch (error) {
       logger.error(`Error saving message: ${error}`);
-   
     }
   });
 
-  // Handle when a message is seen
   socket.on("message seen", async (data) => {
     const { messageId, receiverId } = data;
 
