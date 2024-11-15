@@ -122,12 +122,17 @@ app.use("/", bannerRoute);
 io.on("connection", (socket) => {
   logger.info("A user connected", socket.id);
 
-  // When a user joins
+  // join hodisasi uchun kod
   socket.on("join", async (userId) => {
-    users[userId] = socket.id;
-    logger.info(`User ${userId} joined with socket ID ${socket.id}`);
+    // userId formatini tekshirish
+    if (typeof userId !== "string" && typeof userId !== "number") {
+      logger.error(`Noto'g'ri userId formati: ${typeof userId}`, userId);
+      return;
+    }
 
-    // Get unread messages and notify the user
+    users[userId] = socket.id;
+    logger.info(`User ${userId} socket ID ${socket.id} bilan qo'shildi`);
+
     try {
       const notifications = await getNotifications(userId);
       if (notifications.length > 0) {
@@ -135,7 +140,7 @@ io.on("connection", (socket) => {
       }
     } catch (error) {
       logger.error(
-        `Error fetching notifications for user ${userId}: ${error.message}`
+        `Foydalanuvchi uchun bildirishnomalar olishda xatolik ${userId}: ${error.message}`
       );
     }
   });
