@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const Users = require("../../data/models/user.js");
+const { createdVehicles } = require("../../data/functions/users.js");
 
 const authenticate = async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1]; // bearer token
@@ -10,6 +11,7 @@ const authenticate = async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await Users.findByPk(decoded.id);
+    const result = await createdVehicles(user.email);
 
     if (!user) {
       return res.status(401).json({ error: "Unauthorized" });
@@ -24,6 +26,7 @@ const authenticate = async (req, res) => {
         email: user.email,
         role: user.role,
       },
+      yours: { result },
     });
   } catch (error) {
     res.status(401).json({ error: "Invalid token" });
