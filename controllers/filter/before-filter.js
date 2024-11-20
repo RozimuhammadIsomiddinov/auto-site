@@ -43,13 +43,34 @@ const modelFilter = async (req, res) => {
     });
 
     const carMarks = Array.from(
-      new Set(carResults.map((car) => car.dataValues.model))
+      new Set(
+        carResults.map(
+          (car) =>
+            car.dataValues.model ||
+            car.dataValues.country ||
+            car.dataValues.cost
+        )
+      )
     );
     const motoMarks = Array.from(
-      new Set(motoResults.map((moto) => moto.dataValues.model))
+      new Set(
+        motoResults.map(
+          (moto) =>
+            moto.dataValues.model ||
+            moto.dataValues.country ||
+            moto.dataValues.cost
+        )
+      )
     );
     const commerceMarks = Array.from(
-      new Set(commerceResults.map((commerce) => commerce.dataValues.mark))
+      new Set(
+        commerceResults.map(
+          (commerce) =>
+            commerce.dataValues.model ||
+            commerce.dataValues.country ||
+            commerce.dataValues.cost
+        )
+      )
     );
     const results = {
       cars: carMarks,
