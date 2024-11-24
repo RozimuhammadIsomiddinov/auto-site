@@ -4,6 +4,10 @@ const Users = require("../../data/models/user.js");
 const getMidById = async (req, res) => {
   try {
     const result = await getCarById(req.params.id);
+if (!result) {
+  return res.status(404).json({ message: `Car with ID: ${req.params.id} not found` });
+}
+
     const dataEmail = result.dataValues.authoremail;
     const findUser = await Users.findOne({ where: { email: dataEmail } });
     if (!result) {
