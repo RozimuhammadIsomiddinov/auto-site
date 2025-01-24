@@ -1,4 +1,4 @@
-const { Op } = require("sequelize");
+const { Op, where, cast, col } = require("sequelize");
 const Car = require("../../data/models/automobile");
 const Motorcycle = require("../../data/models/moto");
 const CommerceCar = require("../../data/models/commerce");
@@ -33,13 +33,19 @@ const modelFilter = async (req, res) => {
     }
 
     const carResults = await Car.findAll({
-      where: { mark: { [Op.iLike]: `%${mark}%` } },
+      where: where(cast(col("mark"), "TEXT"), {
+        [Op.iLike]: `%${mark}%`,
+      }),
     });
     const motoResults = await Motorcycle.findAll({
-      where: { mark: { [Op.iLike]: `%${mark}%` } },
+      where: where(cast(col("mark"), "TEXT"), {
+        [Op.iLike]: `%${mark}%`,
+      }),
     });
     const commerceResults = await CommerceCar.findAll({
-      where: { mark: { [Op.iLike]: `%${mark}%` } },
+      where: where(cast(col("mark"), "TEXT"), {
+        [Op.iLike]: `%${mark}%`,
+      }),
     });
 
     const carMarks = Array.from(
