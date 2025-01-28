@@ -49,39 +49,39 @@ const modelFilter = async (req, res) => {
     });
 
     const carMarks = Array.from(
-      new Set(
-        carResults.map(
-          (car) =>
-            car.dataValues.model ||
-            car.dataValues.country ||
-            car.dataValues.cost
-        )
-      )
+      new Set(carResults.map((car) => car.dataValues.model))
     );
+    const carCountries = Array.from(
+      new Set(carResults.map((car) => car.dataValues.country))
+    );
+
     const motoMarks = Array.from(
-      new Set(
-        motoResults.map(
-          (moto) =>
-            moto.dataValues.model ||
-            moto.dataValues.country ||
-            moto.dataValues.cost
-        )
-      )
+      new Set(motoResults.map((moto) => moto.dataValues.model))
     );
+    const motoCountries = Array.from(
+      new Set(motoResults.map((moto) => moto.dataValues.country))
+    );
+
     const commerceMarks = Array.from(
-      new Set(
-        commerceResults.map(
-          (commerce) =>
-            commerce.dataValues.model ||
-            commerce.dataValues.country ||
-            commerce.dataValues.cost
-        )
-      )
+      new Set(commerceResults.map((commerce) => commerce.dataValues.model))
     );
+    const commerceCountries = Array.from(
+      new Set(commerceResults.map((commerce) => commerce.dataValues.country))
+    );
+
     const results = {
-      cars: carMarks,
-      motorcycles: motoMarks,
-      commerceCars: commerceMarks,
+      cars: {
+        models: carMarks,
+        countries: carCountries,
+      },
+      motorcycles: {
+        models: motoMarks,
+        countries: motoCountries,
+      },
+      commerceCars: {
+        models: commerceMarks,
+        countries: commerceCountries,
+      },
     };
 
     res.json(results);
