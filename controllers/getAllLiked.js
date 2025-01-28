@@ -33,13 +33,18 @@ const getAllLiked = async (req, res) => {
         type: QueryTypes.SELECT,
       }
     );
+
     const likedItems = {
       cars: [...cars],
       moto: [...motorcycles],
       commerce: [...commerceCars],
     };
 
-    if (likedItems.length === 0) {
+    if (
+      likedItems.cars.length === 0 &&
+      likedItems.moto.length === 0 &&
+      likedItems.commerce.length === 0
+    ) {
       return res.status(200).json([]);
     }
 
