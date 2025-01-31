@@ -122,37 +122,12 @@ const { getLikedMoto } = require("../controllers/moto/getLikedMoto.js");
  *             - credit
  *           description: Payment method
  *           default: cash
- *         mark:
- *           type: string
+ *         mark_id:
+ *           type: number
  *           description: Motorcycle brand
  *         model:
  *           type: string
- *           enum:
- *             - Harley-Davidson
- *             - Ducati
- *             - Yamaha
- *             - Kawasaki
- *             - BMW
- *             - Suzuki
- *             - Honda
- *             - Triumph
- *             - KTM
- *             - Aprilia
- *             - Indian
- *             - Royal Enfield
- *             - Moto Guzzi
- *             - MV Agusta
- *             - Bajaj
- *             - Benelli
- *             - Husqvarna
- *             - CFMoto
- *             - Norton
- *             - Vespa
  *           description: Motorcycle model
- *         createdAt:
- *           type: string
- *           format: date-time
- *           description: Date added
  */
 
 const router = express.Router();

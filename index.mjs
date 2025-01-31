@@ -121,7 +121,6 @@ app.use("/", bannerRoute);
 // Socket.io setup
 io.on("connection", (socket) => {
   logger.info("A user connected", socket.id);
-
   // join hodisasi uchun kod
   socket.on("join", async (userId) => {
     // userId formatini tekshirish
@@ -306,7 +305,4 @@ app.post("/chat/edit/mute", async (req, res) => {
   }
 });
 const port = process.env.PORT;
-server.listen(port, () => {
-  logger.info(`Server is running on port ${port}`);
-  logger.info(`Swagger docs available at http://localhost:${port}/api-docs`);
-});
+server.listen(port);

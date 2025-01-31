@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/dbconfig.js");
+const Mark = require("./carMark.js");
 
 const motorcycleTypes = [
   "cruiser",
@@ -14,28 +15,6 @@ const motorcycleTypes = [
   "bobber",
   "cafe-racer",
   "chopper",
-];
-const motorcycleBrands = [
-  "Harley-Davidson",
-  "Ducati",
-  "Yamaha",
-  "Kawasaki",
-  "BMW",
-  "Suzuki",
-  "Honda",
-  "Triumph",
-  "KTM",
-  "Aprilia",
-  "Indian",
-  "Royal Enfield",
-  "Moto Guzzi",
-  "MV Agusta",
-  "Bajaj",
-  "Benelli",
-  "Husqvarna",
-  "CFMoto",
-  "Norton",
-  "Vespa",
 ];
 
 const Motorcycle = sequelize.define(
@@ -94,7 +73,7 @@ const Motorcycle = sequelize.define(
       type: DataTypes.ENUM(...motorcycleTypes),
       allowNull: false,
     },
-    condition: {
+    statement: {
       type: DataTypes.ENUM("used", "new"),
       defaultValue: false,
     },
@@ -109,10 +88,7 @@ const Motorcycle = sequelize.define(
       type: DataTypes.ENUM("cash", "credit"),
       defaultValue: "cash",
     },
-    mark: {
-      type: DataTypes.ENUM(...motorcycleBrands),
-      allowNull: false,
-    },
+
     model: { type: DataTypes.STRING, allowNull: false },
     seen: {
       type: DataTypes.INTEGER,
@@ -124,8 +100,19 @@ const Motorcycle = sequelize.define(
       type: DataTypes.ARRAY(DataTypes.STRING),
       defaultValue: [],
     },
+    mark_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: Mark,
+        key: "id",
+      },
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
+Motorcycle.belongsTo(Mark, { foreignKey: "mark_id", as: "mark" });
 
 module.exports = Motorcycle;

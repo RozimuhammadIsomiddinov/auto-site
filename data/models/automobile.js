@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/dbconfig.js");
+const Mark = require("./carMark.js");
 
 const bodyOfCar = [
   "hatchback",
@@ -19,61 +20,6 @@ const bodyOfCar = [
   "estate",
   "saloon",
   "city-car",
-];
-const carModel = [
-  "BMW",
-  "Baic",
-  "Byd",
-  "Bently",
-  "Chery",
-  "Cadillac",
-  "Changan",
-  "Chevrolet",
-  "Citroen",
-  "Daewoo",
-  "Datsun",
-  "Dodge",
-  "Exeed",
-  "Ferrari",
-  "Ford",
-  "Fiat",
-  "GMC",
-  "Geely",
-  "Genesis",
-  "Honda",
-  "Hummer",
-  "Hyundai",
-  "Infiniti",
-  "Isuzu",
-  "Jaguar",
-  "Jeep",
-  "Kia",
-  "Lamborghini",
-  "Lancia",
-  "Land Rover",
-  "Lexus",
-  "Lincoln",
-  "Maserati",
-  "Mazda",
-  "McLaren",
-  "Mercedes-Benz",
-  "Mini",
-  "Mitsubishi",
-  "Nissan",
-  "Opel",
-  "Peugeot",
-  "Porsche",
-  "Renault",
-  "Rolls-Royce",
-  "Saab",
-  "Seat",
-  "Skoda",
-  "Subaru",
-  "Suzuki",
-  "Tesla",
-  "Toyota",
-  "Volkswagen",
-  "Volvo",
 ];
 
 const Car = sequelize.define(
@@ -119,17 +65,14 @@ const Car = sequelize.define(
       type: DataTypes.INTEGER,
     },
     drive: {
-      type: DataTypes.ENUM("AWD", "FWD"),
+      type: DataTypes.ENUM("AWD", "FWD", "RWD"),
       defaultValue: "AWD",
     },
     checkpoint: {
       type: DataTypes.ENUM("automatic", "manual"),
       defaultValue: "manual",
     },
-    doors: {
-      type: DataTypes.INTEGER,
-      defaultValue: 4,
-    },
+
     body: {
       type: DataTypes.ENUM(...bodyOfCar),
       defaultValue: "sedan",
@@ -149,11 +92,6 @@ const Car = sequelize.define(
       type: DataTypes.ENUM("cash", "credit"),
       defaultValue: "cash",
     },
-    mark: {
-      type: DataTypes.ENUM(...carModel),
-      allowNull: false,
-    },
-    model: { type: DataTypes.STRING, allowNull: false },
     seen: {
       type: DataTypes.INTEGER,
     },
@@ -165,10 +103,26 @@ const Car = sequelize.define(
       type: DataTypes.ARRAY(DataTypes.STRING),
       defaultValue: [],
     },
+    mark_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: Mark,
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
+    },
+    model: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     timestamps: true,
   }
 );
+
+Car.belongsTo(Mark, { foreignKey: "mark_id", as: "mark" });
 
 module.exports = Car;

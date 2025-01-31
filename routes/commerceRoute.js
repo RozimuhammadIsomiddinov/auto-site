@@ -35,9 +35,8 @@ const router = express.Router();
  *         - drive
  *         - checkpoint
  *         - statement
- *         - stock
  *         - authoremail
- *         - mark
+ *         - mark_id
  *         - model
  *       properties:
  *         id:
@@ -85,6 +84,7 @@ const router = express.Router();
  *           enum:
  *             - AWD
  *             - FWD
+ *             - RWD
  *           description: Drive type
  *         checkpoint:
  *           type: string
@@ -92,10 +92,6 @@ const router = express.Router();
  *             - automatic
  *             - manual
  *           description: Transmission type
- *         doors:
- *           type: integer
- *           description: Number of doors
- *           default: 4
  *         body:
  *           type: string
  *           enum:
@@ -127,10 +123,6 @@ const router = express.Router();
  *         description:
  *           type: string
  *           description: Car description
- *         stock:
- *           type: integer
- *           description: Available stock
- *           default: 1
  *         authoremail:
  *           type: string
  *           description: Seller's email
@@ -144,67 +136,9 @@ const router = express.Router();
  *         model:
  *           type: string
  *           description: Car brand
- *         mark:
- *           type: string
- *           enum:
- *             - BMW
- *             - Baic
- *             - Byd
- *             - Bently
- *             - Chery
- *             - Cadillac
- *             - Changan
- *             - Chevrolet
- *             - Citroen
- *             - Daewoo
- *             - Datsun
- *             - Dodge
- *             - Exeed
- *             - Ferrari
- *             - Ford
- *             - Fiat
- *             - GMC
- *             - Geely
- *             - Genesis
- *             - Honda
- *             - Hummer
- *             - Hyundai
- *             - Infiniti
- *             - Isuzu
- *             - Jaguar
- *             - Jeep
- *             - Kia
- *             - Lamborghini
- *             - Lancia
- *             - Land Rover
- *             - Lexus
- *             - Lincoln
- *             - Maserati
- *             - Mazda
- *             - McLaren
- *             - Mercedes-Benz
- *             - Mini
- *             - Mitsubishi
- *             - Nissan
- *             - Opel
- *             - Peugeot
- *             - Porsche
- *             - Renault
- *             - Rolls-Royce
- *             - Saab
- *             - Seat
- *             - Skoda
- *             - Subaru
- *             - Suzuki
- *             - Tesla
- *             - Toyota
- *             - Volkswagen
- *             - Volvo
- *           description: commerce Car brand
- *         createdAt:
- *           type: string
- *           format: date-time
- *           description: Date added
+ *         mark_id:
+ *           type: number
+ *           description: only mark's id
  */
 
 /**
@@ -219,11 +153,6 @@ const router = express.Router();
  *         schema:
  *           type: integer
  *         description: The page number
- *       - in: query
- *         name: pageSize
- *         schema:
- *           type: integer
- *         description: The number of items per page
  *     responses:
  *       200:
  *         description: List of commerce cars

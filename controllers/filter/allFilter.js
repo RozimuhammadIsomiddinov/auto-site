@@ -8,7 +8,6 @@ const allFilter = async (req, res) => {
     model,
     country,
     rate,
-    statement,
     maxYear,
     minPrice,
     maxPrice,
@@ -41,14 +40,6 @@ const allFilter = async (req, res) => {
     if (minPrice) filter.cost[Op.gte] = Number(minPrice);
     if (maxPrice) filter.cost[Op.lte] = Number(maxPrice);
     return await getFilteredData(filter, pageSize, page, res);
-  }
-
-  if (statement) {
-    filter.statement = statement;
-    let motoFilter = { ...filter };
-    delete motoFilter.statement;
-    motoFilter.condition = statement;
-    return await getFilteredData(filter, pageSize, page, res, motoFilter);
   }
 
   res.status(400).json({ error: "At least one filter condition is required." });

@@ -27,7 +27,7 @@ const { getAllLiked } = require("../controllers/getAllLiked.js");
  *         - checkpoint
  *         - statement
  *         - authoremail
- *         - mark
+ *         - mark_id
  *         - model
  *       properties:
  *         id:
@@ -75,6 +75,7 @@ const { getAllLiked } = require("../controllers/getAllLiked.js");
  *           enum:
  *             - AWD
  *             - FWD
+ *             - RWD
  *           description: Drive type
  *         checkpoint:
  *           type: string
@@ -125,70 +126,12 @@ const { getAllLiked } = require("../controllers/getAllLiked.js");
  *             - cash
  *             - credit
  *           description: Payment method
- *         mark:
- *           type: string
- *           enum:
- *             - BMW
- *             - Baic
- *             - Byd
- *             - Bently
- *             - Chery
- *             - Cadillac
- *             - Changan
- *             - Chevrolet
- *             - Citroen
- *             - Daewoo
- *             - Datsun
- *             - Dodge
- *             - Exeed
- *             - Ferrari
- *             - Ford
- *             - Fiat
- *             - GMC
- *             - Geely
- *             - Genesis
- *             - Honda
- *             - Hummer
- *             - Hyundai
- *             - Infiniti
- *             - Isuzu
- *             - Jaguar
- *             - Jeep
- *             - Kia
- *             - Lamborghini
- *             - Lancia
- *             - Land Rover
- *             - Lexus
- *             - Lincoln
- *             - Maserati
- *             - Mazda
- *             - McLaren
- *             - Mercedes-Benz
- *             - Mini
- *             - Mitsubishi
- *             - Nissan
- *             - Opel
- *             - Peugeot
- *             - Porsche
- *             - Renault
- *             - Rolls-Royce
- *             - Saab
- *             - Seat
- *             - Skoda
- *             - Subaru
- *             - Suzuki
- *             - Tesla
- *             - Toyota
- *             - Volkswagen
- *             - Volvo
- *           description: Car brand
+ *         mark_id:
+ *           type: number
+ *           description: Only mark's id
  *         model:
  *           type: string
  *           description: Car model
- *         createdAt:
- *           type: string
- *           format: date-time
- *           description: Date added
  */
 
 const router = express.Router();

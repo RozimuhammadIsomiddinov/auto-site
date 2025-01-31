@@ -8,7 +8,7 @@ const router = express.Router();
  * @swagger
  * components:
  *   schemas:
- *     Mark:
+ *     Marks:
  *       type: object
  *       required:
  *         - mark_name
@@ -40,7 +40,7 @@ const router = express.Router();
  *     summary: Get a paginated list of all car marks
  *     tags: [Marks]
  *     parameters:
- *       - in: query
+ *       - in: params
  *         name: page
  *         schema:
  *           type: integer
@@ -76,16 +76,16 @@ const router = express.Router();
 
 /**
  * @swagger
- * /mark:
+ * /mark/{id}:
  *   get:
  *     summary: Get cars, motorcycles, and commerce vehicles by mark with pagination
  *     tags: [Marks]
  *     parameters:
- *       - in: query
- *         name: mark_name
- *         schema:
- *           type: string
+ *       - in: path
+ *         name: id
  *         required: true
+ *         schema:
+ *           type: number
  *         description: The car mark to filter the vehicles by
  *       - in: query
  *         name: page
@@ -176,7 +176,7 @@ const router = express.Router();
  */
 
 router.get("/marks", getAllMark);
-router.get("/mark", getByIdMark);
+router.get("/mark/:id", getByIdMark);
 router.post("/add-mark", fileUpload.single("image"), createMark);
 
 module.exports = router;

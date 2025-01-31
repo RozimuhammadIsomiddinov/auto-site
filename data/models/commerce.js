@@ -1,80 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../config/dbconfig.js");
-
-const bodyOfCar = [
-  "hatchback",
-  "convertible",
-  "crossover",
-  "coupe",
-  "sedan",
-  "pickup",
-  "suv",
-  "van",
-  "mpv",
-  "jeep",
-  "wagon",
-  "cabriolet",
-  "roadster",
-  "microcar",
-  "estate",
-  "saloon",
-  "city-car",
-];
-const carMark = [
-  "BMW",
-  "Baic",
-  "Byd",
-  "Bently",
-  "Chery",
-  "Cadillac",
-  "Changan",
-  "Chevrolet",
-  "Citroen",
-  "Daewoo",
-  "Datsun",
-  "Dodge",
-  "Exeed",
-  "Ferrari",
-  "Ford",
-  "Fiat",
-  "GMC",
-  "Geely",
-  "Genesis",
-  "Honda",
-  "Hummer",
-  "Hyundai",
-  "Infiniti",
-  "Isuzu",
-  "Jaguar",
-  "Jeep",
-  "Kia",
-  "Lamborghini",
-  "Lancia",
-  "Land Rover",
-  "Lexus",
-  "Lincoln",
-  "Maserati",
-  "Mazda",
-  "McLaren",
-  "Mercedes-Benz",
-  "Mini",
-  "Mitsubishi",
-  "Nissan",
-  "Opel",
-  "Peugeot",
-  "Porsche",
-  "Renault",
-  "Rolls-Royce",
-  "Saab",
-  "Seat",
-  "Skoda",
-  "Subaru",
-  "Suzuki",
-  "Tesla",
-  "Toyota",
-  "Volkswagen",
-  "Volvo",
-];
+const Mark = require("./carMark.js");
 
 const CommerceCar = sequelize.define(
   "commerce_cars",
@@ -121,19 +47,34 @@ const CommerceCar = sequelize.define(
       allowNull: false,
     },
     drive: {
-      type: DataTypes.ENUM("AWD", "FWD"),
+      type: DataTypes.ENUM("AWD", "FWD", "RWD"),
       allowNull: false,
     },
     checkpoint: {
       type: DataTypes.ENUM("automatic", "manual"),
       defaultValue: "manual",
     },
-    doors: {
-      type: DataTypes.INTEGER,
-      defaultValue: 4,
-    },
+
     body: {
-      type: DataTypes.ENUM(...bodyOfCar),
+      type: DataTypes.ENUM(
+        "hatchback",
+        "convertible",
+        "crossover",
+        "coupe",
+        "sedan",
+        "pickup",
+        "suv",
+        "van",
+        "mpv",
+        "jeep",
+        "wagon",
+        "cabriolet",
+        "roadster",
+        "microcar",
+        "estate",
+        "saloon",
+        "city-car"
+      ),
     },
     statement: {
       type: DataTypes.ENUM("used", "new"),
@@ -141,11 +82,6 @@ const CommerceCar = sequelize.define(
     },
     description: {
       type: DataTypes.STRING,
-    },
-    stock: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 1,
     },
     authoremail: {
       type: DataTypes.STRING,
@@ -155,11 +91,10 @@ const CommerceCar = sequelize.define(
       type: DataTypes.ENUM("cash", "credit"),
       defaultValue: "cash",
     },
-    mark: {
+    model: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    model: { type: DataTypes.ENUM(...carMark), allowNull: false },
     seen: {
       type: DataTypes.INTEGER,
     },
@@ -170,10 +105,20 @@ const CommerceCar = sequelize.define(
       type: DataTypes.ARRAY(DataTypes.STRING),
       defaultValue: [],
     },
+    mark_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: Mark,
+        key: "id",
+      },
+    },
   },
   {
     timestamps: true,
   }
 );
+
+CommerceCar.belongsTo(Mark, { foreignKey: "mark_id", as: "mark" });
 
 module.exports = CommerceCar;

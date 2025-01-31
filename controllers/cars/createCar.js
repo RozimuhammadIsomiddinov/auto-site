@@ -22,7 +22,7 @@ const createMidCar = async (req, res, next) => {
       description,
       authoremail,
       rate,
-      mark,
+      mark_id,
       model,
     } = req.body;
     if (!req.files || req.files.length === 0) {
@@ -57,7 +57,7 @@ const createMidCar = async (req, res, next) => {
       description,
       authoremail,
       rate,
-      mark,
+      mark_id,
       model,
     });
 

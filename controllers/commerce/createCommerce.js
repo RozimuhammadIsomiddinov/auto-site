@@ -18,14 +18,12 @@ const createCommerceCar = async (req, res, next) => {
       horsepower,
       drive,
       checkpoint,
-      doors,
       body,
       statement,
       description,
-      stock,
       authoremail,
       rate,
-      mark,
+      mark_id,
       model,
     } = req.body;
 
@@ -55,14 +53,12 @@ const createCommerceCar = async (req, res, next) => {
       horsepower,
       drive,
       checkpoint,
-      doors,
       body,
       statement,
       description,
-      stock,
       authoremail,
       rate,
-      mark,
+      mark_id,
       model,
     });
 

@@ -3,3 +3,6 @@ package-lock.json
 index.txt
 public/
 log.txt
+
+docker-compose.yml
+Dockerfile

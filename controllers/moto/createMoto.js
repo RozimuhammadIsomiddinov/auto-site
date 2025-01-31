@@ -22,7 +22,7 @@ const createMidMotorcycle = async (req, res, next) => {
       authoremail,
       rate,
       model,
-      mark,
+      mark_id,
     } = req.body;
 
     if (!req.files || req.files.length === 0) {
@@ -59,7 +59,7 @@ const createMidMotorcycle = async (req, res, next) => {
       authoremail,
       rate,
       model,
-      mark,
+      mark_id,
     });
 
     res.status(201).json({
