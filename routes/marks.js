@@ -3,6 +3,7 @@ const fileUpload = require("../middlewares/multer");
 const getAllMark = require("../controllers/mark/getMark");
 const getByIdMark = require("../controllers/mark/getById");
 const { createMark } = require("../controllers/mark/createMark");
+const { getByIDMark } = require("../controllers/mark/getByIDMark");
 const router = express.Router();
 /**
  * @swagger
@@ -174,9 +175,52 @@ const router = express.Router();
  *                 error:
  *                   type: string
  */
+/**
+ * @swagger
+ * /marks/{id}:
+ *   get:
+ *     summary: Get a car mark by ID
+ *     tags: [Marks]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The ID of the car mark
+ *     responses:
+ *       200:
+ *         description: Car mark retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Marks'
+ *       404:
+ *         description: Mark not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       400:
+ *         description: Error occurred while retrieving the mark
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 error:
+ *                   type: string
+ */
 
-router.get("/marks", getAllMark);
-router.get("/mark/:id", getByIdMark);
-router.post("/add-mark", fileUpload.single("image"), createMark);
+router
+  .get("/marks", getAllMark)
+  .get("/marks/:id", getByIDMark)
+  .get("/mark/:id", getByIdMark)
+  .post("/add-mark", fileUpload.single("image"), createMark);
 
 module.exports = router;
