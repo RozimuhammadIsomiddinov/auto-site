@@ -22,7 +22,7 @@ const beforeFilter = async (req, res) => {
 
 const modelFilter = async (req, res) => {
   try {
-    const { mark_id } = req.query;
+    const { mark_id } = req.body;
     if (!mark_id) {
       return res.status(400).json({ error: "Mark parameter is required." });
     }
