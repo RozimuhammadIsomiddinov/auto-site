@@ -12,7 +12,7 @@ const allFilter = async (req, res) => {
     minPrice,
     maxPrice,
     page = 1,
-    pageSize = 10,
+    pageSize = 4,
   } = req.body;
   let filter = {};
 
