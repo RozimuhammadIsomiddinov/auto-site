@@ -31,7 +31,6 @@ const adminJs = new AdminJS({
           "horsepower",
           "drive",
           "checkpoint",
-          "doors",
           "body",
           "statement",
           "description",
@@ -75,9 +74,7 @@ const adminJs = new AdminJS({
           checkpoint: {
             isVisible: { list: false, edit: true, filter: true, show: true },
           },
-          doors: {
-            isVisible: { list: false, edit: true, filter: true, show: true },
-          },
+
           body: {
             isVisible: { list: false, edit: true, filter: true, show: true },
           },
@@ -85,7 +82,7 @@ const adminJs = new AdminJS({
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
           description: {
-            isVisible: { list: false, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: false },
           },
           color: {
             isVisible: { list: false, edit: true, filter: true, show: true },
@@ -126,7 +123,7 @@ const adminJs = new AdminJS({
           "drive",
           "transmission",
           "body",
-          "condition",
+          "statement",
           "description",
           "authoremail",
           "rate",
@@ -170,11 +167,11 @@ const adminJs = new AdminJS({
           body: {
             isVisible: { list: false, edit: true, filter: true, show: true },
           },
-          condition: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+          statement: {
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           description: {
-            isVisible: { list: false, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: false },
           },
           authoremail: {
             isVisible: { list: true, edit: true, filter: true, show: true },
@@ -211,11 +208,9 @@ const adminJs = new AdminJS({
           "horsepower",
           "drive",
           "checkpoint",
-          "doors",
           "body",
           "statement",
           "description",
-          "stock",
           "authoremail",
           "rate",
           "mark",
@@ -255,9 +250,7 @@ const adminJs = new AdminJS({
           checkpoint: {
             isVisible: { list: false, edit: true, filter: true, show: true },
           },
-          doors: {
-            isVisible: { list: false, edit: true, filter: true, show: true },
-          },
+
           body: {
             isVisible: { list: false, edit: true, filter: true, show: true },
           },
@@ -265,16 +258,14 @@ const adminJs = new AdminJS({
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
           description: {
-            isVisible: { list: false, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: false },
           },
-          stock: {
-            isVisible: { list: false, edit: true, filter: true, show: true },
-          },
+
           authoremail: {
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
           rate: {
-            isVisible: { list: true, edit: true, filter: true, show: true },
+            isVisible: { list: false, edit: true, filter: true, show: true },
           },
           mark: {
             isVisible: { list: true, edit: true, filter: true, show: true },
