@@ -2,7 +2,7 @@ const { deleteCar, getCarById } = require("../../data/functions/autombiles.js");
 const Car = require("../../data/models/automobile.js");
 const Users = require("../../data/models/user.js");
 
-const deleteMidCar = async (req, res, next) => {
+const deleteMidCar = async (req, res) => {
   try {
     const { id } = req.params;
     const { authoremail } = req.query;
@@ -25,7 +25,6 @@ const deleteMidCar = async (req, res, next) => {
 
     await deleteCar(id); //returned array
     res.status(200).send("Product deleted");
-    next();
   } catch (er) {
     return res.status(400).send("Error from deleteMidCar: " + er.message);
   }

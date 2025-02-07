@@ -3,7 +3,7 @@ const {
   getMotorcycleById,
 } = require("../../data/functions/motos.js");
 
-const updateMotorcycleMid = async (req, res, next) => {
+const updateMotorcycleMid = async (req, res) => {
   try {
     const { id } = req.params;
     const { authoremail } = req.body;
@@ -37,8 +37,6 @@ const updateMotorcycleMid = async (req, res, next) => {
     res
       .status(200)
       .json({ message: "Motorcycle successfully updated", data: result });
-
-    next();
   } catch (err) {
     return res
       .status(400)

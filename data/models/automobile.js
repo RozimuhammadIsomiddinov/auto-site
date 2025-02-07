@@ -117,6 +117,9 @@ const Car = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    video_link: {
+      type: DataTypes.STRING,
+    },
   },
   {
     timestamps: true,

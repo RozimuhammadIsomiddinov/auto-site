@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 const Users = require("../../data/models/user.js");
 dotenv.config();
 
-const createMidCar = async (req, res, next) => {
+const createMidCar = async (req, res) => {
   try {
     const {
       color,
@@ -65,7 +65,6 @@ const createMidCar = async (req, res, next) => {
       message: "car successfully added",
       car: newCar,
     });
-    next();
   } catch (e) {
     return res.status(400).send("error of createMidCar:\n" + e.message);
   }

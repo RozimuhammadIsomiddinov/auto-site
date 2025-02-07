@@ -1,6 +1,6 @@
 const Cart = require("../../data/models/saleBox.js");
 
-const deleteCartMid = async (req, res, next) => {
+const deleteCartMid = async (req, res) => {
   try {
     const { id } = req.params; //cart id
     const cart = await Cart.findByPk(id);
@@ -9,7 +9,6 @@ const deleteCartMid = async (req, res, next) => {
     }
     const result = await Cart.destroy({ where: { id } });
     res.status(200).send("Cart succesfully deleted");
-    next();
   } catch (er) {
     return res.status(400).send("Error from deleteCartMid: " + er.message);
   }

@@ -1,6 +1,6 @@
 const { getVehicle } = require("../../data/functions/news");
 
-const getVehicleMid = async (req, res, next) => {
+const getVehicleMid = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const pageSize = parseInt(req.query.pageSize) || 2;
@@ -15,7 +15,6 @@ const getVehicleMid = async (req, res, next) => {
       message: "Error from getMidNews",
       error: err.message,
     });
-    next(err);
   }
 };
 module.exports = getVehicleMid;

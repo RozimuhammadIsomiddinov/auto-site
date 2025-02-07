@@ -108,6 +108,9 @@ const Motorcycle = sequelize.define(
         key: "id",
       },
     },
+    video_link: {
+      type: DataTypes.STRING,
+    },
   },
   {
     timestamps: true,

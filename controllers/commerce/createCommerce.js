@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 // Create a new commerce car
-const createCommerceCar = async (req, res, next) => {
+const createCommerceCar = async (req, res) => {
   try {
     const {
       color,
@@ -66,7 +66,6 @@ const createCommerceCar = async (req, res, next) => {
       message: "Commerce car successfully added",
       commerceCar: newCommerceCar,
     });
-    next();
   } catch (e) {
     return res.status(400).send("createCommerceCar xatoligi:\n" + e.message);
   }

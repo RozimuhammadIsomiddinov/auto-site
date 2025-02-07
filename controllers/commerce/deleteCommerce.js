@@ -1,11 +1,7 @@
-const {
-  deleteCommerceCar,
-  getCommerceCarById,
-} = require("../../data/functions/commerceCar.js");
+const { deleteCommerceCar } = require("../../data/functions/commerceCar.js");
 const CommerceCar = require("../../data/models/commerce.js");
-const Users = require("../../data/models/user.js");
 
-const deleteMidCommerceCar = async (req, res, next) => {
+const deleteMidCommerceCar = async (req, res) => {
   try {
     const { id } = req.params;
     const { authoremail } = req.query;
@@ -27,7 +23,6 @@ const deleteMidCommerceCar = async (req, res, next) => {
     const result = await deleteCommerceCar(id);
 
     res.status(200).send("Commerce car deleted successfully");
-    next();
   } catch (error) {
     return res
       .status(400)

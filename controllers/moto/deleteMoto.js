@@ -5,7 +5,7 @@ const {
 const Motorcycle = require("../../data/models/moto.js");
 const Users = require("../../data/models/user.js");
 
-const deleteMidMotorcycle = async (req, res, next) => {
+const deleteMidMotorcycle = async (req, res) => {
   try {
     const { id } = req.params;
     const { authoremail } = req.query;
@@ -34,7 +34,6 @@ const deleteMidMotorcycle = async (req, res, next) => {
 
     const result = await deleteMotorcycle(id);
     res.status(200).send("Motorcycle deleted");
-    next();
   } catch (er) {
     return res
       .status(400)

@@ -10,6 +10,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
 import fileUpload from "./middlewares/multer.js";
+
 import carRoutes from "./routes/carRoute.js";
 import userRoutes from "./routes/usersRoute.js";
 import cartRoutes from "./routes/cartRoute.js";
@@ -18,7 +19,9 @@ import commerceRoute from "./routes/commerceRoute.js";
 import bannerRoute from "./routes/banner.js";
 import newsRoute from "./routes/news.js";
 import markRoute from "./routes/marks.js";
+import video_linkRouter from "./routes/video_link.js";
 import filter from "./routes/filters.js";
+
 import { adminRouter } from "./admin.mjs";
 import {
   savedMessage,
@@ -117,6 +120,7 @@ app.use("/", newsRoute);
 app.use("/", markRoute);
 app.use("/", filter);
 app.use("/", bannerRoute);
+app.use("/", video_linkRouter);
 
 // Socket.io setup
 io.on("connection", (socket) => {

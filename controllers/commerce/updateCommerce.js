@@ -5,7 +5,7 @@ const {
 const CommerceCar = require("../../data/models/commerce.js");
 const Users = require("../../data/models/user.js");
 
-const updateCommerceCarMid = async (req, res, next) => {
+const updateCommerceCarMid = async (req, res) => {
   try {
     const { id } = req.params;
     const { authoremail } = req.body;
@@ -41,8 +41,6 @@ const updateCommerceCarMid = async (req, res, next) => {
     res
       .status(200)
       .json({ message: "Commerce car successfully updated", data: updatedCar });
-
-    next();
   } catch (err) {
     return res
       .status(400)

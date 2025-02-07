@@ -1,6 +1,6 @@
 const Banner = require("../../data/models/banner");
 
-const getNewVehicleMid = async (req, res, next) => {
+const getNewVehicleMid = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const pageSize = parseInt(req.query.pageSize) || 10;
@@ -15,7 +15,6 @@ const getNewVehicleMid = async (req, res, next) => {
       message: "Error from getMidNewVehicle",
       error: err.message,
     });
-    next(err);
   }
 };
 

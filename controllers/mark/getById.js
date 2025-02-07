@@ -1,4 +1,3 @@
-const Mark = require("../../data/models/carMark");
 const Car = require("../../data/models/automobile");
 const Motorcycle = require("../../data/models/moto");
 const CommerceCar = require("../../data/models/commerce");

@@ -3,7 +3,7 @@ const Users = require("../../data/models/user.js");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const createMidMotorcycle = async (req, res, next) => {
+const createMidMotorcycle = async (req, res) => {
   try {
     const {
       country,
@@ -66,7 +66,6 @@ const createMidMotorcycle = async (req, res, next) => {
       message: "Motorcycle added successfully",
       motorcycle: newMotorcycle,
     });
-    next();
   } catch (e) {
     return res.status(400).send("Error in createMidMotorcycle:\n" + e.message);
   }

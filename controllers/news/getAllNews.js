@@ -1,6 +1,6 @@
 const { getAllNews } = require("../../data/functions/news");
 
-const getMidNews = async (req, res, next) => {
+const getMidNews = async (req, res) => {
   try {
     const result = await getAllNews(req.query.page, req.query.pageSize);
     if (result.length === 0) {
@@ -12,7 +12,6 @@ const getMidNews = async (req, res, next) => {
       message: "Error from getMidNews",
       error: err.message,
     });
-    next(err);
   }
 };
 module.exports = { getMidNews };
