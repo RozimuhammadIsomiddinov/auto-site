@@ -20,20 +20,22 @@ const filter = async (req, res) => {
     if (!country)
       return res.status(404).json({ message: "This country not found" });
 
+    const countryName = country.name;
+
     const cars = await Car.findAll({
-      where: { country: { [Op.iLike]: `%${country}%` } },
+      where: { country: { [Op.iLike]: `%${countryName}%` } },
       limit: pageSize,
       offset,
     });
 
     const motorcycles = await Motorcycle.findAll({
-      where: { country: { [Op.iLike]: `%${country}%` } },
+      where: { country: { [Op.iLike]: `%${countryName}%` } },
       limit: pageSize,
       offset,
     });
 
     const commerceCars = await CommerceCar.findAll({
-      where: { country: { [Op.iLike]: `%${country}%` } },
+      where: { country: { [Op.iLike]: `%${countryName}%` } },
       limit: pageSize,
       offset,
     });
