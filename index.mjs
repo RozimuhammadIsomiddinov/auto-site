@@ -21,7 +21,7 @@ import newsRoute from "./routes/news.js";
 import markRoute from "./routes/marks.js";
 import video_linkRouter from "./routes/video_link.js";
 import filter from "./routes/filters.js";
-
+import country from "./routes/country.js";
 import { adminRouter } from "./admin.mjs";
 import {
   savedMessage,
@@ -61,7 +61,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "https://api.youcarrf.ru",
+        url: "http://localhost:4035",
       },
     ],
   },
@@ -121,6 +121,7 @@ app.use("/", markRoute);
 app.use("/", filter);
 app.use("/", bannerRoute);
 app.use("/", video_linkRouter);
+app.use("/", country);
 
 // Socket.io setup
 io.on("connection", (socket) => {
