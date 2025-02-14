@@ -1,15 +1,22 @@
 const Message = require("../models/message.js");
 const { Op } = require("sequelize");
 
-// Xabarni
-const savedMessage = async (senderId, receiverId, message, status, type) => {
+const savedMessage = async (
+  chatId,
+  senderId,
+  receiverId,
+  message,
+  status,
+  type
+) => {
   try {
     const savedMessage = await Message.create({
       sender_id: senderId,
       receiver_id: receiverId,
       message,
-      type,
       status,
+      chat_id: chatId,
+      type,
     });
     return savedMessage;
   } catch (error) {
@@ -17,27 +24,30 @@ const savedMessage = async (senderId, receiverId, message, status, type) => {
     throw error;
   }
 };
-
-// Xabar holatini yangilash
-const updatedMessage = async (status, messageId) => {
+const updatedMessage = async (status, id) => {
   try {
-    const [affectedRows, [updatedMessage]] = await Message.update(
+    const [affectedRows, updatedMessages] = await Message.update(
       {
         status,
-        updatedAt: new Date(), // `updatedAt` to'g'ri nomi
+        updatedAt: new Date(),
       },
       {
-        where: { id: messageId },
+        where: { id },
         returning: true,
       }
     );
-    return updatedMessage;
+
+    if (affectedRows === 0) {
+      return null;
+    }
+
+    return updatedMessages[0];
   } catch (error) {
     console.error("Xabar holatini yangilashda xatolik:", error);
     throw error;
   }
 };
-// Xabarlarni olish
+
 const message = async (userId, otherUserId) => {
   try {
     const messages = await Message.findAll({
@@ -47,7 +57,7 @@ const message = async (userId, otherUserId) => {
           { sender_id: otherUserId, receiver_id: userId },
         ],
       },
-      order: [["createdAt", "ASC"]], // `createdAt` timestamp o'rnida
+      order: [["createdAt", "ASC"]],
     });
     return messages;
   } catch (error) {

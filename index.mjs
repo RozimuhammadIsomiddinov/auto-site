@@ -48,7 +48,7 @@ const io = new SocketIO(server, {
   },
 });
 
-const users = {}; // Store connected users
+const users = {};
 
 // Swagger configuration
 const swaggerOptions = {
@@ -70,11 +70,9 @@ const swaggerOptions = {
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
-// Fix __dirname issue
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Create upload directory if it does not exist
 const publicFolderPath = path.join(__dirname, "public");
 const imagesFolderPath = path.join(publicFolderPath, "images");
 
@@ -126,16 +124,14 @@ app.use("/", country);
 // Socket.io setup
 io.on("connection", (socket) => {
   logger.info("A user connected", socket.id);
-  // join hodisasi uchun kod
+
   socket.on("join", async (userId) => {
-    // userId formatini tekshirish
     if (typeof userId !== "string" && typeof userId !== "number") {
       logger.error(`Noto'g'ri userId formati: ${typeof userId}`, userId);
       return;
     }
 
     users[userId] = socket.id;
-    logger.info(`User ${userId} socket ID ${socket.id} bilan qo'shildi`);
 
     try {
       const notifications = await getNotifications(userId);
@@ -150,60 +146,53 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send message", async (data) => {
-    const { senderId, receiverId, message, type } = data; // Extract type
-    logger.info(`Received message: ${data}`);
+    const { senderId, receiverId, message, type, chat_id } = data;
 
     try {
-      // Save the message to the database
-      const savedMessages = await savedMessage(
+      const savedMsg = await savedMessage(
+        chat_id,
         senderId,
         receiverId,
         message,
         "sent",
         type
-      ); // Save with type
-      logger.info(`Saved message: ${savedMessages}`);
+      );
 
-      // If the receiver is connected, send the message to them
       if (users[receiverId]) {
-        io.to(users[receiverId]).emit("receive message", savedMessages); // Emit under 'receive message'
+        const notifications = await getNotifications(receiverId);
+        io.to(users[receiverId]).emit("notifications", notifications);
       }
 
-      // Emit the message back to the sender
-      socket.emit("receive message", savedMessages); // Emit under 'receive message'
+      socket.emit("receive message", savedMsg);
+      if (users[receiverId]) {
+        io.to(users[receiverId]).emit("receive message", savedMsg);
+      }
     } catch (error) {
-      logger.error(`Error saving message: ${error}`);
+      logger.error(`Xabarni saqlashda xatolik: ${error}`);
     }
   });
-
   socket.on("message seen", async (data) => {
     const { messageId, receiverId } = data;
 
     try {
-      // Update the message status in the database to 'seen'
-      const updatedMessages = await updatedMessage("seen", messageId);
-      logger.info(`Updated message status: ${updatedMessages}`);
+      const updatedMsg = await updatedMessage("seen", messageId);
+      if (!updatedMsg) return "Xabar topilmadi yoki yangilanmadi.";
+      if (users[updatedMsg.sender_id]) {
+        io.to(users[updatedMsg.sender_id]).emit("message seen", updatedMsg);
 
-      // Notify the sender that their message was seen
-      const senderSocketId = users[updatedMessages.sender_id];
-      if (senderSocketId)
-        io.to(senderSocketId).emit("message seen", updatedMessages);
+        const notifications = await getNotifications(receiverId);
+        io.to(users[receiverId]).emit("notifications", notifications);
+      }
     } catch (error) {
-      logger.error(`Error updating message status: ${error}`);
+      logger.error(`Xabar holatini yangilashda xatolik: ${error}`);
     }
   });
 
-  // Fetch old messages between two users
   socket.on("fetch messages", async (data) => {
     const { userId, otherUserId } = data;
-    logger.info(`Fetching messages for: ${data}`);
 
     try {
-      // Fetch messages between the two users from the database
       const messages = await message(userId, otherUserId);
-      logger.info(`Fetched messages: ${messages}`);
-
-      // Send the old messages to the client
       socket.emit("old messages", messages);
     } catch (error) {
       logger.error(`Error fetching messages: ${error}`);
@@ -211,11 +200,7 @@ io.on("connection", (socket) => {
     }
   });
 
-  // Handle user disconnect
   socket.on("disconnect", () => {
-    logger.info(`User disconnected: ${socket.id}`);
-
-    // Remove the user from the `users` object when they disconnect
     for (const userId in users) {
       if (users[userId] === socket.id) {
         delete users[userId];
@@ -225,18 +210,26 @@ io.on("connection", (socket) => {
   });
 });
 
-// Notification example: Emit a notification when a message is received
-app.post("/notify", (req, res) => {
-  const { userId, notification } = req.body;
-  if (users[userId]) {
-    io.to(users[userId]).emit("notification", notification);
-    res.status(200).json({ message: "Notification sent" });
-  } else {
-    res.status(404).json({ message: "User not connected" });
+app.post("/notify", async (req, res) => {
+  const { userId } = req.body;
+  try {
+    const notifications = await getNotifications(userId);
+
+    if (users[userId]) {
+      io.to(users[userId]).emit("notifications", notifications);
+    }
+
+    res.status(200).json({ message: "Notifications sent", notifications });
+  } catch (error) {
+    console.error(`Notification error: ${error.message}`);
+    res.status(500).json({ message: "Failed to send notifications" });
   }
 });
-
 app.post("/upload", fileUpload.single("file"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: "Fayl yuklanmadi" });
+  }
+
   const filePath = `${process.env.BACKEND_URL}/${req.file.filename}`;
   io.emit("receiveFile", filePath);
   res.json({ filePath });
@@ -246,7 +239,7 @@ app.post("/upload", fileUpload.single("file"), (req, res) => {
 app.get("/chat/users/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
-    const chats = await getChats(user_id); // Use the imported function
+    const chats = await getChats(user_id);
 
     if (chats?.length > 0) {
       return res.status(200).json({
@@ -270,8 +263,8 @@ app.get("/chat/users/:user_id", async (req, res) => {
 
 app.post("/chat/add", async (req, res) => {
   try {
-    const { senderId, receiverId } = req.body; // Ensure to send these in the request body
-    const chat = await addChat(senderId, receiverId); // Use the imported function
+    const { senderId, receiverId } = req.body;
+    const chat = await addChat(senderId, receiverId);
     return res.status(201).json({
       status: "Success",
       data: chat,
