@@ -60,21 +60,41 @@ const getChats = async (user_id) => {
 
   return chats;
 };
-
 const addChat = async (senderId, receiverId) => {
-  const res = await Chat.findOne({ where: { chat_user_id: senderId } });
-  if (res) return { code: 400, message: res };
   try {
+    const existingChat = await Chat.findOne({
+      where: {
+        [Op.or]: [
+          { user_id: senderId, chat_user_id: receiverId },
+          { user_id: receiverId, chat_user_id: senderId },
+        ],
+      },
+    });
+
+    if (existingChat) {
+      return {
+        code: 400,
+        message: "Chat allaqachon mavjud",
+        data: existingChat.dataValues,
+      };
+    }
+
     const chat = await Chat.create({
       user_id: senderId,
       chat_user_id: receiverId,
     });
-    return chat;
+
+    return {
+      code: 201,
+      message: "Chat muvaffaqiyatli yaratildi",
+      data: chat,
+    };
   } catch (error) {
-    logger.error(`Chat qo'shishda xatolik: ${error.message}`);
+    console.error(`Chat qo'shishda xatolik: ${error.message}`);
     throw error;
   }
 };
+
 const editChatMute = async (user_id, chat_user_id, mute_type) => {
   try {
     mute_type = mute_type == "true" ? true : false;
