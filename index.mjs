@@ -270,9 +270,13 @@ app.post("/chat/add", async (req, res) => {
       chat.code != 400
         ? {
             status: "Success",
-            data: chat,
+            data: chat.data,
           }
-        : { message: "before created", data: chat.message }
+        : {
+            status: "Exists",
+            message: "Chat oldin yaratilgan",
+            data: chat.data,
+          }
     );
   } catch (error) {
     logger.error(`chat add dagi error: ${error}`);
