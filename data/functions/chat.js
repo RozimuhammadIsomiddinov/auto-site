@@ -62,6 +62,8 @@ const getChats = async (user_id) => {
 };
 
 const addChat = async (senderId, receiverId) => {
+  const res = await Chat.findOne({ where: { chat_user_id: senderId } });
+  if (res) return { message: "oldin yaratilgan" };
   try {
     const chat = await Chat.create({
       user_id: senderId,
