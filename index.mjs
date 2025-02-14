@@ -272,7 +272,7 @@ app.post("/chat/add", async (req, res) => {
             status: "Success",
             data: chat,
           }
-        : chat.message
+        : { message: "before created", data: chat.message }
     );
   } catch (error) {
     logger.error(`chat add dagi error: ${error}`);
