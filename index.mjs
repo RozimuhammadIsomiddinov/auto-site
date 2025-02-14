@@ -265,10 +265,15 @@ app.post("/chat/add", async (req, res) => {
   try {
     const { senderId, receiverId } = req.body;
     const chat = await addChat(senderId, receiverId);
-    return res.status(201).json({
-      status: "Success",
-      data: chat,
-    });
+
+    return res.status(chat.code == 400 ? 200 : 201).json(
+      chat.code != 400
+        ? {
+            status: "Success",
+            data: chat,
+          }
+        : chat.message
+    );
   } catch (error) {
     logger.error(`chat add dagi error: ${error}`);
     res.status(500).json({

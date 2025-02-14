@@ -48,13 +48,13 @@ const updatedMessage = async (status, id) => {
   }
 };
 
-const message = async (userId, otherUserId) => {
+const message = async (userId, receiver_id) => {
   try {
     const messages = await Message.findAll({
       where: {
         [Op.or]: [
-          { sender_id: userId, receiver_id: otherUserId },
-          { sender_id: otherUserId, receiver_id: userId },
+          { sender_id: userId, receiver_id },
+          { sender_id: receiver_id, receiver_id: userId },
         ],
       },
       order: [["createdAt", "ASC"]],
