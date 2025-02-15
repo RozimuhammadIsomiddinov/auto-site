@@ -9,7 +9,7 @@ if (!fs.existsSync(logFilePath)) {
 }
 
 const logger = createLogger({
-  level: "info",
+  level: "error",
   format: combine(
     timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
     json(),

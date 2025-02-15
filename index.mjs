@@ -1,4 +1,3 @@
-// Import necessary modules
 import dotenv from "dotenv";
 import express from "express";
 import http from "http";
@@ -79,15 +78,10 @@ const imagesFolderPath = path.join(publicFolderPath, "images");
 if (!fs.existsSync(publicFolderPath)) {
   fs.mkdirSync(publicFolderPath);
   logger.info("Public folder created successfully.");
-} else {
-  logger.info("Public folder already exists.");
 }
-
 if (!fs.existsSync(imagesFolderPath)) {
   fs.mkdirSync(imagesFolderPath);
   logger.info("Images folder created successfully.");
-} else {
-  logger.info("Images folder already exists within the public folder.");
 }
 
 app.use(express.json());
@@ -123,14 +117,11 @@ app.use("/", country);
 
 // Socket.io setup
 io.on("connection", (socket) => {
-  logger.info("A user connected", socket.id);
-
   socket.on("join", async (userId) => {
     if (typeof userId !== "string" && typeof userId !== "number") {
       logger.error(`Noto'g'ri userId formati: ${typeof userId}`, userId);
       return;
     }
-
     users[userId] = socket.id;
 
     try {
