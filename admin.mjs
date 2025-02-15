@@ -9,6 +9,7 @@ import Motorcycle from "./data/models/moto.js";
 import CommerceCar from "./data/models/commerce.js";
 import News from "./data/models/news.js";
 import Mark from "./data/models/carMark.js";
+import Chat from "./data/models/chats.js";
 
 AdminJS.registerAdapter({ Database, Resource });
 
@@ -371,6 +372,26 @@ const adminJs = new AdminJS({
           },
           image: {
             isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+        },
+      },
+    },
+    {
+      resource: Chat,
+      options: {
+        listProperties: ["chat_id", "chat_user_id", "user_id", "mute_type"],
+        properties: {
+          chat_id: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
+          chat_user_id: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
+          user_id: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
+          mute_type: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
           },
         },
       },
