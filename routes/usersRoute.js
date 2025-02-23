@@ -6,6 +6,7 @@ const { passwordMid } = require("../controllers/forgotPassword/passwordMid.js");
 const { resetMid } = require("../controllers/forgotPassword/resetMid.js");
 const { changeNameEmail } = require("../controllers/users/changeNameEmail.js");
 const { changePassword } = require("../controllers/users/changePass.js");
+const { getByIDuser } = require("../controllers/users/user.js");
 const router = express.Router();
 
 /**
@@ -84,6 +85,8 @@ const router = express.Router();
  *       400:
  *         description: Bad request
  */
+
+router.get("/user-find/:id", getByIDuser);
 router.post("/user-register", registerMid);
 
 /**
