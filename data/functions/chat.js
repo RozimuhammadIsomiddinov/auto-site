@@ -110,6 +110,7 @@ const editChatMute = async (user_id, chat_user_id, mute_type) => {
     throw error;
   }
 };
+
 const getNotifications = async (user_id) => {
   try {
     const notifications = await Message.findAll({
@@ -122,7 +123,7 @@ const getNotifications = async (user_id) => {
           "unread_messages_count",
         ],
         [
-          sequelize.fn("ARRAY_AGG", sequelize.col("Message.text")),
+          sequelize.fn("ARRAY_AGG", sequelize.col("Message.message")),
           "unread_messages_texts",
         ],
       ],
@@ -131,14 +132,16 @@ const getNotifications = async (user_id) => {
           model: Users,
           as: "sender",
           attributes: [],
+          foreignKey: "sender_id", // Bog'lanish aniq ko'rsatildi
         },
       ],
       where: {
         receiver_id: user_id,
-        status: "sent", // Faqat o'qilmagan xabarlar
+        status: "sent", // Faqat o‘qilmagan xabarlar
       },
       group: ["Message.chat_id", "sender.id", "sender.name"],
     });
+
     return notifications.map((n) => n.dataValues);
   } catch (error) {
     logger.error(`Bildirishnomalarni olishda xatolik: ${error.message}`);
