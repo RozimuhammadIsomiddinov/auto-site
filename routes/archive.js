@@ -11,7 +11,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /archive/add-car:
+ * /add-car:
  *   post:
  *     summary: Mashinani arxivga qo'shish
  *     tags: [Archive]
@@ -34,7 +34,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /archive/add-moto:
+ * /add-moto:
  *   post:
  *     summary: Mototsiklni arxivga qo'shish
  *     tags: [Archive]
@@ -57,7 +57,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /archive/add-commerce:
+ * /add-commerce:
  *   post:
  *     summary: Tijorat avtomobilini arxivga qo'shish
  *     tags: [Archive]
@@ -80,7 +80,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /archive/car:
+ * /car:
  *   delete:
  *     summary: Mashinani arxivdan olib tashlash
  *     tags: [Archive]
@@ -103,7 +103,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /archive/moto:
+ * /moto:
  *   delete:
  *     summary: Mototsiklni arxivdan olib tashlash
  *     tags: [Archive]
@@ -126,7 +126,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /archive/commerce:
+ * /commerce:
  *   delete:
  *     summary: Tijorat avtomobilini arxivdan olib tashlash
  *     tags: [Archive]
