@@ -120,6 +120,10 @@ const Car = sequelize.define(
     video_link: {
       type: DataTypes.STRING,
     },
+    archived: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   {
     timestamps: true,

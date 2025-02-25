@@ -21,6 +21,7 @@ import markRoute from "./routes/marks.js";
 import video_linkRouter from "./routes/video_link.js";
 import filter from "./routes/filters.js";
 import country from "./routes/country.js";
+import archive from "./routes/archive.js";
 import { adminRouter } from "./admin.mjs";
 import {
   savedMessage,
@@ -114,6 +115,7 @@ app.use("/", filter);
 app.use("/", bannerRoute);
 app.use("/", video_linkRouter);
 app.use("/", country);
+app.use("/", archive);
 
 // Socket.io setup
 io.on("connection", (socket) => {
@@ -216,6 +218,7 @@ app.post("/notify", async (req, res) => {
     res.status(500).json({ message: "Failed to send notifications" });
   }
 });
+
 app.post("/upload", fileUpload.single("file"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: "Fayl yuklanmadi" });
