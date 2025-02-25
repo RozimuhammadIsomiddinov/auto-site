@@ -4,6 +4,7 @@ const { getMidNewsById } = require("../controllers/news/getById");
 const getVehicleMid = require("../controllers/news/getVehicle");
 const fileUpload = require("../middlewares/multer.js");
 const { createMidNews } = require("../controllers/news/createNews.js");
+const { searchCont } = require("../controllers/news/search.js");
 
 const router = express.Router();
 /**
@@ -154,6 +155,7 @@ const router = express.Router();
  *       400:
  *         description: Bad request, validation failed
  */
+router.get("/search/:q", searchCont);
 router.get("/news", getMidNews);
 router.get("/news/:id", getMidNewsById);
 router.get("/vehicle-news", getVehicleMid);
