@@ -121,6 +121,10 @@ const getNotifications = async (user_id) => {
           sequelize.fn("COUNT", sequelize.col("Message.id")),
           "unread_messages_count",
         ],
+        [
+          sequelize.fn("ARRAY_AGG", sequelize.col("Message.text")),
+          "unread_messages_texts",
+        ],
       ],
       include: [
         {
@@ -135,7 +139,7 @@ const getNotifications = async (user_id) => {
       },
       group: ["Message.chat_id", "sender.id", "sender.name"],
     });
-    return notifications[0].dataValues;
+    return notifications.map((n) => n.dataValues);
   } catch (error) {
     logger.error(`Bildirishnomalarni olishda xatolik: ${error.message}`);
     throw error;
