@@ -1,5 +1,6 @@
 const express = require("express");
 const {
+  getArchive,
   addArchiveCar,
   addArchiveMoto,
   addArchiveCommerce,
@@ -8,6 +9,48 @@ const {
   deleteArchiveCommerce,
 } = require("../controllers/users/archive");
 const router = express.Router();
+
+/**
+ * @swagger
+ * /archives/{id}:
+ *   get:
+ *     summary: Foydalanuvchiga tegishli arxivlangan transportlarni olish
+ *     tags: [Archive]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Foydalanuvchi ID si
+ *     responses:
+ *       200:
+ *         description: Foydalanuvchiga tegishli arxivlangan transportlar ro'yxati
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 car:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     description: Arxivlangan mashinalar
+ *                 moto:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     description: Arxivlangan mototsikllar
+ *                 commerce:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     description: Arxivlangan tijorat avtomobillari
+ *       400:
+ *         description: Noto'g'ri foydalanuvchi ID si yoki foydalanuvchi topilmadi
+ *       500:
+ *         description: Server xatosi
+ */
 
 /**
  * @swagger
@@ -147,6 +190,7 @@ const router = express.Router();
  *         description: Server xatosi
  */
 
+router.get("/archives/:id", getArchive);
 router.post("/add-cars", addArchiveCar);
 router.post("/add-moto", addArchiveMoto);
 router.post("/add-commerce", addArchiveCommerce);
