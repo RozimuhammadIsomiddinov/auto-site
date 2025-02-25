@@ -5,6 +5,7 @@ const Users = require("../../data/models/user.js");
 const resetMid = async (req, res) => {
   const { newPassword } = req.body;
   const { token } = req.params;
+
   if (!token || !newPassword)
     return res.status(400).json({ error: "you have to enter all fields" });
   try {
@@ -16,7 +17,6 @@ const resetMid = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-
     user.password = hashedPassword;
     await user.save();
 

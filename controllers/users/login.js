@@ -6,7 +6,6 @@ const {
 
 const loginMid = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email);
   try {
     const user = await Users.findOne({ where: { email } });
     if (!user) {

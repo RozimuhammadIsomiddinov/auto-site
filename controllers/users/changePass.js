@@ -1,11 +1,13 @@
 const { comparePassword } = require("../../data/functions/users");
 const Users = require("../../data/models/user");
 const bcrypt = require("bcrypt");
+
 const changePassword = async (req, res) => {
   const { oldPass, newPass } = req.body;
   const { id } = req.params;
+
   if (!oldPass || !newPass || !id)
-    return res.status(404).json({
+    return res.status(400).json({
       error: "you have to fill all field",
     });
   try {

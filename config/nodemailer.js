@@ -20,7 +20,16 @@ const transporter = createTransport(
 
 const mailer = async (message) => {
   try {
-    const info = await transporter.sendMail(message);
+    const mailOptions = {
+      from: `"Your Website" <${process.env.SMTP_USER}>`,
+      to: message.to,
+      subject: message.subject,
+      text: message.text || "",
+      html: message.html || "",
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent:", info.response);
     return info;
   } catch (err) {
     console.error("Error sending email:", err.message);
