@@ -11,7 +11,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /add-car:
+ * /add-cars:
  *   post:
  *     summary: Mashinani arxivga qo'shish
  *     tags: [Archive]
@@ -147,7 +147,7 @@ const router = express.Router();
  *         description: Server xatosi
  */
 
-router.post("/add-car", addArchiveCar);
+router.post("/add-cars", addArchiveCar);
 router.post("/add-moto", addArchiveMoto);
 router.post("/add-commerce", addArchiveCommerce);
 
