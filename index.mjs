@@ -22,6 +22,7 @@ import video_linkRouter from "./routes/video_link.js";
 import filter from "./routes/filters.js";
 import country from "./routes/country.js";
 import archive from "./routes/archive.js";
+import offer from "./routes/offer.js";
 import { adminRouter } from "./admin.mjs";
 import {
   savedMessage,
@@ -116,7 +117,7 @@ app.use("/", bannerRoute);
 app.use("/", video_linkRouter);
 app.use("/", country);
 app.use("/", archive);
-
+app.use("/", offer);
 // Socket.io setup
 io.on("connection", (socket) => {
   socket.on("join", async (userId) => {
