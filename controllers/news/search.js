@@ -16,7 +16,7 @@ const searchCont = async (req, res) => {
     return res.status(200).json({ cars, moto, commerce });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Server xatosi" });
+    return res.status(500).json({ error: "Server xatosi", e: error.message });
   }
 };
 
