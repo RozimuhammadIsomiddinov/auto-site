@@ -22,7 +22,7 @@ const Offer = sequelize.define(
   {
     tableName: "offer",
     freezeTableName: true,
-    timestamps: true,
+    timestamps: false,
   }
 );
 
