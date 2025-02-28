@@ -13,12 +13,12 @@ const passwordMid = async (req, res) => {
     }
 
     const resetToken = generateJWT(user);
-    const resetPasswordLink = `${process.env.BACKEND_URL}/reset-password/${resetToken}`;
+    const resetPasswordLink = `${process.env.BACKEND_API}/reset-password/${resetToken}`;
 
     const mailOptions = {
       to: email,
       subject: "Password Reset",
-      text: `Reset your password using this link: ${resetPasswordLink}`,
+      text: `Перейдите по ссылке чтобы создать новый пароль: ${resetPasswordLink}`,
     };
 
     await mailer(mailOptions);
