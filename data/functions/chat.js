@@ -126,20 +126,23 @@ const getNotifications = async (user_id) => {
           sequelize.fn("ARRAY_AGG", sequelize.col("Message.message")),
           "unread_messages_texts",
         ],
+        [sequelize.fn("MAX", sequelize.col("Message.updatedAt")), "updatedAt"],
       ],
       include: [
         {
           model: Users,
           as: "sender",
           attributes: [],
-          foreignKey: "sender_id", // Bog'lanish aniq ko'rsatildi
         },
       ],
       where: {
         receiver_id: user_id,
-        status: "sent", // Faqat o‘qilmagan xabarlar
+        status: "sent",
       },
       group: ["Message.chat_id", "sender.id", "sender.name"],
+      order: [
+        [sequelize.fn("MAX", sequelize.col("Message.updatedAt")), "DESC"],
+      ],
     });
 
     return notifications.map((n) => n.dataValues);
