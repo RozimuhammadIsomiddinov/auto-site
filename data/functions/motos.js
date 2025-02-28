@@ -6,6 +6,7 @@ const getAllMotorcycles = async (page = 1, pageSize = 10) => {
   try {
     const offset = (page - 1) * pageSize;
     const result = await Motorcycle.findAll({
+      where: { archived: false },
       limit: pageSize,
       offset,
     });

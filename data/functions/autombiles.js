@@ -5,6 +5,7 @@ const getAllCars = async (page = 1, pageSize = 10) => {
   try {
     const offset = (page - 1) * pageSize;
     const result = await Car.findAll({
+      where: { archived: false },
       limit: pageSize,
       offset,
     });
