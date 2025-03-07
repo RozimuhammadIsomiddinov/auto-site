@@ -11,9 +11,13 @@ const getArchive = async (req, res) => {
     if (!user) return res.status(400).json({ message: "user not found" });
 
     const [car, moto, commerce] = await Promise.all([
-      Car.findAll({ where: { archived: true } }),
-      Motorcycle.findAll({ where: { archived: true } }),
-      CommerceCar.findAll({ where: { archived: true } }),
+      Car.findAll({ where: { archived: true, authoremail: user.email } }),
+      Motorcycle.findAll({
+        where: { archived: true, authoremail: user.email },
+      }),
+      CommerceCar.findAll({
+        where: { archived: true, authoremail: user.email },
+      }),
     ]);
 
     return res.status(200).json({ car, moto, commerce });
