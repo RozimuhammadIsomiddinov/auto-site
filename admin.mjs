@@ -11,6 +11,7 @@ import News from "./data/models/news.js";
 import Mark from "./data/models/carMark.js";
 import Chat from "./data/models/chats.js";
 import Country from "./data/models/country.js";
+import Offer from "./data/models/offer.js";
 
 AdminJS.registerAdapter({ Database, Resource });
 
@@ -389,6 +390,26 @@ const adminJs = new AdminJS({
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
           image: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+        },
+      },
+    },
+    {
+      resource: Offer,
+      options: {
+        listProperties: ["id", "name", "surname", "phone"],
+        properties: {
+          id: {
+            isVisible: { list: true, edit: false, filter: true, show: true },
+          },
+          name: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          surname: {
+            isVisible: { list: true, edit: true, filter: true, show: true },
+          },
+          phone: {
             isVisible: { list: true, edit: true, filter: true, show: true },
           },
         },
