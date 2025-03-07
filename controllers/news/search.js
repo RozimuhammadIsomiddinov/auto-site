@@ -8,9 +8,33 @@ const searchCont = async (req, res) => {
     const { q } = req.params;
 
     const [cars, moto, commerce] = await Promise.all([
-      Car.findAll({ where: { model: { [Op.iLike]: `%${q}%` } } }),
-      Motorcycle.findAll({ where: { model: { [Op.iLike]: `%${q}%` } } }),
-      CommerceCar.findAll({ where: { model: { [Op.iLike]: `%${q}%` } } }),
+      Car.findAll({
+        include: [
+          {
+            model: Mark,
+            as: "mark",
+            where: { mark_name: { [Op.iLike]: `%${q}%` } }, // Markani qidirish
+          },
+        ],
+      }),
+      Motorcycle.findAll({
+        include: [
+          {
+            model: Mark,
+            as: "mark",
+            where: { mark_name: { [Op.iLike]: `%${q}%` } }, // Markani qidirish
+          },
+        ],
+      }),
+      CommerceCar.findAll({
+        include: [
+          {
+            model: Mark,
+            as: "mark",
+            where: { mark_name: { [Op.iLike]: `%${q}%` } }, // Markani qidirish
+          },
+        ],
+      }),
     ]);
 
     return res.status(200).json({ cars, moto, commerce });
