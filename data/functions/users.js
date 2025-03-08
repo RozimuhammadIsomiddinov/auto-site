@@ -22,10 +22,14 @@ const comparePassword = async (password, hashedPassword) => {
 
 const createdVehicles = async (email) => {
   try {
-    const cars = await Car.findAll({ where: { authoremail: email } });
-    const motos = await Motorcycle.findAll({ where: { authoremail: email } });
+    const cars = await Car.findAll({
+      where: { authoremail: email, archived: false },
+    });
+    const motos = await Motorcycle.findAll({
+      where: { authoremail: email, archived: false },
+    });
     const commerce = await CommerceCar.findAll({
-      where: { authoremail: email },
+      where: { authoremail: email, archived: false },
     });
 
     return {
