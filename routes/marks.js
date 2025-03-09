@@ -59,7 +59,7 @@ const router = express.Router();
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Mark'
+ *                 $ref: '#/components/schemas/Marks'
  *       404:
  *         description: No marks available
  *       400:
