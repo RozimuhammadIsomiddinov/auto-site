@@ -6,10 +6,7 @@ const getAllMark = async (req, res) => {
     const pageSize = parseInt(req.query.pageSize) || 10;
 
     const offset = (page - 1) * pageSize;
-    const result = await Mark.findAll({
-      limit: pageSize,
-      offset,
-    });
+    const result = await Mark.findAll();
     if (!result.length) {
       return res.status(404).json({ message: "No marks available yet!" });
     }
