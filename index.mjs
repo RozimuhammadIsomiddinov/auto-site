@@ -24,6 +24,8 @@ import country from "./routes/country.js";
 import archive from "./routes/archive.js";
 import offer from "./routes/offer.js";
 import { adminRouter } from "./admin.mjs";
+import bodyParser from "body-parser";
+
 import {
   savedMessage,
   updatedMessage,
@@ -85,8 +87,11 @@ if (!fs.existsSync(imagesFolderPath)) {
   fs.mkdirSync(imagesFolderPath);
   logger.info("Images folder created successfully.");
 }
+// AdminJS router
+app.use("/admin", adminRouter);
 
-app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
   cors({
@@ -95,14 +100,10 @@ app.use(
   })
 );
 
-app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static(path.resolve("./public")));
 
 // Swagger route
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
-// AdminJS router
-app.use("/admin-cars", adminRouter);
 
 // API routes
 app.use("/", carRoutes);

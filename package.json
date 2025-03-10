@@ -19,9 +19,13 @@
     "@adminjs/sequelize": "^4.1.1",
     "@adminjs/themes": "^1.0.1",
     "@adminjs/upload": "^3.0.0",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-react": "^7.26.3",
     "adminjs": "^7.8.12",
+    "babel-loader": "^10.0.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
@@ -34,6 +38,8 @@
     "sqlite3": "^5.1.7",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1",
     "winston": "^3.15.0"
   },
   "devDependencies": {

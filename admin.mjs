@@ -12,8 +12,21 @@ import Mark from "./data/models/carMark.js";
 import Chat from "./data/models/chats.js";
 import Country from "./data/models/country.js";
 import Offer from "./data/models/offer.js";
+import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+import { generateJWT } from "./data/functions/users.js";
+dotenv.config();
 
 AdminJS.registerAdapter({ Database, Resource });
+const users = async () => {
+  return [
+    {
+      id: 1,
+      email: "admin@example.com",
+      password: await bcrypt.hash("admin", 10),
+    },
+  ];
+};
 
 const adminJs = new AdminJS({
   defaultTheme: dark.id,
@@ -22,6 +35,7 @@ const adminJs = new AdminJS({
     {
       resource: Car,
       options: {
+        navigation: { name: "информация", icon: "Database" },
         listProperties: [
           "id",
           "image",
@@ -113,6 +127,7 @@ const adminJs = new AdminJS({
     {
       resource: Motorcycle,
       options: {
+        navigation: { name: "информация", icon: "Database" },
         listProperties: [
           "image",
           "country",
@@ -198,6 +213,7 @@ const adminJs = new AdminJS({
     {
       resource: CommerceCar,
       options: {
+        navigation: { name: "информация", icon: "Database" },
         listProperties: [
           "image",
           "country",
@@ -285,6 +301,7 @@ const adminJs = new AdminJS({
     {
       resource: Users,
       options: {
+        navigation: { name: "информация", icon: "Database" },
         listProperties: ["id", "image", "name", "email", "role", "userrate"],
         properties: {
           id: {
@@ -315,6 +332,7 @@ const adminJs = new AdminJS({
     {
       resource: Cart,
       options: {
+        navigation: { name: "информация", icon: "Database" },
         listProperties: [
           "id",
           "user_id",
@@ -344,6 +362,7 @@ const adminJs = new AdminJS({
     {
       resource: News,
       options: {
+        navigation: { name: "информация", icon: "Database" },
         listProperties: ["id", "title", "content", "image"],
         properties: {
           id: {
@@ -364,6 +383,7 @@ const adminJs = new AdminJS({
     {
       resource: Mark,
       options: {
+        navigation: { name: "информация", icon: "Database" },
         listProperties: ["id", "mark_name", "image"],
         properties: {
           id: {
@@ -381,6 +401,7 @@ const adminJs = new AdminJS({
     {
       resource: Country,
       options: {
+        navigation: { name: "информация", icon: "Database" },
         listProperties: ["id", "name", "image"],
         properties: {
           id: {
@@ -398,6 +419,7 @@ const adminJs = new AdminJS({
     {
       resource: Offer,
       options: {
+        navigation: { name: "информация", icon: "Database" },
         listProperties: ["id", "name", "surname", "phone"],
         properties: {
           id: {
@@ -418,6 +440,7 @@ const adminJs = new AdminJS({
     {
       resource: Chat,
       options: {
+        navigation: { name: "информация", icon: "Database" },
         listProperties: ["chat_id", "chat_user_id", "user_id", "mute_type"],
         properties: {
           chat_id: {
@@ -436,13 +459,45 @@ const adminJs = new AdminJS({
       },
     },
   ],
-  rootPath: "/admin-cars",
+  rootPath: "/admin",
+  dashboard: {
+    handler: async () => {
+      return { component: null };
+    },
+  },
   branding: {
     companyName: "Auto site",
+    metaTitle: "Admin Dashboard",
+    hideSidebar: false,
     softwareBrothers: false,
+
+    withMadeWithLove: false,
   },
 });
 
-const adminRouter = AdminJSExpress.buildRouter(adminJs);
+// Autentifikatsiya qilish
+const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
+  adminJs,
+  {
+    authenticate: async (email, password) => {
+      const user = (await users()).find((u) => u.email === email);
+      if (user && (await bcrypt.compare(password, user.password))) {
+        const token = generateJWT(user.id);
+        return { ...user, token };
+      }
+      return false;
+    },
+    cookiePassword: process.env.DB_PASSWORD,
+  },
+  null,
+  {
+    resave: false,
+    saveUninitialized: true,
+    secret: process.env.JWT_SECRET,
+    cookie: { secure: false, httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }, // 1 kunlik token
+  }
+);
+
+//const adminRouter = AdminJSExpress.buildRouter(adminJs);
 
 export { adminJs, adminRouter };
