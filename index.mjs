@@ -237,17 +237,10 @@ app.get("/chat/users/:user_id", async (req, res) => {
     const { user_id } = req.params;
     const chats = await getChats(user_id);
 
-    if (chats?.length > 0) {
-      return res.status(200).json({
-        status: "Success",
-        data: chats,
-      });
-    } else {
-      return res.status(404).json({
-        status: 404,
-        message: "Not found",
-      });
-    }
+    return res.status(200).json({
+      status: "Success",
+      data: chats,
+    });
   } catch (error) {
     logger.error(`chat getdagi error: ${error}`);
     res.status(500).json({
