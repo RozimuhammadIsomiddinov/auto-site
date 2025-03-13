@@ -3,6 +3,10 @@ const fileUpload = require("../middlewares/multer.js");
 const getAllCountry = require("../controllers/country/select.js");
 const filter = require("../controllers/country/filter.js");
 const createCountry = require("../controllers/country/create.js");
+const filter_cars = require("../controllers/country/filter-car.js");
+const filter_moto = require("../controllers/country/filter-moto.js");
+const filter_commerce = require("../controllers/country/filter-commerce.js");
+const updateCountry = require("../controllers/country/update.js");
 const router = express.Router();
 
 /**
@@ -42,12 +46,6 @@ const router = express.Router();
  *   post:
  *     summary: Filter vehicles by country
  *     tags: [Country]
- *     parameters:
- *       - in: query
- *         name: page
- *         schema:
- *           type: integer
- *           default: 1
  *     requestBody:
  *       required: true
  *       content:
@@ -62,53 +60,6 @@ const router = express.Router();
  *     responses:
  *       200:
  *         description: Successfully retrieved filtered vehicles
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 cars:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: integer
- *                         example: 1
- *                       name:
- *                         type: string
- *                         example: "BMW X5"
- *                       country:
- *                         type: string
- *                         example: "Germany"
- *                 motorcycles:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: integer
- *                         example: 2
- *                       name:
- *                         type: string
- *                         example: "Harley-Davidson"
- *                       country:
- *                         type: string
- *                         example: "USA"
- *                 commerceCars:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: integer
- *                         example: 3
- *                       name:
- *                         type: string
- *                         example: "Mercedes Sprinter"
- *                       country:
- *                         type: string
- *                         example: "Germany"
  *       400:
  *         description: Bad request, missing or invalid parameters
  *       404:
@@ -136,7 +87,6 @@ const router = express.Router();
  *               name:
  *                 type: string
  *                 example: "France"
- *                 description: Name of the country
  *               image:
  *                 type: string
  *                 format: binary
@@ -144,7 +94,6 @@ const router = express.Router();
  *               description:
  *                 type: string
  *                 example: "A country in Europe"
- *                 description: Description of the country
  *     responses:
  *       201:
  *         description: Country successfully added
@@ -154,8 +103,115 @@ const router = express.Router();
  *         description: Internal server error
  */
 
+/**
+ * @swagger
+ * /country-cars:
+ *   get:
+ *     summary: Get cars by country
+ *     tags: [Country]
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Country name to filter cars
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved cars
+ *       400:
+ *         description: Missing or invalid parameters
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /country-moto:
+ *   get:
+ *     summary: Get motorcycles by country
+ *     tags: [Country]
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Country name to filter motorcycles
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved motorcycles
+ *       400:
+ *         description: Missing or invalid parameters
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /country-commerce:
+ *   get:
+ *     summary: Get commerce cars by country
+ *     tags: [Country]
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Country name to filter commerce cars
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved commerce cars
+ *       400:
+ *         description: Missing or invalid parameters
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /update-country/{id}:
+ *   put:
+ *     summary: Update an existing country
+ *     tags: [Country]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID of the country to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "France"
+ *               description:
+ *                 type: string
+ *                 example: "A European country"
+ *     responses:
+ *       200:
+ *         description: Country successfully updated
+ *       400:
+ *         description: Bad request, invalid parameters
+ *       404:
+ *         description: Country not found
+ *       500:
+ *         description: Internal server error
+ */
+
 router.get("/country", getAllCountry);
+router.get("/country-cars", filter_cars);
+router.get("/country-moto", filter_moto);
+router.get("/country-commerce", filter_commerce);
 router.post("/filter", filter);
+router.put("/update-country/:id", updateCountry);
 router.post("/add-country", fileUpload.single("image"), createCountry);
 
 module.exports = router;
