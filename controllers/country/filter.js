@@ -17,9 +17,9 @@ const filter = async (req, res) => {
       where: { name: { [Op.iLike]: `%${name}%` } },
     });
 
-    if (!country)
+    /*if (!country)
       return res.status(404).json({ message: "This country not found" });
-
+*/
     const countryName = country.name;
 
     const cars = await Car.findAll({

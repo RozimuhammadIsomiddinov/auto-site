@@ -4,6 +4,7 @@ const getAllCountry = require("../controllers/country/select.js");
 const filter = require("../controllers/country/filter.js");
 const createCountry = require("../controllers/country/create.js");
 const router = express.Router();
+
 /**
  * @swagger
  * /country:
@@ -31,16 +32,16 @@ const router = express.Router();
  *                     example: "https://example.com/flag.png"
  *       404:
  *         description: No countries found
- *       400:
- *         description: Error fetching countries
+ *       500:
+ *         description: Internal server error
  */
 
 /**
  * @swagger
  * /filter:
  *   post:
- *     tags:
- *       - Country
+ *     summary: Filter vehicles by country
+ *     tags: [Country]
  *     parameters:
  *       - in: query
  *         name: page
@@ -53,8 +54,6 @@ const router = express.Router();
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - name
  *             properties:
  *               name:
  *                 type: string
@@ -112,34 +111,10 @@ const router = express.Router();
  *                         example: "Germany"
  *       400:
  *         description: Bad request, missing or invalid parameters
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Send country name"
  *       404:
  *         description: No vehicles found for the given country
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "This country not found"
  *       500:
  *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Error from filter"
  */
 
 /**
@@ -154,43 +129,33 @@ const router = express.Router();
  *         multipart/form-data:
  *           schema:
  *             type: object
+ *             required:
+ *               - name
+ *               - image
  *             properties:
  *               name:
  *                 type: string
- *                 description: Name of the country
  *                 example: "France"
+ *                 description: Name of the country
  *               image:
  *                 type: string
  *                 format: binary
  *                 description: Image file of the country's flag
+ *               description:
+ *                 type: string
+ *                 example: "A country in Europe"
+ *                 description: Description of the country
  *     responses:
  *       201:
  *         description: Country successfully added
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Successfully added country."
- *                 result:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: integer
- *                       example: 1
- *                     name:
- *                       type: string
- *                       example: "France"
- *                     image:
- *                       type: string
- *                       example: "https://example.com/france.png"
  *       400:
  *         description: Bad request, missing or invalid parameters
+ *       500:
+ *         description: Internal server error
  */
 
 router.get("/country", getAllCountry);
 router.post("/filter", filter);
 router.post("/add-country", fileUpload.single("image"), createCountry);
+
 module.exports = router;
