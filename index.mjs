@@ -38,6 +38,7 @@ import {
   getNotifications,
 } from "./data/functions/chat.js";
 import logger from "./logs/logs.js";
+import upload from "./middlewares/multer.js";
 
 dotenv.config();
 
@@ -300,5 +301,15 @@ app.post("/chat/edit/mute", async (req, res) => {
     });
   }
 });
+
+app.post("/admin1/upload", upload.single("file"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: "Fayl yuklanmadi" });
+  }
+
+  const fileUrl = `${process.env.BACKEND_URL}/${req.file.filename}`;
+  res.json({ url: fileUrl });
+});
+
 const port = process.env.PORT;
 server.listen(port);

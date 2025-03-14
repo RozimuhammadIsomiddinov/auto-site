@@ -21,7 +21,7 @@
     "@adminjs/upload": "^3.0.0",
     "@babel/preset-env": "^7.26.9",
     "@babel/preset-react": "^7.26.3",
-    "adminjs": "^7.8.12",
+    "adminjs": "^7.8.15",
     "babel-loader": "^10.0.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
