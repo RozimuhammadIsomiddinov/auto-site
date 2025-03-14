@@ -21,7 +21,7 @@ const transporter = createTransport(
 const mailer = async (message) => {
   try {
     const mailOptions = {
-      from: `"Your Website" <${process.env.SMTP_USER}>`,
+      from: `<${process.env.SMTP_USER}>`,
       to: message.to,
       subject: message.subject,
       text: message.text || "",

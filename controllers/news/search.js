@@ -14,7 +14,12 @@ const searchCont = async (req, res) => {
           {
             model: Mark,
             as: "mark",
-            where: { mark_name: { [Op.iLike]: `%${q}%` } }, // Markani qidirish
+            where: {
+              [Op.or]: [
+                { mark_name: { [Op.iLike]: `%${q}%` } }, // Marka nomi boyicha qidirish
+                { model: { [Op.iLike]: `%${q}%` } }, // Model boyicha qidirish
+              ],
+            },
           },
         ],
       }),
@@ -23,7 +28,12 @@ const searchCont = async (req, res) => {
           {
             model: Mark,
             as: "mark",
-            where: { mark_name: { [Op.iLike]: `%${q}%` } }, // Markani qidirish
+            where: {
+              [Op.or]: [
+                { mark_name: { [Op.iLike]: `%${q}%` } }, // Marka nomi boyicha qidirish
+                { model: { [Op.iLike]: `%${q}%` } }, // Model boyicha qidirish
+              ],
+            }, // Markani qidirish
           },
         ],
       }),
@@ -32,7 +42,12 @@ const searchCont = async (req, res) => {
           {
             model: Mark,
             as: "mark",
-            where: { mark_name: { [Op.iLike]: `%${q}%` } }, // Markani qidirish
+            where: {
+              [Op.or]: [
+                { mark_name: { [Op.iLike]: `%${q}%` } }, // Marka nomi boyicha qidirish
+                { model: { [Op.iLike]: `%${q}%` } }, // Model boyicha qidirish
+              ],
+            }, // Markani qidirish
           },
         ],
       }),
