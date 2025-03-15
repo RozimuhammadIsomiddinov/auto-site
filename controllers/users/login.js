@@ -1,10 +1,7 @@
-const Users = require("../../data/models/user.js");
-const {
-  generateJWT,
-  comparePassword,
-} = require("../../data/functions/users.js");
+import Users from "../../data/models/user.js";
+import { generateJWT, comparePassword } from "../../data/functions/users.js";
 
-const loginMid = async (req, res) => {
+export const loginMid = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await Users.findOne({ where: { email } });
@@ -12,8 +9,7 @@ const loginMid = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const isMatch = await comparePassword(password, user.dataValues.password);
-
+    const isMatch = await comparePassword(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
@@ -34,5 +30,3 @@ const loginMid = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
-module.exports = { loginMid };

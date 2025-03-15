@@ -1,7 +1,7 @@
-const News = require("../models/news");
+import News from "../models/news.js";
 
-//read
-const getByIdNews = async (id) => {
+// read
+export const getByIdNews = async (id) => {
   try {
     const news = await News.findByPk(id);
     return news;
@@ -10,20 +10,20 @@ const getByIdNews = async (id) => {
   }
 };
 
-const getAllNews = async (page = 1, pageSize = 10) => {
+export const getAllNews = async (page = 1, pageSize = 10) => {
   try {
     const offset = (page - 1) * pageSize;
     const news = await News.findAll({
       limit: pageSize,
-      offset: offset,
+      offset,
     });
     return news;
   } catch (e) {
-    return "Error getting news:" + e.message;
+    return "Error getting news: " + e.message;
   }
 };
 
-const getVehicle = async (page, pageSize) => {
+export const getVehicle = async (page, pageSize) => {
   try {
     const offset = (page - 1) * pageSize;
     const vehicleNews = await News.findAll({
@@ -33,12 +33,12 @@ const getVehicle = async (page, pageSize) => {
     });
     return vehicleNews;
   } catch (e) {
-    return "Error getting vehicle news:" + e.message;
+    return "Error getting vehicle news: " + e.message;
   }
 };
-//create
 
-const createNews = async (newsData) => {
+// create
+export const createNews = async (newsData) => {
   try {
     const newData = await News.create(newsData);
     return newData;
@@ -47,9 +47,8 @@ const createNews = async (newsData) => {
   }
 };
 
-//update
-
-const updateNews = async (upData) => {
+// update
+export const updateNews = async (upData) => {
   const { body, params } = upData;
   const { title, content, image, vehicle } = body;
   try {
@@ -67,22 +66,12 @@ const updateNews = async (upData) => {
   }
 };
 
-//delete
-
-const deleteNews = async (id) => {
+// delete
+export const deleteNews = async (id) => {
   try {
     const result = await News.destroy({ where: { id } });
     return result;
   } catch (err) {
     return "Error deleting news: " + err.message;
   }
-};
-
-module.exports = {
-  getAllNews,
-  getByIdNews,
-  createNews,
-  updateNews,
-  deleteNews,
-  getVehicle,
 };

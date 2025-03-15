@@ -2,10 +2,11 @@
   "name": "autosite",
   "version": "1.0.0",
   "description": "",
-  "main": "index.mjs",
+  "type": "module",
+  "main": "index.js",
   "scripts": {
-    "start": "node index.mjs",
-    "dev": "nodemon index.mjs",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:up": "npx sequelize-cli db:migrate",
     "migrate:undo": "npx sequelize-cli db:migrate:undo"
@@ -18,7 +19,7 @@
     "@adminjs/express": "^6.1.0",
     "@adminjs/sequelize": "^4.1.1",
     "@adminjs/themes": "^1.0.1",
-    "@adminjs/upload": "^3.0.0",
+    "@adminjs/upload": "^4.0.2",
     "@babel/preset-env": "^7.26.9",
     "@babel/preset-react": "^7.26.3",
     "adminjs": "^7.8.15",

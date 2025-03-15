@@ -1,6 +1,6 @@
-const Offer = require("../../data/models/offer");
+import Offer from "../../data/models/offer.js";
 
-const createOffer = async (req, res) => {
+export const createOffer = async (req, res) => {
   const { name, surname, phone } = req.body;
   try {
     const result = await Offer.create({ name, surname, phone });
@@ -9,5 +9,3 @@ const createOffer = async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 };
-
-module.exports = { createOffer };

@@ -1,9 +1,11 @@
-const Users = require("../../data/models/user.js");
-const { generateJWT } = require("../../data/functions/users.js");
-const { mailer } = require("../../config/nodemailer.js");
-const dotenv = require("dotenv");
+import dotenv from "dotenv";
+import Users from "../../data/models/user.js";
+import { generateJWT } from "../../data/functions/users.js";
+import { mailer } from "../../config/nodemailer.js";
+
 dotenv.config();
-const registerMid = async (req, res) => {
+
+export const registerMid = async (req, res) => {
   const { name, email, password, role, userrate } = req.body;
   try {
     const existingUser = await Users.findOne({ where: { email } });
@@ -11,16 +13,12 @@ const registerMid = async (req, res) => {
       return res.status(400).json({ error: "Email already registered" });
     }
 
-    const user = await Users.create({
-      name,
-      email,
-      password,
-      role,
-      userrate,
-    });
+    const user = await Users.create({ name, email, password, role, userrate });
+
     if (userrate) {
       user.userrate = userrate;
     }
+
     const token = generateJWT(user);
 
     const message = {
@@ -39,5 +37,3 @@ const registerMid = async (req, res) => {
       .json({ error: "Registration failed", details: error.message });
   }
 };
-
-module.exports = { registerMid };

@@ -1,9 +1,9 @@
-const { QueryTypes } = require("sequelize");
-const Car = require("../data/models/automobile");
-const CommerceCar = require("../data/models/commerce");
-const Motorcycle = require("../data/models/moto");
+import { QueryTypes } from "sequelize";
+import Car from "../data/models/automobile.js";
+import CommerceCar from "../data/models/commerce.js";
+import Motorcycle from "../data/models/moto.js";
 
-const getAllLiked = async (req, res) => {
+export const getAllLiked = async (req, res) => {
   try {
     const { user_email } = req.query;
     if (!user_email) {
@@ -35,25 +35,19 @@ const getAllLiked = async (req, res) => {
     );
 
     const likedItems = {
-      cars: [...cars],
-      moto: [...motorcycles],
-      commerce: [...commerceCars],
+      cars,
+      moto: motorcycles,
+      commerce: commerceCars,
     };
 
-    if (
-      likedItems.cars.length === 0 &&
-      likedItems.moto.length === 0 &&
-      likedItems.commerce.length === 0
-    ) {
+    if (!cars.length && !motorcycles.length && !commerceCars.length) {
       return res.status(200).json([]);
     }
 
     return res.status(200).json(likedItems);
   } catch (e) {
     return res
-      .status(400)
+      .status(500)
       .json({ message: "Error fetching liked items: " + e.message });
   }
 };
-
-module.exports = { getAllLiked };

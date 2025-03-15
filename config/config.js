@@ -1,7 +1,8 @@
-const dotenv = require("dotenv");
+import dotenv from "dotenv";
 dotenv.config();
 
 const env = process.env.NODE_ENV;
+
 const migration = {
   development: {
     username: process.env.DB_USERNAME,
@@ -29,4 +30,4 @@ const migration = {
   },
 };
 
-module.exports = migration[env];
+export default migration[env];

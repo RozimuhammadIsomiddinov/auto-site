@@ -1,12 +1,14 @@
-const express = require("express");
-const { getMidMotorcycle } = require("../controllers/moto/getAllMoto.js");
-const { createMidMotorcycle } = require("../controllers/moto/createMoto.js");
-const { updateMotorcycleMid } = require("../controllers/moto/updateMoto.js");
-const { getMidMotorcycleById } = require("../controllers/moto/getByIdMoto.js");
-const { deleteMidMotorcycle } = require("../controllers/moto/deleteMoto.js");
-const { searchMoto } = require("../controllers/filter/motoFilter.js");
-const fileUpload = require("../middlewares/multer.js");
-const { getLikedMoto } = require("../controllers/moto/getLikedMoto.js");
+import express from "express";
+import { getMidMotorcycle } from "../controllers/moto/getAllMoto.js";
+import { createMidMotorcycle } from "../controllers/moto/createMoto.js";
+import { updateMotorcycleMid } from "../controllers/moto/updateMoto.js";
+import { getMidMotorcycleById } from "../controllers/moto/getByIdMoto.js";
+import { deleteMidMotorcycle } from "../controllers/moto/deleteMoto.js";
+import { searchMoto } from "../controllers/filter/motoFilter.js";
+import fileUpload from "../middlewares/multer.js";
+import { getLikedMoto } from "../controllers/moto/getLikedMoto.js";
+
+const router = express.Router();
 
 /**
  * @swagger
@@ -130,8 +132,6 @@ const { getLikedMoto } = require("../controllers/moto/getLikedMoto.js");
  *           description: Motorcycle model
  */
 
-const router = express.Router();
-
 /**
  * @swagger
  * /motorcycles:
@@ -163,7 +163,6 @@ const router = express.Router();
  *       400:
  *         description: Error occurred
  */
-router.get("/motorcycles", getMidMotorcycle);
 
 /**
  * @swagger
@@ -190,7 +189,6 @@ router.get("/motorcycles", getMidMotorcycle);
  *       400:
  *         description: Error retrieving motorcycle
  */
-router.get("/motorcycles/:id", getMidMotorcycleById);
 /**
  * @swagger
  * /add-motorcycle:
@@ -214,12 +212,6 @@ router.get("/motorcycles/:id", getMidMotorcycleById);
  *       400:
  *         description: Error adding motorcycle
  */
-
-router.post(
-  "/add-motorcycle",
-  fileUpload.array("image", 10),
-  createMidMotorcycle
-);
 
 /**
  * @swagger
@@ -252,11 +244,6 @@ router.post(
  *       404:
  *         description: Motorcycle not found
  */
-router.put(
-  "/update-motorcycle/:id",
-  fileUpload.array("image", 10),
-  updateMotorcycleMid
-);
 
 /**
  * @swagger
@@ -282,8 +269,6 @@ router.put(
  *       400:
  *         description: Error deleting motorcycle
  */
-router.delete("/delete-motorcycle/:id", deleteMidMotorcycle);
-router.get("/moto-filter", searchMoto);
 
 /**
  * @swagger
@@ -323,5 +308,20 @@ router.get("/moto-filter", searchMoto);
  *         description: Car not found
  */
 
+router.get("/motorcycles", getMidMotorcycle);
+router.get("/motorcycles/:id", getMidMotorcycleById);
+router.post(
+  "/add-motorcycle",
+  fileUpload.array("image", 10),
+  createMidMotorcycle
+);
+router.put(
+  "/update-motorcycle/:id",
+  fileUpload.array("image", 10),
+  updateMotorcycleMid
+);
+router.delete("/delete-motorcycle/:id", deleteMidMotorcycle);
+router.get("/moto-filter", searchMoto);
 router.get("/liked-moto/:id", getLikedMoto);
-module.exports = router;
+
+export default router;

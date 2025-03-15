@@ -1,6 +1,6 @@
-const Country = require("../../data/models/country");
+import Country from "../../data/models/country.js";
 
-const updateCountry = async (req, res) => {
+export const updateCountry = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, description } = req.body;
@@ -15,5 +15,3 @@ const updateCountry = async (req, res) => {
     return res.status(400).send("error of updateCountry:\n" + e.message);
   }
 };
-
-module.exports = updateCountry;

@@ -1,12 +1,13 @@
+import AdminJS from "adminjs";
 import { dark, light, noSidebar } from "@adminjs/themes";
+
 import AdminJSExpress from "@adminjs/express";
 import { Database, Resource } from "@adminjs/sequelize";
-import AdminJS from "adminjs";
-import path from "path";
-import { fileURLToPath } from "url";
 import { ComponentLoader } from "adminjs";
+import uploadFileFeature from "@adminjs/upload";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import path from "path";
 import { generateJWT } from "./data/functions/users.js";
 
 import Car from "./data/models/automobile.js";
@@ -19,28 +20,40 @@ import Mark from "./data/models/carMark.js";
 import Chat from "./data/models/chats.js";
 import Country from "./data/models/country.js";
 import Offer from "./data/models/offer.js";
-
-// Fayl yo‘li
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// AdminJS komponent yuklovchi
-const componentLoader = new ComponentLoader();
-const UploadImageComponent = componentLoader.add(
-  "UploadImageComponent",
-  path.join(__dirname, "./UploadImageComponent.jsx")
-);
+import Banner from "./data/models/banner.js";
 
 dotenv.config();
 AdminJS.registerAdapter({ Database, Resource });
 
-const users = async () => [
-  {
-    id: 1,
-    email: "admin@example.com",
-    password: await bcrypt.hash("admin", 10),
+const uploadPath = "public/images";
+const componentLoader = new ComponentLoader();
+
+const uploadOptions = {
+  provider: { local: { bucket: uploadPath } },
+  properties: {
+    key: "image",
+    filePath: "imagePath",
+    mimeType: "mimeType",
+    file: "uploadedFile",
+    url: ({ record }) => {
+      const filePath = record?.params?.imagePath || record?.params?.image;
+      if (!filePath) return null;
+
+      const cleanedPath = filePath.replace(/^public\//, "");
+
+      return `${process.env.BACKEND_URL}/${cleanedPath}`;
+    },
   },
-];
+  validation: {
+    mimeTypes: ["image/png", "image/jpeg", "image/jpg", "application/pdf"],
+  },
+  uploadPath: (record, filename) => `${filename}`,
+  options: {
+    bucket: uploadPath,
+    publicUrl: (filePath) =>
+      `${process.env.BACKEND_URL}/${path.basename(filePath)}`,
+  },
+};
 
 const commonProperties = {
   id: { isVisible: { list: true, edit: false, filter: true, show: true } },
@@ -80,30 +93,30 @@ const adminJs = new AdminJS({
     {
       resource: Car,
       options: {
-        navigation: { name: "информация", icon: "Database" },
         properties: commonProperties,
+        navigation: { name: "информация", icon: "Database" },
       },
     },
     {
       resource: Motorcycle,
       options: {
-        navigation: { name: "информация", icon: "Database" },
         properties: commonProperties,
+        navigation: { name: "информация", icon: "Database" },
       },
     },
     {
       resource: CommerceCar,
       options: {
-        navigation: { name: "информация", icon: "Database" },
         properties: commonProperties,
+        navigation: { name: "информация", icon: "Database" },
       },
     },
     {
       resource: Users,
       options: {
-        navigation: { name: "информация", icon: "Database" },
         listProperties: ["id", "image", "name", "email", "role", "userrate"],
         properties: { ...commonProperties, password: { isVisible: false } },
+        navigation: { name: "информация", icon: "Database" },
       },
     },
     {
@@ -112,21 +125,63 @@ const adminJs = new AdminJS({
     },
     {
       resource: News,
-      options: { navigation: { name: "информация", icon: "Database" } },
+      options: {
+        properties: {
+          uploadedFile: {
+            isVisible: { list: false, show: false, edit: true },
+          },
+          image: {
+            isVisible: { list: true, show: true, edit: false },
+          },
+        },
+        navigation: { name: "информация", icon: "Database" },
+      },
+      features: [uploadFileFeature({ ...uploadOptions, componentLoader })],
     },
     {
       resource: Mark,
-      options: { navigation: { name: "информация", icon: "Database" } },
+      options: {
+        properties: {
+          uploadedFile: {
+            isVisible: { list: false, show: false, edit: true },
+          },
+          image: {
+            isVisible: { list: true, show: true, edit: false },
+          },
+        },
+        navigation: { name: "информация", icon: "Database" },
+      },
+      features: [uploadFileFeature({ ...uploadOptions, componentLoader })],
+    },
+    {
+      resource: Banner,
+      options: {
+        properties: {
+          uploadedFile: {
+            isVisible: { list: false, show: false, edit: true },
+          },
+          image: {
+            isVisible: { list: true, show: true, edit: false },
+          },
+        },
+        navigation: { name: "информация", icon: "Database" },
+      },
+      features: [uploadFileFeature({ ...uploadOptions, componentLoader })],
     },
     {
       resource: Country,
       options: {
-        navigation: { name: "информация", icon: "Database" },
         properties: {
-          ...commonProperties,
-          image: { edit: UploadImageComponent, show: UploadImageComponent },
+          uploadedFile: {
+            isVisible: { list: false, show: false, edit: true },
+          },
+          image: {
+            isVisible: { list: true, show: true, edit: false },
+          },
         },
+        navigation: { name: "информация", icon: "Database" },
       },
+      features: [uploadFileFeature({ ...uploadOptions, componentLoader })],
     },
     {
       resource: Offer,
@@ -138,8 +193,21 @@ const adminJs = new AdminJS({
     },
   ],
   rootPath: "/admin",
+  locale: {
+    translations: {
+      en: {
+        resources: {
+          Image: {
+            properties: {
+              file: "File",
+            },
+          },
+        },
+      },
+    },
+  },
   branding: {
-    companyName: "Auto site",
+    companyName: "Auto Site",
     metaTitle: "Admin Dashboard",
     hideSidebar: false,
     softwareBrothers: false,
@@ -151,9 +219,15 @@ const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
   adminJs,
   {
     authenticate: async (email, password) => {
-      const user = (await users()).find((u) => u.email === email);
-      if (user && (await bcrypt.compare(password, user.password))) {
-        return { ...user, token: generateJWT(user.id) };
+      const user = {
+        email: "admin@example.com",
+        password: await bcrypt.hash("admin", 10),
+      };
+      if (
+        user.email === email &&
+        (await bcrypt.compare(password, user.password))
+      ) {
+        return { ...user, token: generateJWT(user) };
       }
       return false;
     },
@@ -167,7 +241,5 @@ const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
     cookie: { secure: false, httpOnly: true, maxAge: 24 * 60 * 60 * 1000 },
   }
 );
-
-//const adminRouter = AdminJSExpress.buildRouter(adminJs);
 
 export { adminJs, adminRouter };

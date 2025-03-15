@@ -1,5 +1,5 @@
-const express = require("express");
-const { createOffer } = require("../controllers/users/offer");
+import express from "express";
+import { createOffer } from "../controllers/users/offer.js";
 
 const router = express.Router();
 
@@ -58,4 +58,4 @@ const router = express.Router();
 
 router.post("/create-offer", createOffer);
 
-module.exports = router;
+export default router;

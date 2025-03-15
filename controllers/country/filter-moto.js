@@ -1,8 +1,8 @@
-const { Op } = require("sequelize");
-const Country = require("../../data/models/country");
-const Motorcycle = require("../../data/models/moto");
+import { Op } from "sequelize";
+import Country from "../../data/models/country.js";
+import Motorcycle from "../../data/models/moto.js";
 
-const filter_moto = async (req, res) => {
+export const filter_moto = async (req, res) => {
   try {
     const { name } = req.query;
     if (!name) return res.status(400).json({ message: "Send country name" });
@@ -15,9 +15,11 @@ const filter_moto = async (req, res) => {
       where: { name: { [Op.iLike]: `%${name}%` } },
     });
 
-    /*if (!country)
-      return res.status(404).json({ message: "This country not found" });
-*/
+    // Agar mamlakat topilmasa, bo‘sh massiv qaytaramiz.
+    if (!country) {
+      return res.status(200).json([]);
+    }
+
     const countryName = country.name;
 
     const motorcycles = await Motorcycle.findAll({
@@ -33,5 +35,3 @@ const filter_moto = async (req, res) => {
       .json({ message: "Error from filter_moto", error: e.message });
   }
 };
-
-module.exports = filter_moto;

@@ -1,9 +1,10 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   getNewVehicleMid,
   createBanner,
-} = require("../controllers/news/getNewVehicle");
-const fileUpload = require("../middlewares/multer.js");
+} from "../controllers/news/getNewVehicle.js";
+import fileUpload from "../middlewares/multer.js";
+
 const router = express.Router();
 
 /**
@@ -53,6 +54,7 @@ const router = express.Router();
  */
 
 router.get("/banner", getNewVehicleMid);
+
 /**
  * @swagger
  * /create-banner:
@@ -115,4 +117,5 @@ router.get("/banner", getNewVehicleMid);
  */
 
 router.post("/create-banner", fileUpload.array("image", 5), createBanner);
-module.exports = router;
+
+export default router;

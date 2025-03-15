@@ -1,8 +1,9 @@
-const { addToCart } = require("../../data/functions/products.js");
+import { addToCart } from "../../data/functions/products.js";
 
-const createMid = async (req, res) => {
+export const createMid = async (req, res) => {
   const { user_id, quantity, product_type } = req.body;
-  const { id } = req.params; //product id
+  const { id } = req.params; // product ID
+
   if (!user_id || !id || !product_type) {
     return res.status(400).send("All fields are required.");
   }
@@ -23,4 +24,3 @@ const createMid = async (req, res) => {
     return res.status(400).send("Error from createMidCart:\n" + e.message);
   }
 };
-module.exports = { createMid };

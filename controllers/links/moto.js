@@ -1,6 +1,6 @@
-const Motorcycle = require("../../data/models/moto");
+import Motorcycle from "../../data/models/moto.js";
 
-const addLinkMoto = async (req, res) => {
+export const addLinkMoto = async (req, res) => {
   const { id } = req.params;
   const { video_link } = req.body;
   try {
@@ -22,7 +22,7 @@ const addLinkMoto = async (req, res) => {
   }
 };
 
-const deleteLinkMoto = async (req, res) => {
+export const deleteLinkMoto = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -44,5 +44,3 @@ const deleteLinkMoto = async (req, res) => {
       .json({ message: "Error from deleteLinkMoto", error: e.message });
   }
 };
-
-module.exports = { addLinkMoto, deleteLinkMoto };

@@ -1,15 +1,19 @@
-const { getAllCars } = require("../../data/functions/autombiles.js");
+import { getAllCars } from "../../data/functions/autombiles.js";
 
-const getMid = async (req, res) => {
+export const getMid = async (req, res) => {
   try {
-    const result = await getAllCars(req.query.page, req.query.pageSize);
-    if (result.length == 0) {
-      return res.status(404).json({ message: "cars have not yet!" });
+    const { page = 1, pageSize = 10 } = req.query;
+    const result = await getAllCars(Number(page), Number(pageSize));
+
+    if (!result || result.length === 0) {
+      return res.status(404).json({ message: "No cars available yet!" });
     }
+
     res.status(200).json(result);
   } catch (err) {
-    res.status(400).json({ message: "Error from getMid", error: err.message });
+    console.error("Error in getMid:", err);
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
   }
 };
-
-module.exports = { getMid };

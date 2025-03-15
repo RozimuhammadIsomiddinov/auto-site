@@ -1,9 +1,9 @@
-const Car = require("../../data/models/automobile");
-const CommerceCar = require("../../data/models/commerce");
-const Motorcycle = require("../../data/models/moto");
-const Users = require("../../data/models/user");
+import Car from "../../data/models/automobile.js";
+import CommerceCar from "../../data/models/commerce.js";
+import Motorcycle from "../../data/models/moto.js";
+import Users from "../../data/models/user.js";
 
-const getArchive = async (req, res) => {
+export const getArchive = async (req, res) => {
   const { id } = req.params;
   if (!id) return res.status(400).json({ message: "send a user id" });
   try {
@@ -26,7 +26,7 @@ const getArchive = async (req, res) => {
   }
 };
 
-const addArchiveCar = async (req, res) => {
+export const addArchiveCar = async (req, res) => {
   const { id } = req.body;
   try {
     const [updatedRows, updatedCars] = await Car.update(
@@ -43,7 +43,7 @@ const addArchiveCar = async (req, res) => {
   }
 };
 
-const deleteArchiveCar = async (req, res) => {
+export const deleteArchiveCar = async (req, res) => {
   const { id } = req.body;
   try {
     const [updatedRows, updatedCars] = await Car.update(
@@ -60,7 +60,7 @@ const deleteArchiveCar = async (req, res) => {
   }
 };
 
-const addArchiveMoto = async (req, res) => {
+export const addArchiveMoto = async (req, res) => {
   const { id } = req.body;
   try {
     const [updatedRows, updatedMoto] = await Motorcycle.update(
@@ -77,7 +77,7 @@ const addArchiveMoto = async (req, res) => {
   }
 };
 
-const deleteArchiveMoto = async (req, res) => {
+export const deleteArchiveMoto = async (req, res) => {
   const { id } = req.body;
   try {
     const [updatedRows, updatedMoto] = await Motorcycle.update(
@@ -94,7 +94,7 @@ const deleteArchiveMoto = async (req, res) => {
   }
 };
 
-const addArchiveCommerce = async (req, res) => {
+export const addArchiveCommerce = async (req, res) => {
   const { id } = req.body;
   try {
     const [updatedRows, updatedCommerce] = await CommerceCar.update(
@@ -111,7 +111,7 @@ const addArchiveCommerce = async (req, res) => {
   }
 };
 
-const deleteArchiveCommerce = async (req, res) => {
+export const deleteArchiveCommerce = async (req, res) => {
   const { id } = req.body;
   try {
     const [updatedRows, updatedCommerce] = await CommerceCar.update(
@@ -126,14 +126,4 @@ const deleteArchiveCommerce = async (req, res) => {
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
-};
-
-module.exports = {
-  getArchive,
-  addArchiveCar,
-  addArchiveMoto,
-  addArchiveCommerce,
-  deleteArchiveCar,
-  deleteArchiveMoto,
-  deleteArchiveCommerce,
 };

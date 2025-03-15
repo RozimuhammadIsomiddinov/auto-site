@@ -1,19 +1,18 @@
-const { getMotorcycleById } = require("../../data/functions/motos");
-const Users = require("../../data/models/user");
+import { getMotorcycleById } from "../../data/functions/motos.js";
+import Users from "../../data/models/user.js";
 
 const getLikedMoto = async (req, res) => {
   try {
     const { id } = req.params; // moto id
-    const { user_id } = req.query; // user id
-    const { count } = req.query; // 1 or -1 (like qo'shish yoki olib tashlash)
+    const { user_id, count } = req.query; // user id va like qo'shish yoki olib tashlash
 
     const user = await Users.findOne({ where: { id: user_id } });
-    if (!user)
+    if (!user) {
       return res.status(400).json({
         message: "You have to be registered",
         method: "post",
-        path: `http://212.67.11.143:4035/user-register`,
       });
+    }
 
     const moto = await getMotorcycleById(id);
     if (!moto) {
@@ -21,26 +20,22 @@ const getLikedMoto = async (req, res) => {
     }
 
     const likedUsers = moto.liked_user || [];
+    const parsedCount = parseInt(count);
 
-    if (parseInt(count) > 0) {
+    if (parsedCount > 0) {
       const newLikedUsers = likedUsers.includes(user.email)
         ? likedUsers
         : [...likedUsers, user.email];
+
       await moto.update({
-        liked:
-          (moto.liked || 0) + parseInt(count) < 0
-            ? 0
-            : (moto.liked || 0) + parseInt(count),
+        liked: Math.max((moto.liked || 0) + parsedCount, 0),
         liked_user: newLikedUsers,
       });
-    } else if (parseInt(count) < 0) {
+    } else if (parsedCount < 0) {
       const newLikedUsers = likedUsers.filter((email) => email !== user.email);
 
       await moto.update({
-        liked:
-          (moto.liked || 0) + parseInt(count) < 0
-            ? 0
-            : (moto.liked || 0) + parseInt(count),
+        liked: Math.max((moto.liked || 0) + parsedCount, 0),
         liked_user: newLikedUsers,
       });
     }
@@ -51,4 +46,4 @@ const getLikedMoto = async (req, res) => {
   }
 };
 
-module.exports = { getLikedMoto };
+export { getLikedMoto };

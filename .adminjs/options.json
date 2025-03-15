@@ -1,0 +1,9 @@
+{
+  "resources": {
+    "Image": {
+      "properties": {
+        "file": "File"
+      }
+    }
+  }
+}

@@ -1,13 +1,13 @@
-const express = require("express");
+import express from "express";
 
-const { searchCars } = require("../controllers/filter/carFilter.js");
-const { searchMoto } = require("../controllers/filter/motoFilter.js");
-const { searchCommerce } = require("../controllers/filter/commerceFilter.js");
-const allFilter = require("../controllers/filter/allFilter.js");
-const {
+import { searchCars } from "../controllers/filter/carFilter.js";
+import { searchMoto } from "../controllers/filter/motoFilter.js";
+import { searchCommerce } from "../controllers/filter/commerceFilter.js";
+import { allFilter } from "../controllers/filter/allFilter.js";
+import {
   beforeFilter,
   modelFilter,
-} = require("../controllers/filter/before-filter.js");
+} from "../controllers/filter/before-filter.js";
 
 const router = express.Router();
 
@@ -195,4 +195,4 @@ router.post("/model-filter", modelFilter);
  */
 router.post("/all-filter", allFilter);
 
-module.exports = router;
+export default router;

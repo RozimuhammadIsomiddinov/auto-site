@@ -1,12 +1,13 @@
-const express = require("express");
-const authenticate = require("../controllers/users/auth.js");
-const { registerMid } = require("../controllers/users/register.js");
-const { loginMid } = require("../controllers/users/login.js");
-const { passwordMid } = require("../controllers/forgotPassword/passwordMid.js");
-const { resetMid } = require("../controllers/forgotPassword/resetMid.js");
-const { changeNameEmail } = require("../controllers/users/changeNameEmail.js");
-const { changePassword } = require("../controllers/users/changePass.js");
-const { getByIDuser } = require("../controllers/users/user.js");
+import express from "express";
+import authenticate from "../controllers/users/auth.js";
+import { registerMid } from "../controllers/users/register.js";
+import { loginMid } from "../controllers/users/login.js";
+import { passwordMid } from "../controllers/forgotPassword/passwordMid.js";
+import { resetMid } from "../controllers/forgotPassword/resetMid.js";
+import { changeNameEmail } from "../controllers/users/changeNameEmail.js";
+import { changePassword } from "../controllers/users/changePass.js";
+import { getByIDuser } from "../controllers/users/user.js";
+
 const router = express.Router();
 
 /**
@@ -86,9 +87,6 @@ const router = express.Router();
  *         description: Bad request
  */
 
-router.get("/user-find/:id", getByIDuser);
-router.post("/user-register", registerMid);
-
 /**
  * @swagger
  * /forgot-password:
@@ -111,7 +109,6 @@ router.post("/user-register", registerMid);
  *       400:
  *         description: Error processing request
  */
-router.post("/forgot-password", passwordMid);
 
 /**
  * @swagger
@@ -141,7 +138,6 @@ router.post("/forgot-password", passwordMid);
  *       400:
  *         description: Invalid or expired token
  */
-router.post("/reset-password/:token", resetMid);
 
 /**
  * @swagger
@@ -167,7 +163,6 @@ router.post("/reset-password/:token", resetMid);
  *       400:
  *         description: Invalid credentials
  */
-router.post("/login", loginMid);
 
 /**
  * @swagger
@@ -197,7 +192,6 @@ router.post("/login", loginMid);
  *                 error:
  *                   type: string
  */
-router.get("/user-dashboard", authenticate);
 
 /**
  * @swagger
@@ -232,7 +226,6 @@ router.get("/user-dashboard", authenticate);
  *       404:
  *         description: User not found
  */
-router.put("/update-name-email/:id", changeNameEmail);
 
 /**
  * @swagger
@@ -266,6 +259,14 @@ router.put("/update-name-email/:id", changeNameEmail);
  *       404:
  *         description: User not found or old password is incorrect
  */
+
+router.get("/user-find/:id", getByIDuser);
+router.post("/user-register", registerMid);
+router.post("/forgot-password", passwordMid);
+router.post("/reset-password/:token", resetMid);
+router.post("/login", loginMid);
+router.get("/user-dashboard", authenticate);
+router.put("/update-name-email/:id", changeNameEmail);
 router.put("/update-password/:id", changePassword);
 
-module.exports = router;
+export default router;

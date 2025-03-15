@@ -1,27 +1,27 @@
-const { QueryTypes } = require("sequelize");
-const { getCarById } = require("../../data/functions/autombiles");
-const Car = require("../../data/models/automobile.js");
-const Users = require("../../data/models/user.js");
+import { QueryTypes } from "sequelize";
+import { getCarById } from "../../data/functions/autombiles.js";
+import Car from "../../data/models/automobile.js";
+import Users from "../../data/models/user.js";
 
-const getLiked = async (req, res) => {
+export const getLiked = async (req, res) => {
   try {
-    const { id } = req.params; //car id
-    const { user_id } = req.query; //user id
-    const { count } = req.query; // 1 or -1
+    const { id } = req.params; // car id
+    const { user_id, count } = req.query; // user id and count
 
     const user = await Users.findOne({ where: { id: user_id } });
-    if (!user)
+    if (!user) {
       return res.status(400).json({
         message: "you have to be registration",
         method: "post",
-        path: `http://212.67.11.143:4035/user-register`,
       });
+    }
 
     const car = await getCarById(id);
 
     if (!car) {
       return res.status(404).json({ message: "Car not found!" });
     }
+
     const likedUsers = car.liked_user || [];
     if (parseInt(count) > 0) {
       const newLikedUsers = likedUsers.includes(user.email)
@@ -29,20 +29,14 @@ const getLiked = async (req, res) => {
         : [...likedUsers, user.email];
 
       await car.update({
-        liked:
-          (car.liked || 0) + parseInt(count) < 0
-            ? 0
-            : (car.liked || 0) + parseInt(count),
+        liked: Math.max((car.liked || 0) + parseInt(count), 0),
         liked_user: newLikedUsers,
       });
     } else if (parseInt(count) < 0) {
       const newLikedUsers = likedUsers.filter((email) => email !== user.email);
 
       await car.update({
-        liked:
-          (car.liked || 0) + parseInt(count) < 0
-            ? 0
-            : (car.liked || 0) + parseInt(count),
+        liked: Math.max((car.liked || 0) + parseInt(count), 0),
         liked_user: newLikedUsers,
       });
     }
@@ -52,7 +46,8 @@ const getLiked = async (req, res) => {
     return res.status(400).send("error of getLiked:\n" + e.message);
   }
 };
-const getAllLikedCars = async (req, res) => {
+
+export const getAllLikedCars = async (req, res) => {
   try {
     const { user_email } = req.query;
     const cars = await Car.sequelize.query(
@@ -74,5 +69,3 @@ const getAllLikedCars = async (req, res) => {
       .json({ message: "Error fetching cars: " + e.message });
   }
 };
-
-module.exports = { getLiked, getAllLikedCars };

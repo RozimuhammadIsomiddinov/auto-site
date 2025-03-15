@@ -1,10 +1,10 @@
-const { Op, where, cast, col } = require("sequelize");
-const Car = require("../../data/models/automobile");
-const Motorcycle = require("../../data/models/moto");
-const CommerceCar = require("../../data/models/commerce");
-const Mark = require("../../data/models/carMark");
+import { Op, where, cast, col } from "sequelize";
+import Car from "../../data/models/automobile.js";
+import Motorcycle from "../../data/models/moto.js";
+import CommerceCar from "../../data/models/commerce.js";
+import Mark from "../../data/models/carMark.js";
 
-const beforeFilter = async (req, res) => {
+export const beforeFilter = async (req, res) => {
   try {
     const result = await Mark.findAll();
     const result1 = result.map((item) => ({
@@ -20,22 +20,17 @@ const beforeFilter = async (req, res) => {
   }
 };
 
-const modelFilter = async (req, res) => {
+export const modelFilter = async (req, res) => {
   try {
     const { mark_id } = req.body;
     if (!mark_id) {
       return res.status(400).json({ error: "Mark parameter is required." });
     }
 
-    const carResults = await Car.findAll({
-      where: { mark_id },
-    });
-    const motoResults = await Motorcycle.findAll({
-      where: { mark_id },
-    });
-    const commerceResults = await CommerceCar.findAll({
-      where: { mark_id },
-    });
+    const carResults = await Car.findAll({ where: { mark_id } });
+    const motoResults = await Motorcycle.findAll({ where: { mark_id } });
+    const commerceResults = await CommerceCar.findAll({ where: { mark_id } });
+
     const carMarks = Array.from(
       new Set(carResults.map((car) => car.dataValues.model))
     );
@@ -79,5 +74,3 @@ const modelFilter = async (req, res) => {
       .json({ error: `Something went wrong on modelFilter: ${err.message}` });
   }
 };
-
-module.exports = { modelFilter, beforeFilter };

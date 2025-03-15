@@ -1,12 +1,13 @@
-const express = require("express");
-const fileUpload = require("../middlewares/multer.js");
-const getAllCountry = require("../controllers/country/select.js");
-const filter = require("../controllers/country/filter.js");
-const createCountry = require("../controllers/country/create.js");
-const filter_cars = require("../controllers/country/filter-car.js");
-const filter_moto = require("../controllers/country/filter-moto.js");
-const filter_commerce = require("../controllers/country/filter-commerce.js");
-const updateCountry = require("../controllers/country/update.js");
+import express from "express";
+import fileUpload from "../middlewares/multer.js";
+import { getAllCountry } from "../controllers/country/select.js";
+import { filter } from "../controllers/country/filter.js";
+import { createCountry } from "../controllers/country/create.js";
+import { filter_cars } from "../controllers/country/filter-car.js";
+import { filter_moto } from "../controllers/country/filter-moto.js";
+import { filter_commerce } from "../controllers/country/filter-commerce.js";
+import { updateCountry } from "../controllers/country/update.js";
+
 const router = express.Router();
 
 /**
@@ -214,4 +215,4 @@ router.post("/filter", filter);
 router.put("/update-country/:id", updateCountry);
 router.post("/add-country", fileUpload.single("image"), createCountry);
 
-module.exports = router;
+export default router;

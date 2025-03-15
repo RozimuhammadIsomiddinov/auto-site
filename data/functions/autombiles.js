@@ -1,7 +1,7 @@
-const Car = require("../models/automobile.js");
+import Car from "../models/automobile.js";
 
-//read
-const getAllCars = async (page = 1, pageSize = 10) => {
+// Read
+export const getAllCars = async (page = 1, pageSize = 10) => {
   try {
     const offset = (page - 1) * pageSize;
     const result = await Car.findAll({
@@ -15,7 +15,7 @@ const getAllCars = async (page = 1, pageSize = 10) => {
   }
 };
 
-const getCarById = async (id) => {
+export const getCarById = async (id) => {
   try {
     const res = await Car.findByPk(id);
     return res;
@@ -23,7 +23,8 @@ const getCarById = async (id) => {
     return e.message;
   }
 };
-const getNewcar = async (page, pageSize) => {
+
+export const getNewcar = async (page, pageSize) => {
   try {
     const offset = (page - 1) * pageSize;
     const result = await Car.findAll({
@@ -37,8 +38,8 @@ const getNewcar = async (page, pageSize) => {
   }
 };
 
-//create
-const addCar = async (carData) => {
+// Create
+export const addCar = async (carData) => {
   try {
     const newCar = await Car.create(carData);
     return newCar;
@@ -47,9 +48,8 @@ const addCar = async (carData) => {
   }
 };
 
-//update
-const updateCar = async (upData) => {
-  // upData has got params and body
+// Update
+export const updateCar = async (upData) => {
   try {
     const { body, params } = upData;
     const car = await Car.findByPk(params.id);
@@ -90,21 +90,12 @@ const updateCar = async (upData) => {
   }
 };
 
-//delete
-const deleteCar = async (id) => {
+// Delete
+export const deleteCar = async (id) => {
   try {
     const result = await Car.destroy({ where: { id } });
     return result;
   } catch (err) {
     return "Error deleting car: " + err.message;
   }
-};
-
-module.exports = {
-  getAllCars,
-  getCarById,
-  getNewcar,
-  addCar,
-  updateCar,
-  deleteCar,
 };

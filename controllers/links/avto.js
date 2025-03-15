@@ -1,6 +1,6 @@
-const Car = require("../../data/models/automobile");
+import Car from "../../data/models/automobile.js";
 
-const addLinkAvto = async (req, res) => {
+export const addLinkAvto = async (req, res) => {
   const { id } = req.params;
   const { video_link } = req.body;
   try {
@@ -15,10 +15,11 @@ const addLinkAvto = async (req, res) => {
   } catch (e) {
     res
       .status(400)
-      .json({ message: "Error from addLinkAvto", error: err.message });
+      .json({ message: "Error from addLinkAvto", error: e.message });
   }
 };
-const deleteLinkAvto = async (req, res) => {
+
+export const deleteLinkAvto = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -37,5 +38,3 @@ const deleteLinkAvto = async (req, res) => {
       .json({ message: "Error from deleteLinkAvto", error: e.message });
   }
 };
-
-module.exports = { addLinkAvto, deleteLinkAvto };

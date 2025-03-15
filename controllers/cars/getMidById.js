@@ -1,8 +1,8 @@
-const { getCarById } = require("../../data/functions/autombiles.js");
-const Mark = require("../../data/models/carMark.js");
-const Users = require("../../data/models/user.js");
+import { getCarById } from "../../data/functions/autombiles.js";
+import Mark from "../../data/models/carMark.js";
+import Users from "../../data/models/user.js";
 
-const getMidById = async (req, res) => {
+export const getMidById = async (req, res) => {
   try {
     const result = await getCarById(req.params.id);
     if (!result) {
@@ -37,5 +37,3 @@ const getMidById = async (req, res) => {
     }
   }
 };
-
-module.exports = { getMidById };

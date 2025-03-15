@@ -1,9 +1,10 @@
-const Car = require("../../data/models/automobile.js");
-const dotenv = require("dotenv");
-const Users = require("../../data/models/user.js");
+import dotenv from "dotenv";
+import Car from "../../data/models/automobile.js";
+import Users from "../../data/models/user.js";
+
 dotenv.config();
 
-const createMidCar = async (req, res) => {
+export const createMidCar = async (req, res) => {
   try {
     const {
       color,
@@ -25,16 +26,19 @@ const createMidCar = async (req, res) => {
       mark_id,
       model,
     } = req.body;
+
     if (!req.files || req.files.length === 0) {
       return res.status(400).send("you have to upload at least 1 picture");
     }
+
     const author = await Users.findOne({ where: { email: authoremail } });
-    if (!author)
+    if (!author) {
       return res.status(400).json({
         message: "you have to be registration",
         method: "post",
-        path: `http://212.67.11.143:4035/user-register`,
       });
+    }
+
     const imagePaths = req.files.map(
       (file) => `${process.env.BACKEND_URL}/${file?.filename}`
     );
@@ -69,5 +73,3 @@ const createMidCar = async (req, res) => {
     return res.status(400).send("error of createMidCar:\n" + e.message);
   }
 };
-
-module.exports = { createMidCar };

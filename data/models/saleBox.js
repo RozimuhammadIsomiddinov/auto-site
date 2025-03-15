@@ -1,9 +1,9 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../../config/dbconfig.js");
-const Users = require("./user.js");
-const Car = require("./automobile.js");
-const Motorcycle = require("./moto.js");
-const CommerceCar = require("./commerce.js");
+import { DataTypes } from "sequelize";
+import sequelize from "../../config/dbconfig.js";
+import Users from "./user.js";
+import Car from "./automobile.js";
+import Motorcycle from "./moto.js";
+import CommerceCar from "./commerce.js";
 
 const Cart = sequelize.define(
   "cart",
@@ -46,21 +46,19 @@ const Cart = sequelize.define(
   }
 );
 
-// Foreign key relationship for CommerceCar
+// Foreign key relationships
 Cart.belongsTo(CommerceCar, {
   foreignKey: "product_id",
   constraints: false,
   as: "commerce_cars",
 });
 
-// Foreign key relationship for Car
 Cart.belongsTo(Car, {
   foreignKey: "product_id",
   constraints: false,
   as: "cars",
 });
 
-// Foreign key relationship for Motorcycle
 Cart.belongsTo(Motorcycle, {
   foreignKey: "product_id",
   constraints: false,
@@ -88,4 +86,4 @@ Cart.addHook("afterFind", (result) => {
   }
 });
 
-module.exports = Cart;
+export default Cart;

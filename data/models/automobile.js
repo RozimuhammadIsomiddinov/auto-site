@@ -1,6 +1,6 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../../config/dbconfig.js");
-const Mark = require("./carMark.js");
+import { DataTypes } from "sequelize";
+import sequelize from "../../config/dbconfig.js";
+import Mark from "./carMark.js";
 
 const bodyOfCar = [
   "hatchback",
@@ -72,7 +72,6 @@ const Car = sequelize.define(
       type: DataTypes.ENUM("automatic", "manual"),
       defaultValue: "manual",
     },
-
     body: {
       type: DataTypes.ENUM(...bodyOfCar),
       defaultValue: "sedan",
@@ -132,4 +131,4 @@ const Car = sequelize.define(
 
 Car.belongsTo(Mark, { foreignKey: "mark_id", as: "mark" });
 
-module.exports = Car;
+export default Car;

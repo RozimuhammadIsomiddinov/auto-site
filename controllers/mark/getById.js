@@ -1,20 +1,22 @@
-const Car = require("../../data/models/automobile");
-const Motorcycle = require("../../data/models/moto");
-const CommerceCar = require("../../data/models/commerce");
+import Car from "../../data/models/automobile.js";
+import Motorcycle from "../../data/models/moto.js";
+import CommerceCar from "../../data/models/commerce.js";
 
-const getByIdMark = async (req, res) => {
+export const getByIdMark = async (req, res) => {
   try {
     const { id } = req.params;
     const { page, pageSize = 10 } = req.query;
     const offset = (page - 1) * pageSize;
+
     let result = {};
+
     const resultCars = await Car.findAll({
       where: { mark_id: id },
       limit: pageSize,
       offset,
     });
-
     result.resultCars = resultCars;
+
     const resultMoto = await Motorcycle.findAll({
       where: { mark_id: id },
       limit: pageSize,
@@ -27,7 +29,6 @@ const getByIdMark = async (req, res) => {
       limit: pageSize,
       offset,
     });
-
     result.resultCommerce = resultCommerce;
 
     res.json({
@@ -42,4 +43,3 @@ const getByIdMark = async (req, res) => {
     }
   }
 };
-module.exports = getByIdMark;

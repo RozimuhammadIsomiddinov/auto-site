@@ -1,5 +1,5 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../../config/dbconfig");
+import { DataTypes } from "sequelize";
+import sequelize from "../../config/dbconfig.js";
 
 const Offer = sequelize.define(
   "Offer",
@@ -13,7 +13,10 @@ const Offer = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    surname: { type: DataTypes.STRING, allowNull: false },
+    surname: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     phone: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -26,4 +29,4 @@ const Offer = sequelize.define(
   }
 );
 
-module.exports = Offer;
+export default Offer;

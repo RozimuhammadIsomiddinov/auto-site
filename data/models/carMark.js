@@ -1,5 +1,5 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../../config/dbconfig.js");
+import { DataTypes } from "sequelize";
+import sequelize from "../../config/dbconfig.js";
 
 const Mark = sequelize.define(
   "car_mark",
@@ -24,4 +24,4 @@ const Mark = sequelize.define(
   }
 );
 
-module.exports = Mark;
+export default Mark;

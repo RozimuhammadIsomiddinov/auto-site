@@ -1,11 +1,10 @@
-const {
+import {
   updateCommerceCar,
   getCommerceCarById,
-} = require("../../data/functions/commerceCar.js");
-const CommerceCar = require("../../data/models/commerce.js");
-const Users = require("../../data/models/user.js");
+} from "../../data/functions/commerceCar.js";
+import CommerceCar from "../../data/models/commerce.js";
 
-const updateCommerceCarMid = async (req, res) => {
+export const updateCommerceCarMid = async (req, res) => {
   try {
     const { id } = req.params;
     const { authoremail } = req.body;
@@ -23,7 +22,6 @@ const updateCommerceCarMid = async (req, res) => {
       return res.status(400).json({
         message: "This product is not yours",
         method: "post",
-        path: `http://212.67.11.143:4035/user-register`,
       });
     }
 
@@ -47,5 +45,3 @@ const updateCommerceCarMid = async (req, res) => {
       .json({ message: "Error from updateCommerceCarMid", error: err.message });
   }
 };
-
-module.exports = { updateCommerceCarMid };

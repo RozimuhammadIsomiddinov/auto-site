@@ -1,12 +1,14 @@
-const express = require("express");
-const { getMid } = require("../controllers/cars/getMid.js");
-const { createMidCar } = require("../controllers/cars/createCar.js");
-const { updateCarMid } = require("../controllers/cars/updateMidCar.js");
-const { getMidById } = require("../controllers/cars/getMidById.js");
-const { deleteMidCar } = require("../controllers/cars/deleteMidCar.js");
-const fileUpload = require("../middlewares/multer.js");
-const { getLiked } = require("../controllers/cars/getLiked.js");
-const { getAllLiked } = require("../controllers/getAllLiked.js");
+import express from "express";
+import { getMid } from "../controllers/cars/getMid.js";
+import { createMidCar } from "../controllers/cars/createCar.js";
+import { updateCarMid } from "../controllers/cars/updateMidCar.js";
+import { getMidById } from "../controllers/cars/getMidById.js";
+import { deleteMidCar } from "../controllers/cars/deleteMidCar.js";
+import fileUpload from "../middlewares/multer.js";
+import { getLiked } from "../controllers/cars/getLiked.js";
+import { getAllLiked } from "../controllers/getAllLiked.js";
+
+const router = express.Router();
 
 /**
  * @swagger
@@ -134,218 +136,18 @@ const { getAllLiked } = require("../controllers/getAllLiked.js");
  *           description: Car model
  */
 
-const router = express.Router();
-
-/**
- * @swagger
- * /cars:
- *   get:
- *     summary: Get all cars
- *     tags: [cars]
- *     parameters:
- *       - in: query
- *         name: page
- *         schema:
- *           type: integer
- *         description: The page number
- *       - in: query
- *         name: pageSize
- *         schema:
- *           type: integer
- *         description: The number of items per page
- *     responses:
- *       200:
- *         description: List of cars
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/cars'
- *       404:
- *         description: Cars not found
- *       400:
- *         description: Error occurred
- */
 router.get("/cars", getMid);
 
-/**
- * @swagger
- * /cars/{id}:
- *   get:
- *     summary: Get a car by ID
- *     tags: [cars]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Car ID
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Car details
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/cars'
- *       404:
- *         description: Car not found
- *       400:
- *         description: Error retrieving car
- */
 router.get("/cars/:id", getMidById);
 
-/**
- * @swagger
- * /add-car:
- *   post:
- *     summary: Add a new car
- *     tags: [cars]
- *     requestBody:
- *       required: true
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             $ref: '#/components/schemas/cars'
- *     responses:
- *       201:
- *         description: Car added
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/cars'
- *       400:
- *         description: Error adding car
- */
 router.post("/add-car", fileUpload.array("image", 10), createMidCar);
 
-/**
- * @swagger
- * /update-car/{id}:
- *   put:
- *     summary: Update car details
- *     tags: [cars]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Car ID to update
- *         schema:
- *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         multipart/form-data:
- *           schema:
- *             $ref: '#/components/schemas/cars'
- *     responses:
- *       200:
- *         description: Car updated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/cars'
- *       400:
- *         description: Error updating car
- *       404:
- *         description: Car not found
- */
 router.put("/update-car/:id", fileUpload.array("image", 10), updateCarMid);
 
-/**
- * @swagger
- * /delete-car/{id}:
- *   delete:
- *     summary: Delete a car
- *     tags: [cars]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Car ID to delete
- *         schema:
- *           type: integer
- *       - in: query
- *         name: authoremail
- *         required: true
- *         description: User email for deleting
- *     responses:
- *       200:
- *         description: Car deleted
- *       404:
- *         description: Car not found
- *       400:
- *         description: Error deleting car
- */
 router.delete("/delete-car/:id", deleteMidCar);
-/**
- * @swagger
- * /liked-car/{id}:
- *   post:
- *     summary: Add or subtract a like from a car
- *     tags: [cars]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Car ID
- *         schema:
- *           type: integer
- *       - in: query
- *         name: user_id
- *         required: true
- *         description: User ID who is liking/disliking the car
- *         schema:
- *           type: integer
- *       - in: query
- *         name: count
- *         required: true
- *         description: Number to increment or decrement the like count (1 or -1)
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Like count updated successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/cars'
- *       400:
- *         description: User not registered or other error occurred
- *       404:
- *         description: Car not found
- */
 
 router.post("/liked-car/:id", getLiked);
-/**
- * @swagger
- * /favourite:
- *   get:
- *     summary: Get all cars liked by a specific user
- *     tags: [cars]
- *     parameters:
- *       - in: query
- *         name: user_email
- *         required: true
- *         schema:
- *           type: string
- *         description: The email of the user whose liked cars you want to retrieve
- *     responses:
- *       200:
- *         description: List of cars liked by the user
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/cars'
- *       404:
- *         description: No cars liked by this user
- *       400:
- *         description: Error fetching liked cars
- */
 
 router.get("/favourite", getAllLiked);
-module.exports = router;
+
+export default router;

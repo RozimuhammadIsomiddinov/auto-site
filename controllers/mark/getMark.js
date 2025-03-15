@@ -1,4 +1,4 @@
-const Mark = require("../../data/models/carMark");
+import Mark from "../../data/models/carMark.js";
 
 const getAllMark = async (req, res) => {
   try {
@@ -7,9 +7,11 @@ const getAllMark = async (req, res) => {
 
     const offset = (page - 1) * pageSize;
     const result = await Mark.findAll();
+
     if (!result.length) {
       return res.status(404).json({ message: "No marks available yet!" });
     }
+
     res.status(200).json(result);
   } catch (err) {
     res
@@ -17,4 +19,5 @@ const getAllMark = async (req, res) => {
       .json({ message: "Error from getAllMark", error: err.message });
   }
 };
-module.exports = getAllMark;
+
+export default getAllMark;

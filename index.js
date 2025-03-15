@@ -23,7 +23,7 @@ import filter from "./routes/filters.js";
 import country from "./routes/country.js";
 import archive from "./routes/archive.js";
 import offer from "./routes/offer.js";
-import { adminRouter } from "./admin.mjs";
+import { adminRouter } from "./admin.js";
 import bodyParser from "body-parser";
 
 import {
@@ -300,15 +300,6 @@ app.post("/chat/edit/mute", async (req, res) => {
       message: "Internal Server Error",
     });
   }
-});
-
-app.post("/admin1/upload", upload.single("file"), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: "Fayl yuklanmadi" });
-  }
-
-  const fileUrl = `${process.env.BACKEND_URL}/${req.file.filename}`;
-  res.json({ url: fileUrl });
 });
 
 const port = process.env.PORT;

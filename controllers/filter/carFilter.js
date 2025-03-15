@@ -1,7 +1,7 @@
-const { Op } = require("sequelize");
-const Car = require("../../data/models/automobile");
+import { Op } from "sequelize";
+import Car from "../../data/models/automobile.js";
 
-const searchCars = async (req, res) => {
+export const searchCars = async (req, res) => {
   let {
     model,
     country,
@@ -63,5 +63,3 @@ const getFilteredCars = async (filter, pageSize = 10, page, res) => {
     });
   }
 };
-
-module.exports = { searchCars };

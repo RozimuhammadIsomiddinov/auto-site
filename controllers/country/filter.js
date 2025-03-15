@@ -1,10 +1,10 @@
-const { Op } = require("sequelize");
-const Car = require("../../data/models/automobile");
-const CommerceCar = require("../../data/models/commerce");
-const Country = require("../../data/models/country");
-const Motorcycle = require("../../data/models/moto");
+import { Op } from "sequelize";
+import Car from "../../data/models/automobile.js";
+import CommerceCar from "../../data/models/commerce.js";
+import Country from "../../data/models/country.js";
+import Motorcycle from "../../data/models/moto.js";
 
-const filter = async (req, res) => {
+export const filter = async (req, res) => {
   try {
     const { name } = req.body;
     if (!name) return res.status(400).json({ message: "Send country name" });
@@ -17,9 +17,13 @@ const filter = async (req, res) => {
       where: { name: { [Op.iLike]: `%${name}%` } },
     });
 
-    /*if (!country)
-      return res.status(404).json({ message: "This country not found" });
-*/
+    // Agar mamlakat topilmasa, bo‘sh massiv qaytaramiz.
+    if (!country) {
+      return res
+        .status(200)
+        .json({ cars: [], motorcycles: [], commerceCars: [] });
+    }
+
     const countryName = country.name;
 
     const cars = await Car.findAll({
@@ -49,5 +53,3 @@ const filter = async (req, res) => {
     res.status(500).json({ message: "Error from filter", error: e.message });
   }
 };
-
-module.exports = filter;

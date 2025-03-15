@@ -1,6 +1,6 @@
-const Banner = require("../../data/models/banner");
+import Banner from "../../data/models/banner.js";
 
-const getNewVehicleMid = async (req, res) => {
+export const getNewVehicleMid = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const pageSize = parseInt(req.query.pageSize) || 10;
@@ -9,7 +9,7 @@ const getNewVehicleMid = async (req, res) => {
     const banner = await Banner.findAll({ limit: pageSize, offset });
     res
       .status(200)
-      .json({ message: banner.length != 0 ? banner : "banner has not yet" });
+      .json({ message: banner.length !== 0 ? banner : "banner has not yet" });
   } catch (err) {
     res.status(400).json({
       message: "Error from getMidNewVehicle",
@@ -18,7 +18,7 @@ const getNewVehicleMid = async (req, res) => {
   }
 };
 
-const createBanner = async (req, res) => {
+export const createBanner = async (req, res) => {
   try {
     const { title, image, subtitle } = req.body;
     if (!title || !image || !subtitle) {
@@ -45,4 +45,3 @@ const createBanner = async (req, res) => {
     });
   }
 };
-module.exports = { getNewVehicleMid, createBanner };

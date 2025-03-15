@@ -1,12 +1,13 @@
-const express = require("express");
-const { getMidNews } = require("../controllers/news/getAllNews");
-const { getMidNewsById } = require("../controllers/news/getById");
-const getVehicleMid = require("../controllers/news/getVehicle");
-const fileUpload = require("../middlewares/multer.js");
-const { createMidNews } = require("../controllers/news/createNews.js");
-const { searchCont } = require("../controllers/news/search.js");
+import express from "express";
+import { getMidNews } from "../controllers/news/getAllNews.js";
+import { getMidNewsById } from "../controllers/news/getById.js";
+import { getVehicleMid } from "../controllers/news/getVehicle.js";
+import fileUpload from "../middlewares/multer.js";
+import { createMidNews } from "../controllers/news/createNews.js";
+import { searchCont } from "../controllers/news/search.js";
 
 const router = express.Router();
+
 /**
  * @swagger
  * components:
@@ -160,4 +161,5 @@ router.get("/news", getMidNews);
 router.get("/news/:id", getMidNewsById);
 router.get("/vehicle-news", getVehicleMid);
 router.post("/add-news", fileUpload.single("image"), createMidNews);
-module.exports = router;
+
+export default router;

@@ -1,6 +1,7 @@
-const Motorcycle = require("../../data/models/moto.js");
-const Users = require("../../data/models/user.js");
-const dotenv = require("dotenv");
+import dotenv from "dotenv";
+import Motorcycle from "../../data/models/moto.js";
+import Users from "../../data/models/user.js";
+
 dotenv.config();
 
 const createMidMotorcycle = async (req, res) => {
@@ -34,7 +35,6 @@ const createMidMotorcycle = async (req, res) => {
       return res.status(400).json({
         message: "you have to be registered",
         method: "post",
-        path: `http://212.67.11.143:4035/user-register`,
       });
 
     const imagePaths = req.files.map(
@@ -71,4 +71,4 @@ const createMidMotorcycle = async (req, res) => {
   }
 };
 
-module.exports = { createMidMotorcycle };
+export { createMidMotorcycle };

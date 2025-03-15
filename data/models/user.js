@@ -1,7 +1,7 @@
-const { DataTypes } = require("sequelize");
-const bcrypt = require("bcryptjs");
-const sequelize = require("../../config/dbconfig.js");
-const Mark = require("./carMark.js");
+import { DataTypes } from "sequelize";
+import bcrypt from "bcryptjs";
+import sequelize from "../../config/dbconfig.js";
+import Mark from "./carMark.js";
 
 const Users = sequelize.define(
   "users",
@@ -42,7 +42,7 @@ const Users = sequelize.define(
         try {
           user.password = await bcrypt.hash(user.password, 10);
         } catch (err) {
-          console.error("Error hashing password:", err); // Log the error if hashing fails
+          console.error("Error hashing password:", err);
         }
       },
     },
@@ -50,4 +50,4 @@ const Users = sequelize.define(
   }
 );
 
-module.exports = Users;
+export default Users;

@@ -1,5 +1,5 @@
-const dotenv = require("dotenv");
-const { createTransport } = require("nodemailer");
+import dotenv from "dotenv";
+import { createTransport } from "nodemailer";
 
 dotenv.config();
 
@@ -37,4 +37,4 @@ const mailer = async (message) => {
   }
 };
 
-module.exports = { mailer };
+export { mailer };

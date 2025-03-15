@@ -1,7 +1,7 @@
-const Message = require("../models/message.js");
-const { Op } = require("sequelize");
+import Message from "../models/message.js";
+import { Op } from "sequelize";
 
-const savedMessage = async (
+export const savedMessage = async (
   chatId,
   senderId,
   receiverId,
@@ -10,7 +10,7 @@ const savedMessage = async (
   type
 ) => {
   try {
-    const savedMessage = await Message.create({
+    return await Message.create({
       sender_id: senderId,
       receiver_id: receiverId,
       message,
@@ -18,39 +18,29 @@ const savedMessage = async (
       chat_id: chatId,
       type,
     });
-    return savedMessage;
   } catch (error) {
     console.error("Xabarni saqlashda xatolik:", error);
     throw error;
   }
 };
-const updatedMessage = async (status, id) => {
+
+export const updatedMessage = async (status, id) => {
   try {
     const [affectedRows, updatedMessages] = await Message.update(
-      {
-        status,
-        updatedAt: new Date(),
-      },
-      {
-        where: { id },
-        returning: true,
-      }
+      { status, updatedAt: new Date() },
+      { where: { id }, returning: true }
     );
 
-    if (affectedRows === 0) {
-      return null;
-    }
-
-    return updatedMessages[0];
+    return affectedRows === 0 ? null : updatedMessages[0];
   } catch (error) {
     console.error("Xabar holatini yangilashda xatolik:", error);
     throw error;
   }
 };
 
-const message = async (userId, receiver_id) => {
+export const message = async (userId, receiver_id) => {
   try {
-    const messages = await Message.findAll({
+    return await Message.findAll({
       where: {
         [Op.or]: [
           { sender_id: userId, receiver_id },
@@ -59,14 +49,8 @@ const message = async (userId, receiver_id) => {
       },
       order: [["createdAt", "ASC"]],
     });
-    return messages;
   } catch (error) {
     console.error("Xabarlarni olishda xatolik:", error);
     throw error;
   }
-};
-module.exports = {
-  message,
-  updatedMessage,
-  savedMessage,
 };

@@ -1,11 +1,11 @@
-const { Op } = require("sequelize");
-const Chat = require("../models/chats.js");
-const Message = require("../models/message.js");
-const Users = require("../models/user.js");
-const sequelize = require("../../config/dbconfig.js");
-const logger = require("../../logs/logs.js");
+import { Op } from "sequelize";
+import Chat from "../models/chats.js";
+import Message from "../models/message.js";
+import Users from "../models/user.js";
+import sequelize from "../../config/dbconfig.js";
+import logger from "../../logs/logs.js";
 
-const getChats = async (user_id) => {
+export const getChats = async (user_id) => {
   const chats = await Chat.findAll({
     attributes: [
       "chat_id",
@@ -19,32 +19,17 @@ const getChats = async (user_id) => {
       ],
     ],
     include: [
-      {
-        model: Users,
-        as: "sender",
-        attributes: [],
-      },
-      {
-        model: Users,
-        as: "receiver",
-        attributes: [],
-      },
+      { model: Users, as: "sender", attributes: [] },
+      { model: Users, as: "receiver", attributes: [] },
       {
         model: Message,
         as: "messages",
         required: false,
         attributes: [],
-        where: {
-          receiver_id: user_id,
-          status: "sent",
-        },
+        where: { receiver_id: user_id, status: "sent" },
         on: {
-          chat_id: {
-            [Op.eq]: sequelize.col("Chat.chat_id"),
-          },
-          sender_id: {
-            [Op.eq]: sequelize.col("messages.sender_id"),
-          },
+          chat_id: { [Op.eq]: sequelize.col("Chat.chat_id") },
+          sender_id: { [Op.eq]: sequelize.col("messages.sender_id") },
         },
       },
     ],
@@ -57,10 +42,10 @@ const getChats = async (user_id) => {
       "Chat.create_at",
     ],
   });
-
   return chats;
 };
-const addChat = async (senderId, receiverId) => {
+
+export const addChat = async (senderId, receiverId) => {
   try {
     const existingChat = await Chat.findOne({
       where: {
@@ -83,27 +68,20 @@ const addChat = async (senderId, receiverId) => {
       user_id: senderId,
       chat_user_id: receiverId,
     });
-
-    return {
-      code: 201,
-      message: "Chat muvaffaqiyatli yaratildi",
-      data: chat,
-    };
+    return { code: 201, message: "Chat muvaffaqiyatli yaratildi", data: chat };
   } catch (error) {
     console.error(`Chat qo'shishda xatolik: ${error.message}`);
     throw error;
   }
 };
 
-const editChatMute = async (user_id, chat_user_id, mute_type) => {
+export const editChatMute = async (user_id, chat_user_id, mute_type) => {
   try {
-    mute_type = mute_type == "true" ? true : false;
-
+    mute_type = mute_type === "true";
     const [updated] = await Chat.update(
       { mute_type },
       { where: { user_id, chat_user_id } }
     );
-
     return updated > 0;
   } catch (error) {
     logger.error(`Chatni ovozdan chiqarishda xatolik: ${error.message}`);
@@ -111,7 +89,7 @@ const editChatMute = async (user_id, chat_user_id, mute_type) => {
   }
 };
 
-const getNotifications = async (user_id) => {
+export const getNotifications = async (user_id) => {
   try {
     const notifications = await Message.findAll({
       attributes: [
@@ -128,28 +106,16 @@ const getNotifications = async (user_id) => {
         ],
         [sequelize.fn("MAX", sequelize.col("Message.updatedAt")), "updatedAt"],
       ],
-      include: [
-        {
-          model: Users,
-          as: "sender",
-          attributes: [],
-        },
-      ],
-      where: {
-        receiver_id: user_id,
-        status: "sent",
-      },
+      include: [{ model: Users, as: "sender", attributes: [] }],
+      where: { receiver_id: user_id, status: "sent" },
       group: ["Message.chat_id", "sender.id", "sender.name"],
       order: [
         [sequelize.fn("MAX", sequelize.col("Message.updatedAt")), "DESC"],
       ],
     });
-
     return notifications.map((n) => n.dataValues);
   } catch (error) {
     logger.error(`Bildirishnomalarni olishda xatolik: ${error.message}`);
     throw error;
   }
 };
-
-module.exports = { addChat, editChatMute, getChats, getNotifications };

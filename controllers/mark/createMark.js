@@ -1,8 +1,9 @@
-const dotenv = require("dotenv");
-const Mark = require("../../data/models/carMark");
+import dotenv from "dotenv";
+import Mark from "../../data/models/carMark.js";
+
 dotenv.config();
 
-const createMark = async (req, res) => {
+export const createMark = async (req, res) => {
   try {
     const { mark_name } = req.body;
 
@@ -25,5 +26,3 @@ const createMark = async (req, res) => {
     return res.status(400).json({ error: "createMark error: " + e.message });
   }
 };
-
-module.exports = { createMark };

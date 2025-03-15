@@ -1,12 +1,13 @@
-const express = require("express");
-const { addLinkAvto, deleteLinkAvto } = require("../controllers/links/avto");
-const {
+import express from "express";
+import { addLinkAvto, deleteLinkAvto } from "../controllers/links/avto.js";
+import {
   addLinkCommerce,
   deleteLinkCommerce,
-} = require("../controllers/links/commerce");
-const { addLinkMoto, deleteLinkMoto } = require("../controllers/links/moto");
+} from "../controllers/links/commerce.js";
+import { addLinkMoto, deleteLinkMoto } from "../controllers/links/moto.js";
 
 const router = express.Router();
+
 /**
  * @swagger
  * /avto-link/{id}:
@@ -166,6 +167,6 @@ router.post("/moto-link/:id", addLinkMoto);
 
 router.delete("/delete-avto-link/:id", deleteLinkAvto);
 router.delete("/delete-commerce-link/:id", deleteLinkCommerce);
-router.delete("/delete-moto-link", deleteLinkMoto);
+router.delete("/delete-moto-link/:id", deleteLinkMoto);
 
-module.exports = router;
+export default router;

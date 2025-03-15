@@ -1,10 +1,10 @@
-const { getAllMotorcycles } = require("../../data/functions/motos.js");
+import { getAllMotorcycles } from "../../data/functions/motos.js";
 
 const getMidMotorcycle = async (req, res) => {
   try {
     const result = await getAllMotorcycles(req.query.page, req.query.pageSize);
     if (result.length === 0) {
-      return res.status(404).json({ message: "Motocyles have not yet!" });
+      return res.status(404).json({ message: "Motorcycles have not yet!" });
     }
     res.status(200).json(result);
   } catch (err) {
@@ -15,4 +15,4 @@ const getMidMotorcycle = async (req, res) => {
   }
 };
 
-module.exports = { getMidMotorcycle };
+export { getMidMotorcycle };

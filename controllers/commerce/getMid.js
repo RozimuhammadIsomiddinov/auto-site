@@ -1,6 +1,6 @@
-const { getAllCommerceCars } = require("../../data/functions/commerceCar.js");
+import { getAllCommerceCars } from "../../data/functions/commerceCar.js";
 
-const getMidCommerceCars = async (req, res) => {
+export const getMidCommerceCars = async (req, res) => {
   try {
     const result = await getAllCommerceCars(req.query.page, req.query.pageSize);
     if (result.length === 0) {
@@ -15,5 +15,3 @@ const getMidCommerceCars = async (req, res) => {
       .json({ message: "Error from getMidCommerceCars", error: err.message });
   }
 };
-
-module.exports = { getMidCommerceCars };

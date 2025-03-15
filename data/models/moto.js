@@ -1,6 +1,6 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../../config/dbconfig.js");
-const Mark = require("./carMark.js");
+import { DataTypes } from "sequelize";
+import sequelize from "../../config/dbconfig.js";
+import Mark from "./carMark.js";
 
 const motorcycleTypes = [
   "cruiser",
@@ -75,7 +75,7 @@ const Motorcycle = sequelize.define(
     },
     statement: {
       type: DataTypes.ENUM("used", "new"),
-      defaultValue: false,
+      defaultValue: "used",
     },
     description: {
       type: DataTypes.STRING,
@@ -88,8 +88,10 @@ const Motorcycle = sequelize.define(
       type: DataTypes.ENUM("cash", "credit"),
       defaultValue: "cash",
     },
-
-    model: { type: DataTypes.STRING, allowNull: false },
+    model: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     seen: {
       type: DataTypes.INTEGER,
     },
@@ -120,6 +122,7 @@ const Motorcycle = sequelize.define(
     timestamps: true,
   }
 );
+
 Motorcycle.belongsTo(Mark, { foreignKey: "mark_id", as: "mark" });
 
-module.exports = Motorcycle;
+export default Motorcycle;

@@ -1,11 +1,12 @@
-const Users = require("../../data/models/user.js");
-const { generateJWT } = require("../../data/functions/users.js");
-const { mailer } = require("../../config/nodemailer.js");
+import Users from "../../data/models/user.js";
+import { generateJWT } from "../../data/functions/users.js";
+import { mailer } from "../../config/nodemailer.js";
 
-const passwordMid = async (req, res) => {
+export const passwordMid = async (req, res) => {
   const { email } = req.body;
   if (!email)
     return res.status(400).json({ error: "you have to enter your email" });
+
   try {
     const user = await Users.findOne({ where: { email } });
     if (!user) {
@@ -32,5 +33,3 @@ const passwordMid = async (req, res) => {
     });
   }
 };
-
-module.exports = { passwordMid };

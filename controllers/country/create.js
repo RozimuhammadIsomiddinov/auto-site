@@ -1,26 +1,29 @@
-const dotenv = require("dotenv");
-const Country = require("../../data/models/country");
+import dotenv from "dotenv";
+import Country from "../../data/models/country.js";
+
 dotenv.config();
 
-const createCountry = async (req, res) => {
+export const createCountry = async (req, res) => {
   try {
     const { name, description } = req.body;
     if (!req.file) {
-      return res.status(400).send("you have to upload  1 picture");
+      return res.status(400).send("You have to upload 1 picture");
     }
+
     const imagePaths = `${process.env.BACKEND_URL}/${req.file.filename}`;
     const newData = {
       name,
       image: imagePaths,
       description,
     };
-    const result = await Country.create(newData);
-    if (!result) return res.status(400).json({ message: "flag does'nt saved" });
 
-    res.status(201).json({ message: "succesfully", result });
+    const result = await Country.create(newData);
+    if (!result) {
+      return res.status(400).json({ message: "Flag doesn't saved" });
+    }
+
+    res.status(201).json({ message: "Successfully created", result });
   } catch (e) {
-    return res.status(400).send("error of createcountry:\n" + e.message);
+    return res.status(400).send("Error of createCountry:\n" + e.message);
   }
 };
-
-module.exports = createCountry;

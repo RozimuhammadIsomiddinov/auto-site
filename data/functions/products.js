@@ -1,13 +1,14 @@
-const Cart = require("../models/saleBox.js");
-const Users = require("../models/user.js");
-const Car = require("../models/automobile.js");
-const Motorcycle = require("../models/moto.js");
-const CommerceCar = require("../models/commerce.js");
+import Cart from "../models/saleBox.js";
+import Users from "../models/user.js";
+import Car from "../models/automobile.js";
+import Motorcycle from "../models/moto.js";
+import CommerceCar from "../models/commerce.js";
 
-const addToCart = async (userId, productId, quantity, productType) => {
+export const addToCart = async (userId, productId, quantity, productType) => {
   try {
     const findUser = await Users.findByPk(userId);
     let findProduct;
+
     switch (productType) {
       case "car":
         findProduct = await Car.findByPk(productId);
@@ -21,19 +22,19 @@ const addToCart = async (userId, productId, quantity, productType) => {
       default:
         return { message: "Invalid product type" };
     }
+
     if (!findUser) {
       return { message: "User not found" };
     }
     if (!findProduct) {
-      return {
-        message: "Product not found",
-      };
+      return { message: "Product not found" };
     }
 
     const quantityInt = parseInt(quantity, 10);
     if (isNaN(quantityInt) || quantityInt <= 0) {
       return { message: "Invalid quantity" };
     }
+
     const existingCartItem = await Cart.findOne({
       where: {
         user_id: userId,
@@ -66,8 +67,4 @@ const addToCart = async (userId, productId, quantity, productType) => {
   } catch (err) {
     return { message: "Error", error: err.message };
   }
-};
-
-module.exports = {
-  addToCart,
 };

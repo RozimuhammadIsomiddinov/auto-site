@@ -1,20 +1,13 @@
-const express = require("express");
-const { getMidCommerceCars } = require("../controllers/commerce/getMid.js");
-const {
-  createCommerceCar,
-} = require("../controllers/commerce/createCommerce.js");
-const {
-  updateCommerceCarMid,
-} = require("../controllers/commerce/updateCommerce.js");
-const { getMidCommerceCarById } = require("../controllers/commerce/getById.js");
-const {
-  deleteMidCommerceCar,
-} = require("../controllers/commerce/deleteCommerce.js");
-const fileUpload = require("../middlewares/multer.js");
-const { searchCommerce } = require("../controllers/filter/commerceFilter.js");
-const {
-  getLikedCommerce,
-} = require("../controllers/commerce/getLikedCommerce.js");
+import express from "express";
+import { getMidCommerceCars } from "../controllers/commerce/getMid.js";
+import { createCommerceCar } from "../controllers/commerce/createCommerce.js";
+import { updateCommerceCarMid } from "../controllers/commerce/updateCommerce.js";
+import { getMidCommerceCarById } from "../controllers/commerce/getById.js";
+import { deleteMidCommerceCar } from "../controllers/commerce/deleteCommerce.js";
+import fileUpload from "../middlewares/multer.js";
+import { searchCommerce } from "../controllers/filter/commerceFilter.js";
+import { getLikedCommerce } from "../controllers/commerce/getLikedCommerce.js";
+
 const router = express.Router();
 
 /**
@@ -332,6 +325,6 @@ router.get("/commerce-filter", searchCommerce);
  *       404:
  *         description: Car not found
  */
-
 router.get("/liked-commerce/:id", getLikedCommerce);
-module.exports = router;
+
+export default router;

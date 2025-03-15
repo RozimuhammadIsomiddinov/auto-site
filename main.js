@@ -1,4 +1,4 @@
-const sequelize = require("./config/dbconfig.js");
+import sequelize from "./config/dbconfig.js";
 sequelize
   .sync({ force: true })
   .then(() => {

@@ -1,39 +1,35 @@
-const { comparePassword } = require("../../data/functions/users");
-const Users = require("../../data/models/user");
-const bcrypt = require("bcrypt");
+import bcrypt from "bcrypt";
+import Users from "../../data/models/user.js";
+import { comparePassword } from "../../data/functions/users.js";
 
-const changePassword = async (req, res) => {
+export const changePassword = async (req, res) => {
   const { oldPass, newPass } = req.body;
   const { id } = req.params;
 
-  if (!oldPass || !newPass || !id)
+  if (!oldPass || !newPass || !id) {
     return res.status(400).json({
-      error: "you have to fill all field",
+      error: "You have to fill all fields",
     });
+  }
+
   try {
     const user = await Users.findByPk(id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    const bool = await comparePassword(oldPass, user.dataValues.password);
-    if (!bool) {
-      return res.status(404).json({
-        message: "old password is incorrect",
+    const isMatch = await comparePassword(oldPass, user.password);
+    if (!isMatch) {
+      return res.status(400).json({
+        message: "Old password is incorrect",
       });
     }
-    const hashedPassword = await bcrypt.hash(newPass, 10);
 
-    const updatePass = await user.update({
-      password: hashedPassword,
-    });
+    const hashedPassword = await bcrypt.hash(newPass, 10);
+    await user.update({ password: hashedPassword });
+
     res.json({
-      message: "successfully updated",
-      updatedUser: updatePass,
+      message: "Password successfully updated",
     });
   } catch (error) {
-    res.status(404).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
-};
-
-module.exports = {
-  changePassword,
 };

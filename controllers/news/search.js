@@ -1,10 +1,10 @@
-const { Op } = require("sequelize");
-const Car = require("../../data/models/automobile");
-const Motorcycle = require("../../data/models/moto");
-const CommerceCar = require("../../data/models/commerce");
-const Mark = require("../../data/models/carMark");
+import { Op } from "sequelize";
+import Car from "../../data/models/automobile.js";
+import Motorcycle from "../../data/models/moto.js";
+import CommerceCar from "../../data/models/commerce.js";
+import Mark from "../../data/models/carMark.js";
 
-const searchCont = async (req, res) => {
+export const searchCont = async (req, res) => {
   try {
     const { q } = req.params;
 
@@ -16,8 +16,8 @@ const searchCont = async (req, res) => {
             as: "mark",
             where: {
               [Op.or]: [
-                { mark_name: { [Op.iLike]: `%${q}%` } }, // Marka nomi boyicha qidirish
-                { model: { [Op.iLike]: `%${q}%` } }, // Model boyicha qidirish
+                { mark_name: { [Op.iLike]: `%${q}%` } },
+                { model: { [Op.iLike]: `%${q}%` } },
               ],
             },
           },
@@ -30,10 +30,10 @@ const searchCont = async (req, res) => {
             as: "mark",
             where: {
               [Op.or]: [
-                { mark_name: { [Op.iLike]: `%${q}%` } }, // Marka nomi boyicha qidirish
-                { model: { [Op.iLike]: `%${q}%` } }, // Model boyicha qidirish
+                { mark_name: { [Op.iLike]: `%${q}%` } },
+                { model: { [Op.iLike]: `%${q}%` } },
               ],
-            }, // Markani qidirish
+            },
           },
         ],
       }),
@@ -44,10 +44,10 @@ const searchCont = async (req, res) => {
             as: "mark",
             where: {
               [Op.or]: [
-                { mark_name: { [Op.iLike]: `%${q}%` } }, // Marka nomi boyicha qidirish
-                { model: { [Op.iLike]: `%${q}%` } }, // Model boyicha qidirish
+                { mark_name: { [Op.iLike]: `%${q}%` } },
+                { model: { [Op.iLike]: `%${q}%` } },
               ],
-            }, // Markani qidirish
+            },
           },
         ],
       }),
@@ -59,5 +59,3 @@ const searchCont = async (req, res) => {
     return res.status(500).json({ error: "Server xatosi", e: error.message });
   }
 };
-
-module.exports = { searchCont };

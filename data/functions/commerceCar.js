@@ -1,70 +1,61 @@
-const CommerceCar = require("../models/commerce.js");
+import CommerceCar from "../models/commerce.js";
 
-// Read all commerce cars
-const getAllCommerceCars = async (page = 1, pageSize = 10) => {
+export const getAllCommerceCars = async (page = 1, pageSize = 10) => {
   try {
     const offset = (page - 1) * pageSize;
-    const result = await CommerceCar.findAll({
+    return await CommerceCar.findAll({
       where: { archived: false },
       limit: pageSize,
       offset,
     });
-    return result;
   } catch (e) {
-    return "Error getting commerce cars: " + e.message;
+    return `Error getting commerce cars: ${e.message}`;
   }
 };
 
-// Read a commerce car by ID
-const getCommerceCarById = async (id) => {
+export const getCommerceCarById = async (id) => {
   try {
-    const res = await CommerceCar.findByPk(id);
-    return res;
+    return await CommerceCar.findByPk(id);
   } catch (e) {
     return e.message;
   }
 };
 
-const getNewCommerce = async (page, pageSize) => {
+export const getNewCommerce = async (page, pageSize) => {
   try {
     const offset = (page - 1) * pageSize;
-    const result = await CommerceCar.findAll({
+    return await CommerceCar.findAll({
       where: { statement: "new" },
       limit: pageSize,
       offset,
     });
-    return result;
   } catch (e) {
     return e.message;
   }
 };
-// Create a new commerce car
-const addCommerceCar = async (carData) => {
+
+export const addCommerceCar = async (carData) => {
   try {
-    const newCar = await CommerceCar.create(carData);
-    return newCar;
+    return await CommerceCar.create(carData);
   } catch (e) {
-    return "Error adding commerce car: " + e.message;
+    return `Error adding commerce car: ${e.message}`;
   }
 };
 
-// Update an existing commerce car
-const updateCommerceCar = async (upData) => {
-  // upData has got params and body
+export const updateCommerceCar = async (upData) => {
   try {
     const { body, params } = upData;
     const commerceCar = await CommerceCar.findByPk(params.id);
+    if (!commerceCar) return { error: "Commerce car not found" };
 
-    if (!commerceCar) {
-      return { error: "Commerce car not found" };
-    }
     let imagePaths = commerceCar.image;
-    if (upData.files && upData.files.length > 0) {
+    if (upData.files?.length > 0) {
       imagePaths = upData.files.map(
         (file) => `${process.env.BACKEND_URL}/${file?.filename}`
       );
     }
-    const updatedCar = await commerceCar.update({
+
+    return await commerceCar.update({
       image: imagePaths,
       color: body.color,
       country: body.country,
@@ -86,28 +77,15 @@ const updateCommerceCar = async (upData) => {
       model: body.model,
       mark: body.mark,
     });
-
-    return updatedCar;
   } catch (e) {
-    return "Error updating commerce car: " + e.message;
+    return `Error updating commerce car: ${e.message}`;
   }
 };
 
-// Delete a commerce car
-const deleteCommerceCar = async (id) => {
+export const deleteCommerceCar = async (id) => {
   try {
-    const result = await CommerceCar.destroy({ where: { id } });
-    return result;
+    return await CommerceCar.destroy({ where: { id } });
   } catch (err) {
-    return "Error deleting commerce car: " + err.message;
+    return `Error deleting commerce car: ${err.message}`;
   }
-};
-
-module.exports = {
-  getAllCommerceCars,
-  getCommerceCarById,
-  getNewCommerce,
-  addCommerceCar,
-  updateCommerceCar,
-  deleteCommerceCar,
 };

@@ -1,5 +1,6 @@
-const { createNews } = require("../../data/functions/news");
-const dotenv = require("dotenv");
+import { createNews } from "../../data/functions/news.js";
+import dotenv from "dotenv";
+
 dotenv.config();
 
 const createMidNews = async (req, res) => {
@@ -7,7 +8,8 @@ const createMidNews = async (req, res) => {
     const { title, content, vehicle } = req.body;
 
     if (!title || !content)
-      return res.status(400).json({ message: "you have to fill all field" });
+      return res.status(400).json({ message: "You have to fill all fields" });
+
     if (!req.file) {
       return res.status(400).send("You have to upload at least 1 picture");
     }
@@ -19,13 +21,16 @@ const createMidNews = async (req, res) => {
       vehicle,
       image: imagePaths,
     };
+
     const createNew = await createNews(newData);
+
     res.status(201).json({
-      message: "succesfully added",
+      message: "Successfully added",
       createNew,
     });
   } catch (e) {
-    return res.status(400).send("error of createMidNews:\n" + e.message);
+    return res.status(400).send("Error in createMidNews:\n" + e.message);
   }
 };
-module.exports = { createMidNews };
+
+export { createMidNews };

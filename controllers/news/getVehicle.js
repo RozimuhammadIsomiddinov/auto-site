@@ -1,6 +1,6 @@
-const { getVehicle } = require("../../data/functions/news");
+import { getVehicle } from "../../data/functions/news.js";
 
-const getVehicleMid = async (req, res) => {
+export const getVehicleMid = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const pageSize = parseInt(req.query.pageSize) || 2;
@@ -17,4 +17,3 @@ const getVehicleMid = async (req, res) => {
     });
   }
 };
-module.exports = getVehicleMid;

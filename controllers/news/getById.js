@@ -1,4 +1,4 @@
-const { getByIdNews } = require("../../data/functions/news");
+import { getByIdNews } from "../../data/functions/news.js";
 
 const getMidNewsById = async (req, res) => {
   try {
@@ -16,4 +16,5 @@ const getMidNewsById = async (req, res) => {
     }
   }
 };
-module.exports = { getMidNewsById };
+
+export { getMidNewsById };

@@ -1,6 +1,6 @@
-const CommerceCar = require("../../data/models/commerce");
+import CommerceCar from "../../data/models/commerce.js";
 
-const addLinkCommerce = async (req, res) => {
+export const addLinkCommerce = async (req, res) => {
   const { id } = req.params;
   const { video_link } = req.body;
 
@@ -12,7 +12,7 @@ const addLinkCommerce = async (req, res) => {
     if (updated) {
       res
         .status(200)
-        .json({ message: "Succesfully updated video link link", video_link });
+        .json({ message: "Successfully updated video link", video_link });
     } else {
       res.status(404).json({ message: "Commerce not found" });
     }
@@ -23,7 +23,7 @@ const addLinkCommerce = async (req, res) => {
   }
 };
 
-const deleteLinkCommerce = async (req, res) => {
+export const deleteLinkCommerce = async (req, res) => {
   const { id } = req.params;
   try {
     const [updated] = await CommerceCar.update(
@@ -41,9 +41,7 @@ const deleteLinkCommerce = async (req, res) => {
     }
   } catch (e) {
     return res
-      .status(404)
-      .json({ message: `Commerce with id ${id} not found` });
+      .status(400)
+      .json({ message: "Error from deleteLinkCommerce", error: e.message });
   }
 };
-
-module.exports = { addLinkCommerce, deleteLinkCommerce };

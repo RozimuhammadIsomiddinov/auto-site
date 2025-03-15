@@ -1,6 +1,6 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../../config/dbconfig.js");
-const Users = require("./user.js");
+import { DataTypes } from "sequelize";
+import sequelize from "../../config/dbconfig.js";
+import Users from "./user.js";
 
 const Chat = sequelize.define(
   "Chat",
@@ -11,7 +11,6 @@ const Chat = sequelize.define(
       primaryKey: true,
     },
     chat_user_id: {
-      // Existing field for sender
       type: DataTypes.INTEGER,
       references: {
         model: Users,
@@ -20,7 +19,6 @@ const Chat = sequelize.define(
       onDelete: "CASCADE",
     },
     user_id: {
-      // Existing field for receiver
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -51,4 +49,4 @@ Users.hasMany(Chat, { as: "receivedChats", foreignKey: "user_id" });
 Chat.belongsTo(Users, { as: "sender", foreignKey: "chat_user_id" });
 Chat.belongsTo(Users, { as: "receiver", foreignKey: "user_id" });
 
-module.exports = Chat;
+export default Chat;

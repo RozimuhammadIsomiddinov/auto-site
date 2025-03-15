@@ -1,7 +1,7 @@
-const { updateCar } = require("../../data/functions/autombiles.js");
-const Car = require("../../data/models/automobile.js");
+import { updateCar } from "../../data/functions/autombiles.js";
+import Car from "../../data/models/automobile.js";
 
-const updateCarMid = async (req, res) => {
+export const updateCarMid = async (req, res) => {
   try {
     const { id } = req.params;
     const { authoremail } = req.body;
@@ -20,7 +20,6 @@ const updateCarMid = async (req, res) => {
       return res.status(400).json({
         message: "This product is not yours",
         method: "post",
-        path: `http://212.67.11.143:4035/user-register`,
       });
     }
 
@@ -43,5 +42,3 @@ const updateCarMid = async (req, res) => {
       .json({ message: "Error from updateMidCar", error: err.message });
   }
 };
-
-module.exports = { updateCarMid };

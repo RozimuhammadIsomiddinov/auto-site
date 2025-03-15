@@ -1,26 +1,26 @@
-const Users = require("../../data/models/user");
+import Users from "../../data/models/user.js";
 
-const changeNameEmail = async (req, res) => {
+export const changeNameEmail = async (req, res) => {
   const { newName, newEmail } = req.body;
   const { id } = req.params;
-  if (!newName || !newEmail || !id)
-    return res.status(404).json({
-      error: "you have to fill all field",
+
+  if (!newName || !newEmail || !id) {
+    return res.status(400).json({
+      error: "You have to fill all fields",
     });
+  }
+
   try {
     const user = await Users.findByPk(id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    const updateNameEmail = await user.update({
-      name: newName,
-      email: newEmail,
-    });
+    await user.update({ name: newName, email: newEmail });
+
     res.json({
-      message: "successfully updated",
-      updatedUser: updateNameEmail,
+      message: "Successfully updated",
+      updatedUser: { id: user.id, name: newName, email: newEmail },
     });
   } catch (error) {
-    res.status(404).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
-module.exports = { changeNameEmail };

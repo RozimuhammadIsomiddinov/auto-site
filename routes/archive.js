@@ -1,5 +1,5 @@
-const express = require("express");
-const {
+import { Router } from "express";
+import {
   getArchive,
   addArchiveCar,
   addArchiveMoto,
@@ -7,8 +7,9 @@ const {
   deleteArchiveCar,
   deleteArchiveMoto,
   deleteArchiveCommerce,
-} = require("../controllers/users/archive");
-const router = express.Router();
+} from "../controllers/users/archive.js";
+
+const router = Router();
 
 /**
  * @swagger
@@ -51,6 +52,7 @@ const router = express.Router();
  *       500:
  *         description: Server xatosi
  */
+router.get("/archives/:id", getArchive);
 
 /**
  * @swagger
@@ -74,6 +76,7 @@ const router = express.Router();
  *       500:
  *         description: Server xatosi
  */
+router.post("/add-cars", addArchiveCar);
 
 /**
  * @swagger
@@ -97,6 +100,7 @@ const router = express.Router();
  *       500:
  *         description: Server xatosi
  */
+router.post("/add-moto", addArchiveMoto);
 
 /**
  * @swagger
@@ -120,6 +124,7 @@ const router = express.Router();
  *       500:
  *         description: Server xatosi
  */
+router.post("/add-commerce", addArchiveCommerce);
 
 /**
  * @swagger
@@ -143,6 +148,7 @@ const router = express.Router();
  *       500:
  *         description: Server xatosi
  */
+router.delete("/car", deleteArchiveCar);
 
 /**
  * @swagger
@@ -166,6 +172,7 @@ const router = express.Router();
  *       500:
  *         description: Server xatosi
  */
+router.delete("/moto", deleteArchiveMoto);
 
 /**
  * @swagger
@@ -189,13 +196,6 @@ const router = express.Router();
  *       500:
  *         description: Server xatosi
  */
-
-router.get("/archives/:id", getArchive);
-router.post("/add-cars", addArchiveCar);
-router.post("/add-moto", addArchiveMoto);
-router.post("/add-commerce", addArchiveCommerce);
-
-router.delete("/car", deleteArchiveCar);
-router.delete("/moto", deleteArchiveMoto);
 router.delete("/commerce", deleteArchiveCommerce);
-module.exports = router;
+
+export default router;

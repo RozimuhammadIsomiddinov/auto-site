@@ -1,8 +1,7 @@
-const CommerceCar = require("../../data/models/commerce");
-const Commerce = require("../../data/models/commerce");
-const { Op } = require("sequelize");
+import { Op } from "sequelize";
+import CommerceCar from "../../data/models/commerce.js";
 
-const searchCommerce = async (req, res) => {
+export const searchCommerce = async (req, res) => {
   let {
     model,
     country,
@@ -64,5 +63,3 @@ const getFilteredCommerce = async (filter, pageSize = 10, page, res) => {
     });
   }
 };
-
-module.exports = { searchCommerce };

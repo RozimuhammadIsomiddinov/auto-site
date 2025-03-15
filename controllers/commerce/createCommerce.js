@@ -1,11 +1,11 @@
-const CommerceCar = require("../../data/models/commerce.js");
-const Users = require("../../data/models/user.js");
+import CommerceCar from "../../data/models/commerce.js";
+import Users from "../../data/models/user.js";
+import dotenv from "dotenv";
 
-const dotenv = require("dotenv");
 dotenv.config();
 
 // Create a new commerce car
-const createCommerceCar = async (req, res) => {
+export const createCommerceCar = async (req, res) => {
   try {
     const {
       color,
@@ -28,15 +28,17 @@ const createCommerceCar = async (req, res) => {
     } = req.body;
 
     if (!req.files || req.files.length === 0) {
-      return res.status(400).send("you have to upload at least 1 picture");
+      return res.status(400).send("You have to upload at least 1 picture");
     }
+
     const author = await Users.findOne({ where: { email: authoremail } });
-    if (!author)
+    if (!author) {
       return res.status(400).json({
-        message: "you have to be registration",
+        message: "You have to be registered",
         method: "post",
-        path: `http://212.67.11.143:4035/user-register`,
       });
+    }
+
     const imagePaths = req.files.map(
       (file) => `${process.env.BACKEND_URL}/${file?.filename}`
     );
@@ -69,8 +71,4 @@ const createCommerceCar = async (req, res) => {
   } catch (e) {
     return res.status(400).send("createCommerceCar xatoligi:\n" + e.message);
   }
-};
-
-module.exports = {
-  createCommerceCar,
 };

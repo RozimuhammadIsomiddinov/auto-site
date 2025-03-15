@@ -1,5 +1,5 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../../config/dbconfig.js");
+import { DataTypes } from "sequelize";
+import sequelize from "../../config/dbconfig.js";
 
 const Banner = sequelize.define(
   "Banner",
@@ -24,8 +24,8 @@ const Banner = sequelize.define(
   },
   {
     tableName: "banner",
-    timestamps: false ,
+    timestamps: false,
   }
 );
 
-module.exports = Banner;
+export default Banner;

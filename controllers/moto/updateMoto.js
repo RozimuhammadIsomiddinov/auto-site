@@ -1,12 +1,13 @@
-const {
+import {
   updateMotorcycle,
   getMotorcycleById,
-} = require("../../data/functions/motos.js");
+} from "../../data/functions/motos.js";
 
 const updateMotorcycleMid = async (req, res) => {
   try {
     const { id } = req.params;
     const { authoremail } = req.body;
+
     if (!id) {
       return res.status(400).json({ message: "Motorcycle ID is required" });
     }
@@ -21,11 +22,11 @@ const updateMotorcycleMid = async (req, res) => {
       return res.status(400).json({
         message: "This product is not yours",
         method: "post",
-        path: `http://212.67.11.143:4035/user-register`,
       });
     }
+
     if (!req.files || req.files.length === 0) {
-      return res.status(400).send("you have to upload at least 1 picture");
+      return res.status(400).send("You have to upload at least 1 picture");
     }
 
     const result = await updateMotorcycle(req);
@@ -44,4 +45,4 @@ const updateMotorcycleMid = async (req, res) => {
   }
 };
 
-module.exports = { updateMotorcycleMid };
+export { updateMotorcycleMid };

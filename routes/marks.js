@@ -1,10 +1,12 @@
-const express = require("express");
-const fileUpload = require("../middlewares/multer");
-const getAllMark = require("../controllers/mark/getMark");
-const getByIdMark = require("../controllers/mark/getById");
-const { createMark } = require("../controllers/mark/createMark");
-const { getByIDMark } = require("../controllers/mark/getByIDMark");
+import express from "express";
+import fileUpload from "../middlewares/multer.js";
+import getAllMark from "../controllers/mark/getMark.js";
+import { getByIdMark } from "../controllers/mark/getById.js";
+import { createMark } from "../controllers/mark/createMark.js";
+import { getByIDMark } from "../controllers/mark/getByIDMark.js";
+
 const router = express.Router();
+
 /**
  * @swagger
  * components:
@@ -217,10 +219,9 @@ const router = express.Router();
  *                   type: string
  */
 
-router
-  .get("/marks", getAllMark)
-  .get("/marks/:id", getByIDMark)
-  .get("/mark/:id", getByIdMark)
-  .post("/add-mark", fileUpload.single("image"), createMark);
+router.get("/marks", getAllMark);
+router.get("/marks/:id", getByIDMark);
+router.get("/mark/:id", getByIdMark);
+router.post("/add-mark", fileUpload.single("image"), createMark);
 
-module.exports = router;
+export default router;

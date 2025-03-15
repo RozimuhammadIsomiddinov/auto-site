@@ -1,15 +1,15 @@
-const Cart = require("../../data/models/saleBox.js");
+import Cart from "../../data/models/saleBox.js";
 
-const getAllMid = async (req, res) => {
+export const getAllMid = async (req, res) => {
   try {
     const result = await Cart.findAll();
-    if (result.length == 0) {
-      return res.status(404).json({ message: "carts have not yet!" });
+
+    if (result.length === 0) {
+      return res.status(404).json({ message: "Carts have not yet!" });
     }
+
     res.status(200).json(result);
   } catch (e) {
     return res.status(400).send("Error from getAllMidCart:\n" + e.message);
   }
 };
-
-module.exports = { getAllMid };

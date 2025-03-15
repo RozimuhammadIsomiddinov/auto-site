@@ -1,7 +1,7 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../../config/dbconfig.js");
-const Users = require("./user.js");
-const Chat = require("./chats.js");
+import { DataTypes } from "sequelize";
+import sequelize from "../../config/dbconfig.js";
+import Users from "./user.js";
+import Chat from "./chats.js";
 
 const Message = sequelize.define(
   "Message",
@@ -62,4 +62,4 @@ Chat.hasMany(Message, {
 Message.belongsTo(Users, { foreignKey: "sender_id", as: "sender" });
 Message.belongsTo(Users, { foreignKey: "receiver_id", as: "receiver" });
 
-module.exports = Message;
+export default Message;
