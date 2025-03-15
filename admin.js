@@ -45,7 +45,13 @@ const uploadOptions = {
     },
   },
   validation: {
-    mimeTypes: ["image/png", "image/jpeg", "image/jpg", "application/pdf"],
+    mimeTypes: [
+      "image/png",
+      "image/jpeg",
+      "image/jpg",
+      "image/svg+xml",
+      "application/pdf",
+    ],
   },
   uploadPath: (record, filename) => `${filename}`,
   options: {
