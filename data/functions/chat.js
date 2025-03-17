@@ -4,7 +4,6 @@ import Message from "../models/message.js";
 import Users from "../models/user.js";
 import sequelize from "../../config/dbconfig.js";
 import logger from "../../logs/logs.js";
-
 export const getChats = async (user_id) => {
   const chats = await Chat.findAll({
     attributes: [
@@ -17,6 +16,8 @@ export const getChats = async (user_id) => {
         sequelize.fn("COUNT", sequelize.col("messages.id")),
         "unread_messages_count",
       ],
+      [sequelize.col("lastMessage.message"), "last_message"],
+      [sequelize.col("lastMessage.createdAt"), "last_message_time"],
     ],
     include: [
       { model: Users, as: "sender", attributes: [] },
@@ -32,6 +33,20 @@ export const getChats = async (user_id) => {
           sender_id: { [Op.eq]: sequelize.col("messages.sender_id") },
         },
       },
+      {
+        model: Message,
+        as: "lastMessage",
+        attributes: ["message", "createdAt"],
+        required: false,
+        where: {
+          id: sequelize.literal(`(
+            SELECT id FROM "Messages"
+            WHERE "Messages".chat_id = "Chat".chat_id
+            ORDER BY "Messages".createdAt DESC
+            LIMIT 1
+          )`),
+        },
+      },
     ],
     where: { user_id },
     group: [
@@ -40,6 +55,8 @@ export const getChats = async (user_id) => {
       "sender.name",
       "Chat.mute_type",
       "Chat.create_at",
+      "lastMessage.message",
+      "lastMessage.createdAt",
     ],
   });
   return chats;
