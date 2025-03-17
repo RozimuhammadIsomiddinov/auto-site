@@ -247,6 +247,7 @@ app.get("/chat/users/:user_id", async (req, res) => {
     res.status(500).json({
       status: 500,
       message: "Internal Server Error",
+      error: error.message,
     });
   }
 });
