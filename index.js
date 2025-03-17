@@ -206,8 +206,8 @@ io.on("connection", (socket) => {
   });
 });
 
-app.post("/notify", async (req, res) => {
-  const { userId } = req.body;
+app.get("/notify/:userId", async (req, res) => {
+  const { userId } = req.params;
   try {
     const notifications = await getNotifications(userId);
 
