@@ -1,4 +1,4 @@
-import { Op } from "sequelize";
+import { Op, Sequelize } from "sequelize";
 import Chat from "../models/chats.js";
 import Message from "../models/message.js";
 import Users from "../models/user.js";
@@ -9,28 +9,34 @@ export const getChats = async (user_id) => {
   const chats = await Chat.findAll({
     attributes: [
       "chat_id",
-      [sequelize.col("sender.id"), "chat_user_id"],
-      [sequelize.col("sender.name"), "chat_user_name"],
+      [Sequelize.col("sender.id"), "chat_user_id"],
+      [Sequelize.col("sender.name"), "chat_user_name"],
       "mute_type",
       "create_at",
       [
-        sequelize.fn("COUNT", sequelize.col("messages.id")),
+        Sequelize.literal(`(
+          SELECT COUNT(*)
+          FROM "messages"
+          WHERE "messages".chat_id = "chats".chat_id
+          AND "messages".receiver_id = ${user_id}
+          AND "messages".status = 'sent'
+        )`),
         "unread_messages_count",
       ],
       [
-        sequelize.literal(`(
-          SELECT message FROM "messages"
+        Sequelize.literal(`(
+          SELECT "message" FROM "messages"
           WHERE "messages".chat_id = "chats".chat_id
-          ORDER BY "messages".createdAt DESC
+          ORDER BY "messages"."createdAt" DESC
           LIMIT 1
         )`),
         "last_message",
       ],
       [
-        sequelize.literal(`(
-          SELECT createdAt FROM "messages"
+        Sequelize.literal(`(
+          SELECT "createdAt" FROM "messages"
           WHERE "messages".chat_id = "chats".chat_id
-          ORDER BY "messages".createdAt DESC
+          ORDER BY "messages"."createdAt" DESC
           LIMIT 1
         )`),
         "last_message_time",
@@ -39,30 +45,15 @@ export const getChats = async (user_id) => {
     include: [
       { model: Users, as: "sender", attributes: [] },
       { model: Users, as: "receiver", attributes: [] },
-      {
-        model: Message,
-        as: "messages",
-        required: false,
-        attributes: [],
-        where: { receiver_id: user_id, status: "sent" },
-        on: {
-          chat_id: { [Op.eq]: sequelize.col("chats.chat_id") },
-          sender_id: { [Op.eq]: sequelize.col("messages.sender_id") },
-        },
-      },
     ],
-    where: { user_id },
-    group: [
-      "chats.chat_id",
-      "sender.id",
-      "sender.name",
-      "chats.mute_type",
-      "chats.create_at",
-    ],
+    where: {
+      [Op.or]: [{ chat_user_id: user_id }, { user_id: user_id }],
+    },
+    group: ["chat_id", "sender.id", "sender.name", "mute_type", "create_at"],
   });
+
   return chats;
 };
-
 export const addChat = async (senderId, receiverId) => {
   try {
     const existingChat = await Chat.findOne({
