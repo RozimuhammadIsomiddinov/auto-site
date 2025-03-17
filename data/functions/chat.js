@@ -22,7 +22,7 @@ export const getChats = async (user_id) => {
             SELECT COUNT(*)
             FROM messages AS m
             WHERE m.chat_id = chats.chat_id
-            AND m.receiver_id = ${user_id}
+            AND m.receiver_id = `${user_id}`
             AND m.status = 'sent'
           )`),
           "unread_messages_count",
