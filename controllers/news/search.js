@@ -10,43 +10,46 @@ export const searchCont = async (req, res) => {
 
     const [cars, moto, commerce] = await Promise.all([
       Car.findAll({
+        where: {
+          [Op.or]: [{ model: { [Op.iLike]: `%${q}%` } }],
+        },
         include: [
           {
             model: Mark,
             as: "mark",
+            required: false, // Mark bilan boglanmagan mashinalar ham chiqadi
             where: {
-              [Op.or]: [
-                { "$mark.mark_name$": { [Op.iLike]: `%${q}%` } },
-                { model: { [Op.iLike]: `%${q}%` } },
-              ],
+              mark_name: { [Op.iLike]: `%${q}%` },
             },
           },
         ],
       }),
       Motorcycle.findAll({
+        where: {
+          [Op.or]: [{ model: { [Op.iLike]: `%${q}%` } }],
+        },
         include: [
           {
             model: Mark,
             as: "mark",
+            required: false,
             where: {
-              [Op.or]: [
-                { "$mark.mark_name$": { [Op.iLike]: `%${q}%` } },
-                { model: { [Op.iLike]: `%${q}%` } },
-              ],
+              mark_name: { [Op.iLike]: `%${q}%` },
             },
           },
         ],
       }),
       CommerceCar.findAll({
+        where: {
+          [Op.or]: [{ model: { [Op.iLike]: `%${q}%` } }],
+        },
         include: [
           {
             model: Mark,
             as: "mark",
+            required: false,
             where: {
-              [Op.or]: [
-                { "$mark.mark_name$": { [Op.iLike]: `%${q}%` } },
-                { model: { [Op.iLike]: `%${q}%` } },
-              ],
+              mark_name: { [Op.iLike]: `%${q}%` },
             },
           },
         ],
@@ -55,7 +58,6 @@ export const searchCont = async (req, res) => {
 
     return res.status(200).json({ cars, moto, commerce });
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ error: "Server xatosi", e: error.message });
   }
 };
