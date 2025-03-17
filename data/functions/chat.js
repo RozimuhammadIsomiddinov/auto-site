@@ -10,47 +10,55 @@ export const getChats = async (user_id) => {
     const chats = await Chat.findAll({
       attributes: [
         "chat_id",
+        [sequelize.col("sender.id"), "chat_user_id"],
+        [sequelize.col("sender.name"), "chat_user_name"],
         "mute_type",
         "create_at",
-        [Sequelize.col("sender.id"), "chat_user_id"],
-        [Sequelize.col("sender.name"), "chat_user_name"],
         [
-          Sequelize.literal(`(
+          sequelize.literal(`(
             SELECT COUNT(*)
-            FROM messages
-            WHERE messages.chat_id = chats.chat_id
-            AND messages.receiver_id = ${user_id}
-            AND messages.status = 'sent'
+            FROM messages AS m
+            WHERE m.chat_id = Chat.chat_id
+            AND m.receiver_id = ${user_id}
+            AND m.status = 'sent'
           )`),
           "unread_messages_count",
+        ],
+        [
+          sequelize.literal(`(
+            SELECT message FROM messages AS m
+            WHERE m.chat_id = Chat.chat_id
+            ORDER BY m.createdAt DESC
+            LIMIT 1
+          )`),
+          "last_message",
+        ],
+        [
+          sequelize.literal(`(
+            SELECT createdAt FROM messages AS m
+            WHERE m.chat_id = Chat.chat_id
+            ORDER BY m.createdAt DESC
+            LIMIT 1
+          )`),
+          "last_message_time",
         ],
       ],
       include: [
         { model: Users, as: "sender", attributes: [] },
         { model: Users, as: "receiver", attributes: [] },
-        {
-          model: Message,
-          attributes: ["message", "createdAt"],
-          order: [["createdAt", "DESC"]],
-          limit: 1,
-          separate: true,
-        },
       ],
       where: {
         [Op.or]: [{ chat_user_id: user_id }, { user_id: user_id }],
       },
-      group: [
-        "Chat.chat_id",
-        "sender.id",
-        "sender.name",
-        "mute_type",
-        "create_at",
-      ],
     });
 
     return chats;
   } catch (error) {
-    throw new Error("Failed to fetch chats");
+    return {
+      status: 500,
+      message: "Internal Server Error",
+      error: error.message,
+    };
   }
 };
 
