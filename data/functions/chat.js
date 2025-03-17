@@ -6,54 +6,54 @@ import sequelize from "../../config/dbconfig.js";
 import logger from "../../logs/logs.js";
 
 export const getChats = async (user_id) => {
-  const chats = await Chat.findAll({
-    attributes: [
-      "chat_id",
-      [Sequelize.col("sender.id"), "chat_user_id"],
-      [Sequelize.col("sender.name"), "chat_user_name"],
-      "mute_type",
-      "create_at",
-      [
-        Sequelize.literal(`(
-          SELECT COUNT(*)
-          FROM "messages"
-          WHERE "messages".chat_id = "chats".chat_id
-          AND "messages".receiver_id = ${user_id}
-          AND "messages".status = 'sent'
-        )`),
-        "unread_messages_count",
+  try {
+    const chats = await Chat.findAll({
+      attributes: [
+        "chat_id",
+        "mute_type",
+        "create_at",
+        [Sequelize.col("sender.id"), "chat_user_id"],
+        [Sequelize.col("sender.name"), "chat_user_name"],
+        [
+          Sequelize.literal(`(
+            SELECT COUNT(*)
+            FROM messages
+            WHERE messages.chat_id = chats.chat_id
+            AND messages.receiver_id = ${user_id}
+            AND messages.status = 'sent'
+          )`),
+          "unread_messages_count",
+        ],
       ],
-      [
-        Sequelize.literal(`(
-          SELECT "message" FROM "messages"
-          WHERE "messages".chat_id = "chats".chat_id
-          ORDER BY "messages"."createdAt" DESC
-          LIMIT 1
-        )`),
-        "last_message",
+      include: [
+        { model: Users, as: "sender", attributes: [] },
+        { model: Users, as: "receiver", attributes: [] },
+        {
+          model: Message,
+          attributes: ["message", "createdAt"],
+          order: [["createdAt", "DESC"]],
+          limit: 1,
+          separate: true,
+        },
       ],
-      [
-        Sequelize.literal(`(
-          SELECT "createdAt" FROM "messages"
-          WHERE "messages".chat_id = "chats".chat_id
-          ORDER BY "messages"."createdAt" DESC
-          LIMIT 1
-        )`),
-        "last_message_time",
+      where: {
+        [Op.or]: [{ chat_user_id: user_id }, { user_id: user_id }],
+      },
+      group: [
+        "Chat.chat_id",
+        "sender.id",
+        "sender.name",
+        "mute_type",
+        "create_at",
       ],
-    ],
-    include: [
-      { model: Users, as: "sender", attributes: [] },
-      { model: Users, as: "receiver", attributes: [] },
-    ],
-    where: {
-      [Op.or]: [{ chat_user_id: user_id }, { user_id: user_id }],
-    },
-    group: ["chat_id", "sender.id", "sender.name", "mute_type", "create_at"],
-  });
+    });
 
-  return chats;
+    return chats;
+  } catch (error) {
+    throw new Error("Failed to fetch chats");
+  }
 };
+
 export const addChat = async (senderId, receiverId) => {
   try {
     const existingChat = await Chat.findOne({
