@@ -19,18 +19,18 @@ export const getChats = async (user_id) => {
       ],
       [
         sequelize.literal(`(
-          SELECT message FROM "Messages"
-          WHERE "Messages".chat_id = "Chat".chat_id
-          ORDER BY "Messages".createdAt DESC
+          SELECT message FROM "messages"
+          WHERE "messages".chat_id = "chats".chat_id
+          ORDER BY "messages".createdAt DESC
           LIMIT 1
         )`),
         "last_message",
       ],
       [
         sequelize.literal(`(
-          SELECT createdAt FROM "Messages"
-          WHERE "Messages".chat_id = "Chat".chat_id
-          ORDER BY "Messages".createdAt DESC
+          SELECT createdAt FROM "messages"
+          WHERE "messages".chat_id = "chats".chat_id
+          ORDER BY "messages".createdAt DESC
           LIMIT 1
         )`),
         "last_message_time",
@@ -46,18 +46,18 @@ export const getChats = async (user_id) => {
         attributes: [],
         where: { receiver_id: user_id, status: "sent" },
         on: {
-          chat_id: { [Op.eq]: sequelize.col("Chat.chat_id") },
+          chat_id: { [Op.eq]: sequelize.col("chats.chat_id") },
           sender_id: { [Op.eq]: sequelize.col("messages.sender_id") },
         },
       },
     ],
     where: { user_id },
     group: [
-      "Chat.chat_id",
+      "chats.chat_id",
       "sender.id",
       "sender.name",
-      "Chat.mute_type",
-      "Chat.create_at",
+      "chats.mute_type",
+      "chats.create_at",
     ],
   });
   return chats;
