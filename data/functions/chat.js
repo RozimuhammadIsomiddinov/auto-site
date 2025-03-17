@@ -4,6 +4,10 @@ import Message from "../models/message.js";
 import Users from "../models/user.js";
 import sequelize from "../../config/dbconfig.js";
 import logger from "../../logs/logs.js";
+Chat.hasMany(Message, { foreignKey: "chat_id", as: "messages" });
+Chat.hasOne(Message, { foreignKey: "chat_id", as: "lastMessage" }); // Yangi alias qo‘shildi
+
+
 export const getChats = async (user_id) => {
   try {
     const chats = await Chat.findAll({
@@ -14,7 +18,13 @@ export const getChats = async (user_id) => {
         "mute_type",
         "create_at",
         [
-          sequelize.fn("COUNT", sequelize.col("messages.id")),
+          sequelize.literal(`(
+            SELECT COUNT(*)
+            FROM messages AS m
+            WHERE m.chat_id = chats.chat_id
+            AND m.receiver_id = ${user_id}
+            AND m.status = 'sent'
+          )`),
           "unread_messages_count",
         ],
         [sequelize.col("lastMessage.message"), "last_message"],
@@ -25,17 +35,10 @@ export const getChats = async (user_id) => {
         { model: Users, as: "receiver", attributes: [] },
         {
           model: Message,
-          as: "messages",
-          required: false,
-          attributes: [],
-          where: { receiver_id: user_id, status: "sent" },
-        },
-        {
-          model: Message,
           as: "lastMessage",
           attributes: ["message", "createdAt"],
           required: false,
-          separate: true, // Songgi xabarni olish uchun
+          separate: true,
           order: [["createdAt", "DESC"]],
           limit: 1,
         },
@@ -43,15 +46,6 @@ export const getChats = async (user_id) => {
       where: {
         [Op.or]: [{ chat_user_id: user_id }, { user_id: user_id }],
       },
-      group: [
-        "Chat.chat_id",
-        "sender.id",
-        "sender.name",
-        "Chat.mute_type",
-        "Chat.create_at",
-        "lastMessage.message",
-        "lastMessage.createdAt",
-      ],
     });
 
     return { status: "Success", data: chats };
