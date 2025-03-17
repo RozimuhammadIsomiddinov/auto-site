@@ -16,9 +16,9 @@ export const getChats = async (user_id) => {
         "create_at",
         [
           sequelize.literal(`(
-            SELECT COUNT(*)
+            SELECT COUNT(*) 
             FROM messages AS m
-            WHERE m.chat_id = Chat.chat_id
+            WHERE m.chat_id = chats.chat_id 
             AND m.receiver_id = ${user_id}
             AND m.status = 'sent'
           )`),
@@ -27,7 +27,7 @@ export const getChats = async (user_id) => {
         [
           sequelize.literal(`(
             SELECT message FROM messages AS m
-            WHERE m.chat_id = Chat.chat_id
+            WHERE m.chat_id = chats.chat_id
             ORDER BY m.createdAt DESC
             LIMIT 1
           )`),
@@ -36,7 +36,7 @@ export const getChats = async (user_id) => {
         [
           sequelize.literal(`(
             SELECT createdAt FROM messages AS m
-            WHERE m.chat_id = Chat.chat_id
+            WHERE m.chat_id = chats.chat_id
             ORDER BY m.createdAt DESC
             LIMIT 1
           )`),
@@ -52,16 +52,18 @@ export const getChats = async (user_id) => {
       },
     });
 
-    return chats;
+    return { status: "Success", data: chats };
   } catch (error) {
     return {
-      status: 500,
-      message: "Internal Server Error",
-      error: error.message,
+      status: "Error",
+      data: {
+        status: 500,
+        message: "Internal Server Error",
+        error: error.message,
+      },
     };
   }
 };
-
 export const addChat = async (senderId, receiverId) => {
   try {
     const existingChat = await Chat.findOne({
