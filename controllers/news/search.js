@@ -16,7 +16,7 @@ export const searchCont = async (req, res) => {
             as: "mark",
             where: {
               [Op.or]: [
-                { mark_name: { [Op.iLike]: `%${q}%` } },
+                { "$mark.mark_name$": { [Op.iLike]: `%${q}%` } },
                 { model: { [Op.iLike]: `%${q}%` } },
               ],
             },
@@ -30,7 +30,7 @@ export const searchCont = async (req, res) => {
             as: "mark",
             where: {
               [Op.or]: [
-                { mark_name: { [Op.iLike]: `%${q}%` } },
+                { "$mark.mark_name$": { [Op.iLike]: `%${q}%` } },
                 { model: { [Op.iLike]: `%${q}%` } },
               ],
             },
@@ -44,7 +44,7 @@ export const searchCont = async (req, res) => {
             as: "mark",
             where: {
               [Op.or]: [
-                { mark_name: { [Op.iLike]: `%${q}%` } },
+                { "$mark.mark_name$": { [Op.iLike]: `%${q}%` } },
                 { model: { [Op.iLike]: `%${q}%` } },
               ],
             },
