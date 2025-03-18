@@ -1,13 +1,26 @@
 import Mark from "../../data/models/carMark.js";
+import dotenv from "dotenv";
+
+dotenv.config();
+const baseUrl = process.env.BACKEND_URL;
 
 export const getByIDMark = async (req, res) => {
   try {
     const { id } = req.params;
-    if (!id) return res.status(404).json({ message: "send an id" });
+    const parsedId = parseInt(id);
 
-    const result = await Mark.findByPk(id);
-    res.status(200).json(result?.mark_name);
+    const mark = await Mark.findByPk(parsedId);
+
+    res.status(200).json({
+      id: mark.id,
+      name: mark.mark_name,
+      image: mark.image.startsWith("http")
+        ? mark.image
+        : `${baseUrl}/${mark.image}`,
+    });
   } catch (err) {
-    res.status(400).json({ message: "Error from getByID", error: err.message });
+    res
+      .status(400)
+      .json({ message: "Error from getByIDMark", error: err.message });
   }
 };

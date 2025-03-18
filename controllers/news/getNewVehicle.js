@@ -1,4 +1,7 @@
 import Banner from "../../data/models/banner.js";
+import dotenv from "dotenv";
+dotenv.config();
+const baseUrl = process.env.BACKEND_URL;
 
 export const getNewVehicleMid = async (req, res) => {
   try {
@@ -6,13 +9,24 @@ export const getNewVehicleMid = async (req, res) => {
     const pageSize = parseInt(req.query.pageSize) || 10;
     const offset = (page - 1) * pageSize;
 
-    const banner = await Banner.findAll({ limit: pageSize, offset });
-    res
-      .status(200)
-      .json({ message: banner.length !== 0 ? banner : "banner has not yet" });
+    const banners = await Banner.findAll({ limit: pageSize, offset });
+
+    const updatedResult = banners.map((b) => {
+      const { id, title, image, subtitle } = b.dataValues;
+      return {
+        id,
+        title,
+        subtitle,
+        image: image.map((img) =>
+          img.startsWith("http") ? img : baseUrl + "/" + img
+        ),
+      };
+    });
+
+    res.status(200).json(updatedResult);
   } catch (err) {
     res.status(400).json({
-      message: "Error from getMidNewVehicle",
+      message: "Error from getNewVehicleMid",
       error: err.message,
     });
   }

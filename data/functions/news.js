@@ -1,25 +1,49 @@
 import News from "../models/news.js";
+import dotenv from "dotenv";
 
+dotenv.config();
+
+const baseUrl = process.env.BACKEND_URL;
 // read
 export const getByIdNews = async (id) => {
   try {
+    id = parseInt(id);
+
     const news = await News.findByPk(id);
-    return news;
+
+    return {
+      id: news.id,
+      title: news.title,
+      content: news.content,
+      vehicle: news.vehicle,
+      author: news.author,
+      image: news.image.startsWith("http")
+        ? news.image
+        : `${baseUrl}/${news.image}`,
+    };
   } catch (e) {
-    return e.message;
+    throw new Error("Error getting news by ID: " + e.message);
   }
 };
 
 export const getAllNews = async (page = 1, pageSize = 10) => {
   try {
+    page = parseInt(page) || 1;
+    pageSize = parseInt(pageSize) || 10;
     const offset = (page - 1) * pageSize;
-    const news = await News.findAll({
-      limit: pageSize,
-      offset,
-    });
-    return news;
+
+    const news = await News.findAll({ limit: pageSize, offset });
+
+    return news.map((n) => ({
+      id: n.id,
+      title: n.title,
+      content: n.content,
+      vehicle: n.vehicle,
+      author: n.author,
+      image: n.image.startsWith("http") ? n.image : `${baseUrl}/${n.image}`,
+    }));
   } catch (e) {
-    return "Error getting news: " + e.message;
+    throw new Error("Error getting news: " + e.message);
   }
 };
 
