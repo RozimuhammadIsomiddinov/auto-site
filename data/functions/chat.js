@@ -22,17 +22,17 @@ export const getChats = async (user_id) => {
           SELECT message 
           FROM messages 
           WHERE messages.chat_id = "Chat"."chat_id" 
-          ORDER BY createdAt DESC 
+          ORDER BY "createdAt" DESC 
           LIMIT 1
         )`),
         "last_message",
       ],
       [
         sequelize.literal(`(
-          SELECT createdAt
+          SELECT "createdAt"
           FROM messages 
           WHERE messages.chat_id = "Chat"."chat_id" 
-          ORDER BY createdAt DESC 
+          ORDER BY "createdAt" DESC 
           LIMIT 1
         )`),
         "last_message_time",
