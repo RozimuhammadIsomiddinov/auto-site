@@ -22,7 +22,7 @@ export const getChats = async (user_id) => {
           SELECT message 
           FROM messages 
           WHERE messages.chat_id = "Chat"."chat_id" 
-          ORDER BY message_create_at DESC 
+          ORDER BY createdAt DESC 
           LIMIT 1
         )`),
         "last_message",
