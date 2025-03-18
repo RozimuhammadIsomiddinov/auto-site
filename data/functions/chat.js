@@ -29,10 +29,10 @@ export const getChats = async (user_id) => {
       ],
       [
         sequelize.literal(`(
-          SELECT message_create_at 
+          SELECT createdAt
           FROM messages 
           WHERE messages.chat_id = "Chat"."chat_id" 
-          ORDER BY message_create_at DESC 
+          ORDER BY createdAt DESC 
           LIMIT 1
         )`),
         "last_message_time",
@@ -56,7 +56,7 @@ export const getChats = async (user_id) => {
       "sender.name",
       "Chat.mute_type",
       "Chat.create_at",
-      "messages.id", // messages.id ni qo'shish kerak
+      "messages.id",
     ],
   });
   return chats;
