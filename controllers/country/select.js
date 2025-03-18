@@ -7,9 +7,13 @@ export const getAllCountry = async (req, res) => {
     const result = await Country.findAll();
 
     const updatedResult = result.map((country) => {
+      const { id, name, image, description } = country.dataValues; // dataValues ichidan ma'lumotni ajratib oldik
+
       return {
-        ...country,
-        image: country.image.startsWith("http") ? country.image : baseUrl + country.image,
+        id,
+        name,
+        description,
+        image: image.startsWith("http") ? image : baseUrl + image,
       };
     });
 
