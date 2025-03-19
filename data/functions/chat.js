@@ -5,42 +5,55 @@ import Users from "../models/user.js";
 import sequelize from "../../config/dbconfig.js";
 import logger from "../../logs/logs.js";
 
-export const getChats = async (user_id) => {
+const getChats = async (user_id) => {
   const chats = await Chat.findAll({
     attributes: [
       "chat_id",
-      [sequelize.col("sender.id"), "chat_user_id"],
-      [sequelize.col("sender.name"), "chat_user_name"],
+      [
+        sequelize.literal(`
+        CASE
+          WHEN "Chat"."chat_user_id" = ${user_id} THEN "Chat"."user_id"
+          ELSE "Chat"."chat_user_id"
+        END
+      `),
+        "chat_user_id",
+      ],
+      [
+        sequelize.literal(`
+        CASE
+          WHEN "Chat"."chat_user_id" = ${user_id} THEN receiver.name
+          ELSE sender.name
+        END
+      `),
+        "chat_user_name",
+      ],
       "mute_type",
       "create_at",
       [
-        sequelize.literal(`(
-          SELECT COUNT(*)
-          FROM messages
-          WHERE messages.chat_id = "Chat"."chat_id" 
+        sequelize.literal(`
+          (SELECT COUNT(*) FROM messages
+          WHERE messages.chat_id = "Chat"."chat_id"
           AND messages.receiver_id = ${user_id}
-          AND messages.status = 'sent'
-        )`),
+          AND messages.status = 'sent')
+        `),
         "unread_messages_count",
       ],
       [
-        sequelize.literal(`(
-          SELECT message 
-          FROM messages 
-          WHERE messages.chat_id = "Chat"."chat_id" 
-          ORDER BY messages."createdAt" DESC 
-          LIMIT 1
-        )`),
+        sequelize.literal(`
+          (SELECT message FROM messages
+          WHERE messages.chat_id = "Chat"."chat_id"
+          ORDER BY messages."createdAt" DESC
+          LIMIT 1)
+        `),
         "last_message",
       ],
       [
-        sequelize.literal(`(
-          SELECT "createdAt"
-          FROM messages 
-          WHERE messages.chat_id = "Chat"."chat_id" 
-          ORDER BY messages."createdAt" DESC 
-          LIMIT 1
-        )`),
+        sequelize.literal(`
+          (SELECT "createdAt" FROM messages
+          WHERE messages.chat_id = "Chat"."chat_id"
+          ORDER BY messages."createdAt" DESC
+          LIMIT 1)
+        `),
         "last_message_time",
       ],
     ],
@@ -51,13 +64,7 @@ export const getChats = async (user_id) => {
     where: {
       [Op.or]: [{ chat_user_id: user_id }, { user_id: user_id }],
     },
-    group: [
-      "Chat.chat_id",
-      "sender.id",
-      "sender.name",
-      "Chat.mute_type",
-      "Chat.create_at",
-    ],
+    group: ["Chat.chat_id", "sender.id", "receiver.id"],
   });
 
   return chats;
