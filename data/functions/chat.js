@@ -1,9 +1,8 @@
-import { Op } from "sequelize";
+import { Op, Sequelize } from "sequelize";
 import Chat from "../models/chats.js";
 import Message from "../models/message.js";
 import Users from "../models/user.js";
 import sequelize from "../../config/dbconfig.js";
-import logger from "../../logs/logs.js";
 
 export const getChats = async (user_id) => {
   const chats = await Chat.findAll({
@@ -22,20 +21,30 @@ export const getChats = async (user_id) => {
           SELECT message 
           FROM messages 
           WHERE messages.chat_id = "Chat"."chat_id" 
-          ORDER BY "createdAt" DESC 
+          ORDER BY "messages"."createdAt" DESC 
           LIMIT 1
         )`),
         "last_message",
       ],
       [
         sequelize.literal(`(
-          SELECT "createdAt"
+          SELECT "messages"."createdAt"
           FROM messages 
           WHERE messages.chat_id = "Chat"."chat_id" 
-          ORDER BY "createdAt" DESC 
+          ORDER BY "messages"."createdAt" DESC 
           LIMIT 1
         )`),
         "last_message_time",
+      ],
+      [
+        sequelize.literal(`(
+          SELECT "messages"."status"
+          FROM messages 
+          WHERE messages.chat_id = "Chat"."chat_id" 
+          ORDER BY "messages"."createdAt" DESC 
+          LIMIT 1
+        )`),
+        "last_message_status",
       ],
     ],
     include: [
@@ -44,23 +53,24 @@ export const getChats = async (user_id) => {
       {
         model: Message,
         as: "messages",
-        required: false,
+        required: false, // LEFT JOIN bo‘lishi uchun
         attributes: [],
-        where: { receiver_id: user_id, status: "sent" },
+        on: {
+          chat_id: Sequelize.col("Chat.chat_id"),
+          receiver_id: user_id,
+          status: "sent",
+        },
       },
     ],
-    where: { user_id },
-    group: [
-      "Chat.chat_id",
-      "sender.id",
-      "sender.name",
-      "Chat.mute_type",
-      "Chat.create_at",
-      "messages.id",
-    ],
+    where: {
+      [Op.or]: [{ sender_id: user_id }, { receiver_id: user_id }], // Faqatgina "user_id" ga tegishli chatlarni olish
+    },
+    group: ["Chat.chat_id", "sender.id", "sender.name", "Chat.mute_type", "Chat.create_at"],
   });
+
   return chats;
 };
+
 export const addChat = async (senderId, receiverId) => {
   try {
     const existingChat = await Chat.findOne({
