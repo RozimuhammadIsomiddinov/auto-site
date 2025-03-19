@@ -3,11 +3,12 @@ import Chat from "../models/chats.js";
 import Message from "../models/message.js";
 import Users from "../models/user.js";
 import sequelize from "../../config/dbconfig.js";
+
 export const getChats = async (user_id) => {
   const chats = await Chat.findAll({
     attributes: [
       "chat_id",
-      [sequelize.col("sender.id"), "chat_user_id"],
+      [sequelize.col("sender.chat_user_id"), "chat_user_id"],
       [sequelize.col("sender.name"), "chat_user_name"],
       "mute_type",
       "create_at",
@@ -54,23 +55,23 @@ export const getChats = async (user_id) => {
       {
         model: Message,
         as: "messages",
-        required: false, // LEFT JOIN bo‘lishi uchun
+        required: false,
         attributes: [],
         where: {
           receiver_id: user_id,
-          status: { [Op.eq]: "sent" }, // Faqat "sent" bo'lgan xabarlarni sanash
+          status: { [Op.eq]: "sent" },
         },
       },
     ],
     where: {
       [Op.or]: [
-        { sender_id: { [Op.eq]: user_id } },
-        { receiver_id: { [Op.eq]: user_id } },
+        { chat_user_id: { [Op.eq]: user_id } },
+        { user_id: { [Op.eq]: user_id } },
       ],
     },
     group: [
       "Chat.chat_id",
-      "sender.id",
+      "sender.chat_user_id",
       "sender.name",
       "Chat.mute_type",
       "Chat.create_at",
