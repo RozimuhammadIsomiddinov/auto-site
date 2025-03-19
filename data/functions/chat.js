@@ -5,7 +5,7 @@ import Users from "../models/user.js";
 import sequelize from "../../config/dbconfig.js";
 import logger from "../../logs/logs.js";
 
-const getChats = async (user_id) => {
+export const getChats = async (user_id) => {
   const chats = await Chat.findAll({
     attributes: [
       "chat_id",
