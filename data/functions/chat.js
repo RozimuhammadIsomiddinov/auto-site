@@ -3,7 +3,6 @@ import Chat from "../models/chats.js";
 import Message from "../models/message.js";
 import Users from "../models/user.js";
 import sequelize from "../../config/dbconfig.js";
-
 export const getChats = async (user_id) => {
   const chats = await Chat.findAll({
     attributes: [
@@ -13,7 +12,9 @@ export const getChats = async (user_id) => {
       "mute_type",
       "create_at",
       [
-        sequelize.fn("COUNT", sequelize.col("messages.id")),
+        sequelize.literal(
+          `COALESCE((SELECT COUNT(*) FROM messages WHERE messages.chat_id = "Chat"."chat_id" AND messages.receiver_id = ${user_id} AND messages.status = 'sent'), 0)`
+        ),
         "unread_messages_count",
       ],
       [
@@ -55,17 +56,25 @@ export const getChats = async (user_id) => {
         as: "messages",
         required: false, // LEFT JOIN bo‘lishi uchun
         attributes: [],
-        on: {
-          chat_id: Sequelize.col("Chat.chat_id"),
+        where: {
           receiver_id: user_id,
-          status: "sent",
+          status: { [Op.eq]: "sent" }, // Faqat "sent" bo'lgan xabarlarni sanash
         },
       },
     ],
     where: {
-      [Op.or]: [{ sender_id: user_id }, { receiver_id: user_id }], // Faqatgina "user_id" ga tegishli chatlarni olish
+      [Op.or]: [
+        { sender_id: { [Op.eq]: user_id } },
+        { receiver_id: { [Op.eq]: user_id } },
+      ],
     },
-    group: ["Chat.chat_id", "sender.id", "sender.name", "Chat.mute_type", "Chat.create_at"],
+    group: [
+      "Chat.chat_id",
+      "sender.id",
+      "sender.name",
+      "Chat.mute_type",
+      "Chat.create_at",
+    ],
   });
 
   return chats;
