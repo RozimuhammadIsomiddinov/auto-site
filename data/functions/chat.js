@@ -4,7 +4,6 @@ import Message from "../models/message.js";
 import Users from "../models/user.js";
 import sequelize from "../../config/dbconfig.js";
 import logger from "../../logs/logs.js";
-
 export const getChats = async (user_id) => {
   const chats = await Chat.findAll({
     attributes: [
@@ -55,6 +54,15 @@ export const getChats = async (user_id) => {
           LIMIT 1)
         `),
         "last_message_time",
+      ],
+      [
+        sequelize.literal(`
+          (SELECT status FROM messages
+          WHERE messages.chat_id = "Chat"."chat_id"
+          ORDER BY messages."createdAt" DESC
+          LIMIT 1)
+        `),
+        "last_message_status",
       ],
     ],
     include: [
