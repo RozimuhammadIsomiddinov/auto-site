@@ -1,21 +1,20 @@
-import { Op, Sequelize } from "sequelize";
+import { Op } from "sequelize";
 import Chat from "../models/chats.js";
 import Message from "../models/message.js";
 import Users from "../models/user.js";
 import sequelize from "../../config/dbconfig.js";
+import logger from "../../logs/logs.js";
 
 export const getChats = async (user_id) => {
   const chats = await Chat.findAll({
     attributes: [
       "chat_id",
-      [sequelize.col("sender.chat_user_id"), "chat_user_id"],
+      [sequelize.col("sender.id"), "chat_user_id"],
       [sequelize.col("sender.name"), "chat_user_name"],
       "mute_type",
       "create_at",
       [
-        sequelize.literal(
-          `COALESCE((SELECT COUNT(*) FROM messages WHERE messages.chat_id = "Chat"."chat_id" AND messages.receiver_id = ${user_id} AND messages.status = 'sent'), 0)`
-        ),
+        sequelize.fn("COUNT", sequelize.col("messages.id")),
         "unread_messages_count",
       ],
       [
@@ -23,30 +22,20 @@ export const getChats = async (user_id) => {
           SELECT message 
           FROM messages 
           WHERE messages.chat_id = "Chat"."chat_id" 
-          ORDER BY "messages"."createdAt" DESC 
+          ORDER BY "createdAt" DESC 
           LIMIT 1
         )`),
         "last_message",
       ],
       [
         sequelize.literal(`(
-          SELECT "messages"."createdAt"
+          SELECT "createdAt"
           FROM messages 
           WHERE messages.chat_id = "Chat"."chat_id" 
-          ORDER BY "messages"."createdAt" DESC 
+          ORDER BY "createdAt" DESC 
           LIMIT 1
         )`),
         "last_message_time",
-      ],
-      [
-        sequelize.literal(`(
-          SELECT "messages"."status"
-          FROM messages 
-          WHERE messages.chat_id = "Chat"."chat_id" 
-          ORDER BY "messages"."createdAt" DESC 
-          LIMIT 1
-        )`),
-        "last_message_status",
       ],
     ],
     include: [
@@ -57,24 +46,17 @@ export const getChats = async (user_id) => {
         as: "messages",
         required: false,
         attributes: [],
-        where: {
-          receiver_id: user_id,
-          status: { [Op.eq]: "sent" },
-        },
+        where: { receiver_id: user_id, status: "sent" },
       },
     ],
-    where: {
-      [Op.or]: [
-        { chat_user_id: { [Op.eq]: user_id } },
-        { user_id: { [Op.eq]: user_id } },
-      ],
-    },
+    where: { user_id },
     group: [
       "Chat.chat_id",
-      "sender.chat_user_id",
+      "sender.id",
       "sender.name",
       "Chat.mute_type",
       "Chat.create_at",
+      "messages.id",
     ],
   });
 
