@@ -14,7 +14,13 @@ export const getChats = async (user_id) => {
       "mute_type",
       "create_at",
       [
-        sequelize.fn("COUNT", sequelize.col("messages.id")),
+        sequelize.literal(`(
+          SELECT COUNT(*)
+          FROM messages
+          WHERE messages.chat_id = "Chat"."chat_id" 
+          AND messages.receiver_id = ${user_id}
+          AND messages.status = 'sent'
+        )`),
         "unread_messages_count",
       ],
       [
@@ -22,7 +28,7 @@ export const getChats = async (user_id) => {
           SELECT message 
           FROM messages 
           WHERE messages.chat_id = "Chat"."chat_id" 
-          ORDER BY "createdAt" DESC 
+          ORDER BY messages."createdAt" DESC 
           LIMIT 1
         )`),
         "last_message",
@@ -32,7 +38,7 @@ export const getChats = async (user_id) => {
           SELECT "createdAt"
           FROM messages 
           WHERE messages.chat_id = "Chat"."chat_id" 
-          ORDER BY "createdAt" DESC 
+          ORDER BY messages."createdAt" DESC 
           LIMIT 1
         )`),
         "last_message_time",
@@ -41,22 +47,16 @@ export const getChats = async (user_id) => {
     include: [
       { model: Users, as: "sender", attributes: [] },
       { model: Users, as: "receiver", attributes: [] },
-      {
-        model: Message,
-        as: "messages",
-        required: false,
-        attributes: [],
-        where: { receiver_id: user_id, status: "sent" },
-      },
     ],
-    where: { user_id },
+    where: {
+      [Op.or]: [{ chat_user_id: user_id }, { user_id: user_id }],
+    },
     group: [
       "Chat.chat_id",
       "sender.id",
       "sender.name",
       "Chat.mute_type",
       "Chat.create_at",
-      "messages.id",
     ],
   });
 
