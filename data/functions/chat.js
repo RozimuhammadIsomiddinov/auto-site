@@ -111,11 +111,11 @@ export const addChat = async (senderId, receiverId) => {
 export const editChatMute = async (user_id, chat_user_id, mute_type) => {
   try {
     mute_type = mute_type === "true";
-    const [updated] = await Chat.update(
+    const [updated, updatedRows] = await Chat.update(
       { mute_type },
-      { where: { user_id, chat_user_id } }
+      { where: { user_id, chat_user_id }, returning: true }
     );
-    return updated > 0;
+    return updated > 0 ? updatedRows : null;
   } catch (error) {
     logger.error(`Chatni ovozdan chiqarishda xatolik: ${error.message}`);
     throw error;
