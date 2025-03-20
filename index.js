@@ -290,10 +290,8 @@ app.post("/chat/edit/mute", async (req, res) => {
  */
     const editChatResult = await editChatMute(user_id, chat_user_id, mute_type);
 
-    res.status(editChatResult ? 200 : 400).json({
-      status: editChatResult ? "Success" : 400,
-      data: editChatResult || undefined,
-      message: editChatResult ? undefined : "Bad request",
+    res.status(200).json({
+      data: editChatResult,
     });
   } catch (error) {
     logger.error(`mute dagi error: ${error.message}`);
