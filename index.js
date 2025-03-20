@@ -281,10 +281,13 @@ app.post("/chat/add", async (req, res) => {
 app.post("/chat/edit/mute", async (req, res) => {
   try {
     const { user_id, chat_user_id, mute_type } = req.body;
-    if (typeof mute_type == "boolean")
+
+    if (typeof mute_type !== "boolean") {
       return res
         .status(400)
         .json({ message: "send boolean type for mute_type" });
+    }
+
     const editChatResult = await editChatMute(user_id, chat_user_id, mute_type);
 
     res.status(editChatResult ? 200 : 400).json({
@@ -293,7 +296,7 @@ app.post("/chat/edit/mute", async (req, res) => {
       message: editChatResult ? undefined : "Bad request",
     });
   } catch (error) {
-    logger.error(`mute dagi error: ${error}`);
+    logger.error(`mute dagi error: ${error.message}`);
     res.status(500).json({
       status: 500,
       message: "Internal Server Error",
