@@ -281,13 +281,13 @@ app.post("/chat/add", async (req, res) => {
 app.post("/chat/edit/mute", async (req, res) => {
   try {
     const { user_id, chat_user_id, mute_type } = req.body;
-
+    /* 
     if (typeof mute_type !== "boolean") {
       return res
         .status(400)
         .json({ message: `send boolean type for mute_type +  ${mute_type}` });
     }
-
+ */
     const editChatResult = await editChatMute(user_id, chat_user_id, mute_type);
 
     res.status(editChatResult ? 200 : 400).json({
