@@ -24,7 +24,7 @@ import country from "./routes/country.js";
 import archive from "./routes/archive.js";
 import offer from "./routes/offer.js";
 import { adminRouter } from "./admin.js";
-import bodyParser, { json } from "body-parser";
+import bodyParser from "body-parser";
 
 import {
   savedMessage,
